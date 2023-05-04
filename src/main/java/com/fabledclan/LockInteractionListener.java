@@ -2,7 +2,6 @@ package com.fabledclan;
 
 import java.util.EnumSet;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Powerable;
@@ -13,8 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.material.Button;
-import org.bukkit.material.PressurePlate;
 
 public class LockInteractionListener implements Listener {
 
