@@ -35,3 +35,9 @@ commands:
   summon:
     description: Summon a player to your location.
     usage: /<command> <player>
+  enchant:
+    description: Embeds a spell or stamina ability onto the item in hand.
+    usage: /<command> [ability]
+  unenchant:
+    description: Remove an ability from the item in your main hand.
+    usage: /unenchant

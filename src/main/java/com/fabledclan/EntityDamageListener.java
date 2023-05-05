@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,20 +31,33 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
-        Player player;
+        Player player = null;
         boolean damageByPlayer = false;
+        boolean magicDamage = false;
+        int magicLevel = 1;
     
         if (event.getDamager() instanceof Player) {
             player = (Player) event.getDamager();
             damageByPlayer = true;
-        } else if (event.getDamager() instanceof Arrow) {
+        }
+        else if (event.getDamager() instanceof Fireball) {
+            Fireball fireball = (Fireball) event.getDamager();
+    
+            if (fireball.hasMetadata("magicLevel")) {
+                magicLevel = fireball.getMetadata("magicLevel").get(0).asInt();
+                magicDamage = true;
+                damageByPlayer = true;
+            }
+        }
+        else if (event.getDamager() instanceof Arrow) {
             Arrow arrow = (Arrow) event.getDamager();
             if (!(arrow.getShooter() instanceof Player)) {
                 return;
             }
             player = (Player) arrow.getShooter();
             damageByPlayer = true;
-        } else {
+        } 
+        else {
             return;
         }
     
@@ -53,13 +67,22 @@ public class EntityDamageListener implements Listener {
     
         LivingEntity entity = (LivingEntity) event.getEntity();
     
-        if (damageByPlayer) {
+        if (damageByPlayer && player != null ) {
             if (entity instanceof Player) {
                 // Put your logic for when a player damages another player here
                 int playerAttack = databaseManager.getPlayerStats(player.getUniqueId()).getAttack();
                 int playerDefending = databaseManager.getPlayerStats(entity.getUniqueId()).getDefense();
                 int playerLevel = databaseManager.getPlayerStats(entity.getUniqueId()).getLevel();
-                int damage = Math.max(1, playerAttack - playerDefending);
+                int damage;
+                if (!magicDamage)
+                {   
+                    damage = Math.max(1, playerAttack - playerDefending);
+                }
+                else
+                {
+                    // Modify the damage based on the magic level
+                    damage = (int) Math.max(1, (1 + magicLevel) - playerDefending);
+                }
                 event.setDamage(damage);
 
                 //HP BARS?
@@ -109,7 +132,13 @@ public class EntityDamageListener implements Listener {
                 int mobScaledDefense = mobDefense + (enemyLevel * mobDefense);
 
                 // Calculate the final damage after accounting for player attack and mob defense
-                int finalDamage = Math.max(1, ((int)Math.round(event.getDamage())) + playerAttack - mobScaledDefense);
+                int finalDamage;
+
+                if (!magicDamage) {
+                    finalDamage = Math.max(1, ((int)Math.round(event.getDamage())) + playerAttack - mobScaledDefense);
+                } else {
+                    finalDamage = (int) Math.max(1, (1 + magicLevel) - mobScaledDefense); // Adjust the damage multiplier as needed
+                }
 
                 // Apply the final damage to the mob
                 event.setDamage(finalDamage);

@@ -14,6 +14,7 @@ public class Main extends JavaPlugin {
 
     private DatabaseManager databaseManager;
     private FileConfiguration config;
+    private Abilities abilities;
     private static Main instance;
     private PlayerJoinListener playerJoinListener;
     private Map<EntityType, EnemyData> enemyDataCache = new HashMap<>();
@@ -62,6 +63,10 @@ public class Main extends JavaPlugin {
         abilities.startTasks();
 
         getServer().getPluginManager().registerEvents(new LockInteractionListener(this), this);
+        this.getCommand("enchant").setExecutor(new EnchantCommand(this));
+        getServer().getPluginManager().registerEvents(new AbilityUseListener(this, abilities, databaseManager), this);
+        this.getCommand("unenchant").setExecutor(new UnenchantCommand(this));
+
         
 
         

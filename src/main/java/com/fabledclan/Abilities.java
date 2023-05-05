@@ -21,7 +21,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class Abilities implements Listener {
 
-    private final Map<UUID, Integer> playerStamina = new HashMap<>();
+    final Map<UUID, Integer> playerStamina = new HashMap<>();
     final Map<UUID, Integer> playerMana = new HashMap<>();
     private Main plugin;
 
@@ -29,44 +29,6 @@ public class Abilities implements Listener {
         this.plugin = plugin;
     }
     
-
-    
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        UUID playerId = player.getUniqueId();
-        Action action = event.getAction();
-    
-        // Dash ability
-        if (action == Action.RIGHT_CLICK_AIR && player.getInventory().getItemInMainHand().getType() == Material.STICK) {
-            int requiredStamina = 20;
-            int currentStamina = playerStamina.getOrDefault(playerId, 0);
-    
-            if (currentStamina >= requiredStamina) {
-                Vector velocity = player.getLocation().getDirection().multiply(2);
-                player.setVelocity(velocity);
-                playerStamina.put(playerId, currentStamina - requiredStamina);
-                sendActionBarText(player);
-            } else {
-                player.sendMessage(ChatColor.RED + "Not enough stamina to use Dash ability!");
-            }
-        }
-    
-        // Fireball ability
-        if (action == Action.RIGHT_CLICK_AIR && player.getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) {
-            int requiredMana = 30;
-            int currentMana = playerMana.getOrDefault(playerId, 0);
-    
-            if (currentMana >= requiredMana) {
-                player.launchProjectile(org.bukkit.entity.Fireball.class);
-                playerMana.put(playerId, currentMana - requiredMana);
-                sendActionBarText(player);
-            } else {
-                player.sendMessage(ChatColor.BLUE + "Not enough magic to use Fireball ability!");
-            }
-        }
-    }
-
     public void startTasks() {
         new BukkitRunnable() {
             @Override
@@ -109,6 +71,9 @@ public class Abilities implements Listener {
 
     public Map<UUID, Integer> getPlayerMana() {
         return playerMana;
+    }
+    public Map<UUID, Integer> getPlayerStamina() {
+        return playerStamina;
     }
     
 

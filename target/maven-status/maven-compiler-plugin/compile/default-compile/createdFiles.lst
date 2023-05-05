@@ -10,6 +10,7 @@ com\fabledclan\EntityDamageListener$1.class
 com\fabledclan\EntityDamageListener.class
 com\fabledclan\Leaderboard.class
 com\fabledclan\LockInteractionListener.class
+com\fabledclan\EnchantCommand.class
 com\fabledclan\PlayerInteractListener.class
 com\fabledclan\SetAttributesCommand.class
 com\fabledclan\UpdateEnemyPagesCommand.class
@@ -22,6 +23,7 @@ com\fabledclan\SettingsCommand.class
 com\fabledclan\ViewStatsCommand.class
 com\fabledclan\RemoveLockCommand.class
 com\fabledclan\PlayerDeathListener.class
+com\fabledclan\UnenchantCommand.class
 com\fabledclan\EntitySpawnListener.class
 com\fabledclan\SummonCommand$1.class
 com\fabledclan\LockCommand.class
@@ -32,4 +34,5 @@ com\fabledclan\Abilities.class
 com\fabledclan\Main.class
 com\fabledclan\CustomDropTableListener.class
 com\fabledclan\MenuCommand.class
+com\fabledclan\AbilityUseListener.class
 com\fabledclan\SummonCommand$2.class

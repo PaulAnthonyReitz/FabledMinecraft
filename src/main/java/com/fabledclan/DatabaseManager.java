@@ -66,7 +66,9 @@ public class DatabaseManager {
                     + "level INT DEFAULT 1,"
                     + "max_health INT DEFAULT 20,"
                     + "movement_speed DOUBLE DEFAULT 1,"
-                    + "name TEXT);");
+                    + "name TEXT,"
+                    + "magic INT DEFAULT 1,"
+                    + "stamina INT DEFAULT 1);");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -225,9 +227,9 @@ public class DatabaseManager {
             }
         }
     
-        public void setPlayerStats(UUID uuid, double movementSpeed, int attack, int defense, int maxHealth, int exp, int level, String name) {
+        public void setPlayerStats(UUID uuid, double movementSpeed, int attack, int defense, int maxHealth, int exp, int level, String name, int magic, int stamina) {
             Connection conn = getConnection();
-            try (PreparedStatement pstmt = conn.prepareStatement("INSERT OR REPLACE INTO player_stats (uuid, movement_speed, attack, defense, max_health, exp, level, name) VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+            try (PreparedStatement pstmt = conn.prepareStatement("INSERT OR REPLACE INTO player_stats (uuid, movement_speed, attack, defense, max_health, exp, level, name, magic, stamina) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")) {
                 pstmt.setString(1, uuid.toString());
                 pstmt.setDouble(2, movementSpeed);
                 pstmt.setInt(3, attack);
@@ -236,6 +238,8 @@ public class DatabaseManager {
                 pstmt.setInt(6, exp);
                 pstmt.setInt(7, level);
                 pstmt.setString(8, name);
+                pstmt.setInt(9, magic);
+                pstmt.setInt(10, stamina);
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -279,6 +283,33 @@ public class DatabaseManager {
         return getLockedBlockPin(location) != null;
     }
     
+    public UUID getLockedBlockOwnerUUID(Location location) {
+        Connection conn = getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT owner_uuid FROM locked_blocks WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+            pstmt.setString(1, location.getWorld().getName());
+            pstmt.setInt(2, location.getBlockX());
+            pstmt.setInt(3, location.getBlockY());
+            pstmt.setInt(4, location.getBlockZ());
+            ResultSet rs = pstmt.executeQuery();
+    
+            if (rs.next()) {
+                return UUID.fromString(rs.getString("owner_uuid"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    
+
 
     public String getLockedBlockPin(Location location) {
         Connection conn = getConnection();
@@ -360,7 +391,9 @@ public class DatabaseManager {
                 int exp = resultSet.getInt("exp");
                 int level = resultSet.getInt("level");
                 String name = resultSet.getString("name");
-                return new PlayerStats(movementSpeed, attack, defense, maxHealth, exp, level, name);
+                int magic = resultSet.getInt("magic");
+                int stamina = resultSet.getInt("stamina");
+                return new PlayerStats(movementSpeed, attack, defense, maxHealth, exp, level, name, magic, stamina);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -389,6 +422,8 @@ public class DatabaseManager {
         private static final int DEFAULT_MAX_HEALTH = 20;
         private static final int DEFAULT_EXP = 0;
         private static final int DEFAULT_LEVEL = 1;
+        private static final int DEFAULT_MAGIC = 1;
+        private static final int DEFAULT_STAMINA = 1;
 
     
         // rest of your class code here
@@ -408,7 +443,7 @@ public class DatabaseManager {
                     // setPlayerStats(uuid, DEFAULT_MOVEMENT_SPEED, DEFAULT_ATTACK, DEFAULT_DEFENSE, DEFAULT_MAX_HEALTH, DEFAULT_EXP, DEFAULT_LEVEL);
                 } else {
                     // Player record does not exist, insert a new one
-                    setPlayerStats(uuid, DEFAULT_MOVEMENT_SPEED, DEFAULT_ATTACK, DEFAULT_DEFENSE, DEFAULT_MAX_HEALTH, DEFAULT_EXP, DEFAULT_LEVEL, Bukkit.getOfflinePlayer(uuid).getName());
+                    setPlayerStats(uuid, DEFAULT_MOVEMENT_SPEED, DEFAULT_ATTACK, DEFAULT_DEFENSE, DEFAULT_MAX_HEALTH, DEFAULT_EXP, DEFAULT_LEVEL, Bukkit.getOfflinePlayer(uuid).getName(), DEFAULT_MAGIC, DEFAULT_STAMINA);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -589,8 +624,11 @@ public class DatabaseManager {
         private final int exp;
         private final int level;
         private final String name;
+        private final int magic;
+        private final int stamina;
+        
     
-        public PlayerStats(double movementSpeed, int attack, int defense, int maxHealth, int exp, int level, String name) {
+        public PlayerStats(double movementSpeed, int attack, int defense, int maxHealth, int exp, int level, String name, int magic, int stamina) {
             this.movementSpeed = movementSpeed;
             this.attack = attack;
             this.defense = defense;
@@ -598,6 +636,8 @@ public class DatabaseManager {
             this.exp = exp;
             this.level = level;
             this.name = name;
+            this.magic = magic;
+            this.stamina = stamina;
         }
     
         // Add getter methods for each attribute
@@ -626,6 +666,12 @@ public class DatabaseManager {
         }
         public String getName() {
             return name;
+        }
+        public int getMagic() {
+            return magic;
+        }
+        public int getStamina() {
+            return stamina;
         }
     }
     // Other database-related methods go here

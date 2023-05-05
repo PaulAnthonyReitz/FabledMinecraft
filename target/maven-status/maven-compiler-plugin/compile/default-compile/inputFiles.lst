@@ -3,6 +3,7 @@ C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\ViewStatsCommand.jav
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\BookCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\UpdateEnemyPagesCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\MenuGUI.java
+C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\UnenchantCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EnemyCache.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\Abilities.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EnemyData.java
@@ -16,7 +17,9 @@ C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\CustomDropTableListe
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\MenuCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\RemoveLockCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\Main.java
+C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\AbilityUseListener.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\Leaderboard.java
+C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EnchantCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\ViewEnemiesCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EntitySpawnListener.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EntityDeathListener.java

@@ -180,7 +180,9 @@ public class PlayerJoinListener implements Listener {
         secondPage.addExtra("Defense: " + playerStats.getDefense() + "\n");
         secondPage.addExtra("Max Health: " + playerStats.getMaxHealth() + "\n");
         secondPage.addExtra("Exp: " + playerStats.getExp() + "\n");
-        secondPage.addExtra("Level: " + playerStats.getLevel() + "\n\n");
+        secondPage.addExtra("Level: " + playerStats.getLevel() + "\n");
+        secondPage.addExtra("Magic: " + playerStats.getMagic() + "\n");
+        secondPage.addExtra("Stamina: " + playerStats.getStamina() + "\n\n");
     
         // Create a clickable link for the /menu command
         TextComponent link = new TextComponent("Click here to upgrade your stats!");
