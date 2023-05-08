@@ -20,6 +20,7 @@ com\fabledclan\PlayerJoinListener$Flavor.class
 com\fabledclan\BookCommand.class
 com\fabledclan\DatabaseManager.class
 com\fabledclan\Abilities$1.class
+com\fabledclan\HomeCommand$1.class
 com\fabledclan\BlockBreakListener.class
 com\fabledclan\SettingsCommand.class
 com\fabledclan\ViewStatsCommand.class
@@ -28,10 +29,12 @@ com\fabledclan\RemoveLockCommand.class
 com\fabledclan\PlayerDeathListener.class
 com\fabledclan\UnenchantCommand.class
 com\fabledclan\EntitySpawnListener.class
+com\fabledclan\AbilityUseListener$4.class
 com\fabledclan\SummonCommand$1.class
 com\fabledclan\LockCommand.class
 com\fabledclan\AbilityUseListener$ChargeDurationTask.class
 com\fabledclan\UnlockLockCommand.class
+com\fabledclan\HomeCommand.class
 com\fabledclan\SummonCommand.class
 com\fabledclan\EntityDamageListener$2.class
 com\fabledclan\Abilities.class

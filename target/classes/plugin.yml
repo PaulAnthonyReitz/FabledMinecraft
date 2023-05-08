@@ -44,3 +44,6 @@ commands:
   spells:
     description: Displays a list of available spells
     usage: /spells
+  home:
+    description: warps you home in a 20 second delay
+    usage: /home

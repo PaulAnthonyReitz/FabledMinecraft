@@ -70,6 +70,7 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(abilityUseListener, this);
         this.getCommand("spells").setExecutor(new SpellsCommand(abilityUseListener));
         
+        getCommand("home").setExecutor(new HomeCommand(this));
 
     }
 

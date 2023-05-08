@@ -1,6 +1,8 @@
 package com.fabledclan;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +69,7 @@ public class AbilityUseListener implements Listener {
     private final HashMap<UUID, Long> vaderChokeCooldowns = new HashMap<>();
     private final Map<UUID, Long> yeetBoatCooldowns = new HashMap<>();
     private final Map<UUID, Long> wrangleCooldowns = new HashMap<>();
+    private final Map<UUID, Long> partyCooldowns = new HashMap<>();
     private final long abilityCooldownMillis = 1000; // Adjust this to change the cooldown time (in milliseconds)
     private final Map<UUID, BukkitTask> lightningStrikeTasks = new HashMap<>();
     List<String> spellList = Arrays.asList("dash", "dark_vortex", "dragon_breath", "feather", "fireball", "ice_shard", "lightning_strike", "magic_missile", "party", "plague_swarm", "power_strike", "summon_giant", "undead_army", "vader_choke", "wrangle", "yeet_boat");
@@ -298,12 +301,46 @@ public class AbilityUseListener implements Listener {
             player.getWorld().playSound(player.getLocation(), Sound.MUSIC_DISC_PIGSTEP, 10.0f, 1.0f);
     
             // Spawn RGB sheep and set their color
-            // ...
+            BukkitTask sheepTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
+                    if (entity instanceof Sheep) {
+                        Sheep sheep = (Sheep) entity;
+                        DyeColor currentColor = sheep.getColor();
+                        DyeColor newColor;
+                        switch (currentColor) {
+                            case RED:
+                                newColor = DyeColor.GREEN;
+                                break;
+                            case GREEN:
+                                newColor = DyeColor.BLUE;
+                                break;
+                            case BLUE:
+                                newColor = DyeColor.RED;
+                                break;
+                            default:
+                                newColor = DyeColor.RED;
+                                break;
+                        }
+                        sheep.setColor(newColor);
+                    }
+                }
+            }, 5, 5); // 5 ticks = 0.25 seconds
     
             // Launch fireworks around the player continuously for 30 seconds
             BukkitTask fireworkTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                // ...
-            }, 0, 2); // 2 ticks = 0.1 seconds
+                Location fireworkLocation = player.getLocation().add(Math.random() * 4 - 2, Math.random() * 4, Math.random() * 4 - 2);
+                Firework firework = (Firework) player.getWorld().spawnEntity(fireworkLocation, EntityType.FIREWORK);
+                FireworkMeta fireworkMeta = firework.getFireworkMeta();
+                fireworkMeta.addEffect(FireworkEffect.builder()
+                        .withColor(Color.RED)
+                        .withColor(Color.GREEN)
+                        .withColor(Color.BLUE)
+                        .with(Type.BURST)
+                        .trail(true)
+                        .build());
+                fireworkMeta.setPower(1);
+                firework.setFireworkMeta(fireworkMeta);
+            }, 0, 20); // 20 ticks = 1 second
     
             // Schedule the removal of all entities and stopping the fireworks after 30 seconds
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -312,6 +349,7 @@ public class AbilityUseListener implements Listener {
                         entity.remove();
                     }
                 }
+                sheepTask.cancel();
                 fireworkTask.cancel();
             }, 20 * 30); // 20 ticks per second * 30 seconds
         } else {
@@ -319,6 +357,16 @@ public class AbilityUseListener implements Listener {
         }
     }
     
+    
+    
+
+    private DyeColor getNextColor(DyeColor currentColor) {
+        DyeColor[] colors = DyeColor.values();
+        int currentIndex = currentColor.ordinal();
+        int nextIndex = (currentIndex + 1) % colors.length;
+        return colors[nextIndex];
+    }
+
     private void performMagicMissileAbility(Player player) {
         int requiredMagicLevel = 1;
         int manaCost = 25;
@@ -676,12 +724,25 @@ public class AbilityUseListener implements Listener {
     
         if (currentMana != null && currentMana >= manaCost) {
             // Get the targeted entity
-            RayTraceResult rayTraceResult = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getLocation().getDirection(), 10);
-            if (rayTraceResult == null || !(rayTraceResult.getHitEntity() instanceof LivingEntity) || rayTraceResult.getHitEntity().getUniqueId().equals(playerId)) {
+            RayTraceResult rayTraceResult = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getLocation().getDirection(), 15, entity -> !entity.getUniqueId().equals(player.getUniqueId()));
+            LivingEntity target = null;
+    
+            if (rayTraceResult != null && rayTraceResult.getHitEntity() instanceof LivingEntity) {
+                target = (LivingEntity) rayTraceResult.getHitEntity();
+            } else {
+                Location hitLocation = player.getEyeLocation().add(player.getLocation().getDirection().multiply(15));
+                List<Entity> nearbyEntities = new ArrayList<>(hitLocation.getWorld().getNearbyEntities(hitLocation, 1, 1, 1, entity -> entity instanceof LivingEntity && !entity.getUniqueId().equals(player.getUniqueId())));
+
+                
+                if (!nearbyEntities.isEmpty()) {
+                    target = (LivingEntity) nearbyEntities.get(0);
+                }
+            }
+    
+            if (target == null) {
                 player.sendMessage(ChatColor.RED + "No valid target found for Vader Choke!");
                 return;
             }
-            LivingEntity target = (LivingEntity) rayTraceResult.getHitEntity();
     
             // Reduce the player's magic energy by the required amount
             int newMana = currentMana - manaCost;
@@ -696,10 +757,11 @@ public class AbilityUseListener implements Listener {
             target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 10));
     
             // Schedule the release of the target after 5 seconds
+            final LivingEntity finalTarget = target;
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                if (target.isValid()) {
-                    target.teleport(targetLocation.subtract(0, 2, 0)); // Lower the target back to the ground
-                    target.removePotionEffect(PotionEffectType.SLOW); // Remove the immobilization effect
+                if (finalTarget.isValid()) {
+                    finalTarget.teleport(targetLocation.subtract(0, 2, 0)); // Lower the target back to the ground
+                    finalTarget.removePotionEffect(PotionEffectType.SLOW); // Remove the immobilization effect
                 }
             }, 5 * 20);
     
@@ -710,8 +772,6 @@ public class AbilityUseListener implements Listener {
         }
     }
     
-    
-
     private void performLightningStrikeAbility(Player player) {
         int requiredMagicLevel = 1;
         int manaCost = 50;
