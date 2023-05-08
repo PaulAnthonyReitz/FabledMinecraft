@@ -5,15 +5,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -59,7 +53,6 @@ public class Abilities implements Listener {
     private void sendActionBarText(Player player) {
         UUID playerId = player.getUniqueId();
         int currentHealth = (int) player.getHealth();
-        int maxHealth = (int) player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         Integer stamina = playerStamina.get(playerId);
         Integer mana = playerMana.get(playerId);
         String hpSymbol = ChatColor.RED + "\u2764" + ChatColor.RESET;

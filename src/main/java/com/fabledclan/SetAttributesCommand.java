@@ -15,12 +15,6 @@ import java.util.UUID;
 
 public class SetAttributesCommand implements CommandExecutor {
 
-    private final Main plugin;
-
-    public SetAttributesCommand(Main plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {

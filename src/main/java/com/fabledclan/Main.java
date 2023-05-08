@@ -14,7 +14,6 @@ public class Main extends JavaPlugin {
 
     private DatabaseManager databaseManager;
     private FileConfiguration config;
-    private Abilities abilities;
     private static Main instance;
     private PlayerJoinListener playerJoinListener;
     private Map<EntityType, EnemyData> enemyDataCache = new HashMap<>();
@@ -44,13 +43,13 @@ public class Main extends JavaPlugin {
         getCommand("settings").setExecutor(new SettingsCommand(this));
 
         
-        MenuGUI menuGUI = new MenuGUI(this, databaseManager);
+        MenuGUI menuGUI = new MenuGUI(databaseManager);
         getServer().getPluginManager().registerEvents(menuGUI, this);
         getCommand("menu").setExecutor(new MenuCommand(menuGUI));
 
         getCommand("viewstats").setExecutor(new ViewStatsCommand(this));
         getCommand("viewenemies").setExecutor(new ViewEnemiesCommand(this));
-        getCommand("setattributes").setExecutor(new SetAttributesCommand(this));
+        getCommand("setattributes").setExecutor(new SetAttributesCommand());
         getCommand("updateenemypages").setExecutor(new UpdateEnemyPagesCommand(playerJoinListener.getEnemyCache()));
 
         // Populate the cache when the server starts
@@ -64,11 +63,12 @@ public class Main extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new LockInteractionListener(this), this);
         this.getCommand("enchant").setExecutor(new EnchantCommand(this));
-        getServer().getPluginManager().registerEvents(new AbilityUseListener(this, abilities, databaseManager), this);
+        getServer().getPluginManager().registerEvents(new AbilityUseListener(this, abilities), this);
         this.getCommand("unenchant").setExecutor(new UnenchantCommand(this));
 
-        
-
+        AbilityUseListener abilityUseListener = new AbilityUseListener(this, abilities);
+        this.getServer().getPluginManager().registerEvents(abilityUseListener, this);
+        this.getCommand("spells").setExecutor(new SpellsCommand(abilityUseListener));
         
 
     }

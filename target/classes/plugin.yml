@@ -41,3 +41,6 @@ commands:
   unenchant:
     description: Remove an ability from the item in your main hand.
     usage: /unenchant
+  spells:
+    description: Displays a list of available spells
+    usage: /spells

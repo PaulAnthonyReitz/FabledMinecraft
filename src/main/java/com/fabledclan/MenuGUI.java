@@ -16,11 +16,10 @@ import java.util.Arrays;
 
 public class MenuGUI implements Listener {
 
-    private final Main plugin;
+
     private final DatabaseManager databaseManager;
 
-    public MenuGUI(Main plugin, DatabaseManager databaseManager) {
-        this.plugin = plugin;
+    public MenuGUI(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
     }
 
