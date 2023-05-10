@@ -86,7 +86,7 @@ public class EntitySpawnListener implements Listener {
         }
     }
 
-public class NameGenerator {
+public static class NameGenerator {
     private static final String[] PREFIXES = {"Fred", "Bob", "Paul", "Jim","Ritz","Cold","Bean","Dailey"};
     private static final String[] MIDDLES = {"the", "of","von"};
     private static final String[] SUFFIXES = {"Destroyer", "Builder", "Pantless", "Corn","Idiot","Stinky","Goose"};
