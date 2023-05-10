@@ -21,7 +21,7 @@ public class SummonCommand implements CommandExecutor, Listener {
     private final Abilities abilities;
     private Main plugin;
 
-    public SummonCommand(Main plugin,Abilities abilities) {
+    public SummonCommand(Main plugin, Abilities abilities) {
         this.plugin = plugin;
         this.abilities = abilities;
     }
@@ -32,43 +32,42 @@ public class SummonCommand implements CommandExecutor, Listener {
             sender.sendMessage(ChatColor.RED + "This command can only be used by a player.");
             return true;
         }
-    
+
         Player player = (Player) sender;
-    
+
         if (args.length != 1) {
             player.sendMessage(ChatColor.RED + "Usage: /summon <player>");
             return true;
         }
-    
+
         Player targetPlayer = Bukkit.getPlayer(args[0]);
-    
+
         if (targetPlayer == null) {
             player.sendMessage(ChatColor.RED + "Player not found.");
             return true;
         }
-    
-    
+
         UUID playerId = player.getUniqueId();
         UUID targetId = targetPlayer.getUniqueId();
-    
+
         int requiredMana = 100;
-        int currentMana = abilities.getPlayerMana().getOrDefault(playerId, 0);
-    
+        int currentMana = abilities.getPlayerMana(player);
+
         if (currentMana < requiredMana) {
             player.sendMessage(ChatColor.BLUE + "Not enough magic to use Summon spell!");
             return true;
         }
-    
+
         // Deduct mana
-        abilities.getPlayerMana().put(playerId, currentMana - requiredMana);
-    
+        abilities.setPlayerMana(player, currentMana - requiredMana);
+
         pendingSummonRequests.put(targetId, playerId);
-    
-        targetPlayer.sendMessage(ChatColor.GREEN + player.getName() + " would like to teleport you to them. Type 'yes' to accept, 'no' to decline.");
+
+        targetPlayer.sendMessage(ChatColor.GREEN + player.getName()
+                + " would like to teleport you to them. Type 'yes' to accept, 'no' to decline.");
         player.sendMessage(ChatColor.GREEN + "Summon request sent to " + targetPlayer.getName() + ".");
         return true;
     }
-    
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -76,11 +75,11 @@ public class SummonCommand implements CommandExecutor, Listener {
         UUID playerId = player.getUniqueId();
         String message = event.getMessage().toLowerCase();
         Map<UUID, UUID> pendingSummonRequests = getPendingSummonRequests();
-    
+
         if (pendingSummonRequests.containsKey(playerId)) {
             event.setCancelled(true);
             UUID requesterId = pendingSummonRequests.remove(playerId);
-    
+
             if (message.equals("yes")) {
                 Player requester = Bukkit.getPlayer(requesterId);
                 if (requester != null) {
@@ -89,7 +88,8 @@ public class SummonCommand implements CommandExecutor, Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                player.teleport(player.getWorld().getSpawnLocation().add(Math.random() * 1000 - 500, 0, Math.random() * 1000 - 500));
+                                player.teleport(player.getWorld().getSpawnLocation().add(Math.random() * 1000 - 500, 0,
+                                        Math.random() * 1000 - 500));
                             }
                         }.runTask(plugin);
                         return;
@@ -98,8 +98,10 @@ public class SummonCommand implements CommandExecutor, Listener {
                             @Override
                             public void run() {
                                 player.teleport(requester);
-                                player.sendMessage(ChatColor.GREEN + "You have been teleported to " + requester.getName() + "!");
-                                requester.sendMessage(ChatColor.GREEN + player.getName() + " has been teleported to you!");
+                                player.sendMessage(
+                                        ChatColor.GREEN + "You have been teleported to " + requester.getName() + "!");
+                                requester.sendMessage(
+                                        ChatColor.GREEN + player.getName() + " has been teleported to you!");
                             }
                         }.runTask(plugin);
                     }
@@ -112,7 +114,6 @@ public class SummonCommand implements CommandExecutor, Listener {
             }
         }
     }
-    
 
     public Map<UUID, UUID> getPendingSummonRequests() {
         return pendingSummonRequests;
