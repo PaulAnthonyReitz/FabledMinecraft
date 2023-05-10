@@ -1,8 +1,6 @@
 package com.fabledclan.abilities;
 
 import com.fabledclan.SpellAbility;
-import com.fabledclan.Abilities;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.bukkit.entity.DragonFireball;
 import org.bukkit.entity.EntityType;
@@ -14,8 +12,8 @@ import org.bukkit.Location;
 
 public class DragonBreath extends SpellAbility {
 
-    public DragonBreath(Plugin plugin, Abilities abilities, String name, int requiredMagicLevel, int manaCost) {
-        super(plugin, abilities, name, requiredMagicLevel, manaCost);
+    public DragonBreath(String name, int requiredMagicLevel, int manaCost) {
+        super(name, requiredMagicLevel, manaCost);
     }
 
     public void cast(Player player) {

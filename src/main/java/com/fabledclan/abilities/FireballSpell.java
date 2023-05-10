@@ -2,15 +2,13 @@ package com.fabledclan.abilities;
 
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.entity.Fireball;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.SpellAbility;
 
 public class FireballSpell extends SpellAbility{
-    public FireballSpell(Plugin plugin, Abilities abilities, String name, int requiredMagicLevel, int manaCost) {
-        super(plugin, abilities, name, requiredMagicLevel, manaCost);
+    public FireballSpell(String name, int requiredMagicLevel, int manaCost) {
+        super(name, requiredMagicLevel, manaCost);
     }
 
     public void cast(Player player) {

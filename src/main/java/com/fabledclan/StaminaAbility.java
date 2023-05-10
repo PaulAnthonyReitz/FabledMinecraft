@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 // Another abstract class built on top of Ability class for spells that use Stamina
 // Almost identical to SpellAbility but uses stamina instead of mana
@@ -13,8 +12,8 @@ public abstract class StaminaAbility extends Ability {
     private int requiredStaminaLevel;
     private int staminaCost;
 
-    public StaminaAbility(Plugin plugin, Abilities abilities, String name, int rsl, int sc) {
-        super(plugin, abilities, name);
+    public StaminaAbility(String name, int rsl, int sc) {
+        super(name);
         this.requiredStaminaLevel = rsl;
         this.staminaCost = sc;
     }
