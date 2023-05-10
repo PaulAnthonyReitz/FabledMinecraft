@@ -29,7 +29,8 @@ public class Main extends JavaPlugin {
         playerJoinListener = new PlayerJoinListener(this, databaseManager);
 
         getServer().getPluginManager().registerEvents(playerJoinListener, this);
-        getServer().getPluginManager().registerEvents(new EntityDamageListener(this), this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListenerMobs(this), this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListenerPlayers(this), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         PlayerInteractListener playerInteractListener = new PlayerInteractListener(this, playerJoinListener);

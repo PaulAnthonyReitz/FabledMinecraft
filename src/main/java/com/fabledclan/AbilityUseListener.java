@@ -301,61 +301,75 @@ public class AbilityUseListener implements Listener {
             player.getWorld().playSound(player.getLocation(), Sound.MUSIC_DISC_PIGSTEP, 10.0f, 1.0f);
     
             // Spawn RGB sheep and set their color
-            BukkitTask sheepTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
-                    if (entity instanceof Sheep) {
-                        Sheep sheep = (Sheep) entity;
-                        DyeColor currentColor = sheep.getColor();
-                        DyeColor newColor;
-                        switch (currentColor) {
-                            case RED:
-                                newColor = DyeColor.GREEN;
-                                break;
-                            case GREEN:
-                                newColor = DyeColor.BLUE;
-                                break;
-                            case BLUE:
-                                newColor = DyeColor.RED;
-                                break;
-                            default:
-                                newColor = DyeColor.RED;
-                                break;
-                        }
-                        sheep.setColor(newColor);
+            BukkitTask sheepTask = new BukkitRunnable() {
+                int sheepCounter = 0;
+                Random random = new Random();
+    
+                @Override
+                public void run() {
+                    if (sheepCounter >= 10 || sheepCounter >= 30 * 4) {
+                        cancel();
+                        return;
                     }
+    
+                    Location sheepLocation = player.getLocation().add(Math.random() * 4 - 2, Math.random() * 4, Math.random() * 4 - 2);
+                    Sheep sheep = (Sheep) player.getWorld().spawnEntity(sheepLocation, EntityType.SHEEP);
+                    sheep.setHealth(1000);
+                    sheep.setAI(false);
+    
+                    DyeColor[] colors = {DyeColor.RED, DyeColor.GREEN, DyeColor.BLUE};
+                    DyeColor sheepColor = colors[sheepCounter % colors.length];
+                    sheep.setColor(sheepColor);
+    
+                    sheepCounter++;
                 }
-            }, 5, 5); // 5 ticks = 0.25 seconds
+            }.runTaskTimer(plugin, 5, 5); // 5 ticks = 0.25 seconds
     
             // Launch fireworks around the player continuously for 30 seconds
-            BukkitTask fireworkTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                Location fireworkLocation = player.getLocation().add(Math.random() * 4 - 2, Math.random() * 4, Math.random() * 4 - 2);
-                Firework firework = (Firework) player.getWorld().spawnEntity(fireworkLocation, EntityType.FIREWORK);
-                FireworkMeta fireworkMeta = firework.getFireworkMeta();
-                fireworkMeta.addEffect(FireworkEffect.builder()
-                        .withColor(Color.RED)
-                        .withColor(Color.GREEN)
-                        .withColor(Color.BLUE)
-                        .with(Type.BURST)
-                        .trail(true)
-                        .build());
-                fireworkMeta.setPower(1);
-                firework.setFireworkMeta(fireworkMeta);
-            }, 0, 20); // 20 ticks = 1 second
+            BukkitTask fireworkTask = new BukkitRunnable() {
+                int fireworkCounter = 0;
+                Random random = new Random();
+    
+                @Override
+                public void run() {
+                    if (fireworkCounter >= 30 * 4) {
+                        cancel();
+                        return;
+                    }
+    
+                    Location fireworkLocation = player.getLocation().add(Math.random() * 4 - 2, Math.random() * 4, Math.random() * 4 - 2);
+                    Firework firework = (Firework) player.getWorld().spawnEntity(fireworkLocation, EntityType.FIREWORK);
+                    FireworkMeta fireworkMeta = firework.getFireworkMeta();
+                    fireworkMeta.addEffect(FireworkEffect.builder()
+                            .withColor(Color.RED)
+                            .withColor(Color.GREEN)
+                            .withColor(Color.BLUE)
+                            .with(FireworkEffect.Type.BURST)
+                            .trail(true)
+                            .build());
+                    fireworkMeta.setPower(1);
+                    firework.setFireworkMeta(fireworkMeta);
+    
+                    fireworkCounter++;
+                }
+            }.runTaskTimer(plugin, 0, 5); // 5 ticks = 0.25 seconds
     
             // Schedule the removal of all entities and stopping the fireworks after 30 seconds
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                sheepTask.cancel();
+                fireworkTask.cancel();
+    
                 for (Entity entity : player.getWorld().getEntities()) {
                     if (entity instanceof Sheep || entity instanceof Firework) {
                         entity.remove();
                     }
                 }
-                sheepTask.cancel();
-                fireworkTask.cancel();
-            }, 20 * 30); // 20 ticks per second * 30 seconds
+            }, 30 * 20); // 20 ticks per second * 30 seconds
         } else {
             player.sendMessage(ChatColor.BLUE + "Need Magic Level " + requiredMagicLevel + " and " + manaCost + " mana points for Party Spell!");
         }
     }
+    
     
     
     

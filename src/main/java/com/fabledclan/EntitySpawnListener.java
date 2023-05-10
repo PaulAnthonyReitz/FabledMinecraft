@@ -1,104 +1,105 @@
 package com.fabledclan;
-
-import java.util.Random;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.apache.commons.text.RandomStringGenerator;
+
+import java.util.Random;
 
 public class EntitySpawnListener implements Listener {
+
     private final Main plugin;
-    private final Random random = new Random();
+    private final Random random;
 
     public EntitySpawnListener(Main plugin) {
         this.plugin = plugin;
+        this.random = new Random();
     }
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
-        Entity entity = event.getEntity();
-    
-        if (entity instanceof Monster) {
+        if (event.getEntity() instanceof Creature) {
+            Creature creature = (Creature) event.getEntity();
 
-            boolean isRare = random.nextDouble() < 0.05;
-
-            LivingEntity livingEntity = (LivingEntity) entity;
-            int enemyLevel = generateEnemyLevel(entity);
-
-            if (isRare) {
-                // Increase the enemy level by a random number between 1 and 25
-                enemyLevel += random.nextInt(25) + 1;
-
-                // Assign a randomly generated name to the rare monster
-                String rareName = ChatColor.GOLD + generateRandomName();
-                livingEntity.setCustomName(rareName);
-                livingEntity.setCustomNameVisible(true);
-
-                // Apply power-ups to the rare monster
-                applyPowerUps(livingEntity);
-            }
-    
-            PersistentDataContainer dataContainer = livingEntity.getPersistentDataContainer();
-            NamespacedKey levelKey = new NamespacedKey(plugin, "enemy_level");
-            dataContainer.set(levelKey, PersistentDataType.INTEGER, enemyLevel);
-    
-            // Retrieve the enemy data from the database
-            EnemyData enemyData = plugin.getCachedEnemyData(entity.getType());
-    
-            if (enemyData != null) {
-                int hpScale = enemyData.hpScale;
-                double baseHp = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue();
-                double newHp = baseHp * Math.pow(hpScale, enemyLevel - 1);
-    
-                // Set the monster's health and max health based on its level
-                livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newHp);
-                livingEntity.setHealth(newHp);
-            }
+            // Set custom name, health, and NM status for the spawned mob
+            setCustomMobNameAndHealthAndNM(creature);
         }
     }
+
+    private void setCustomMobNameAndHealthAndNM(LivingEntity entity) {
+        PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+        NamespacedKey levelKey = new NamespacedKey(plugin, "enemy_level");
+        int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
     
+        // Check for NM status and adjust level
+        boolean isNM = false;
+        int nmChance = random.nextInt(10000); // Use 10000 for more precise percentages
     
-    public int generateEnemyLevel(Entity entity) {
-        Location worldSpawn = entity.getWorld().getSpawnLocation();
-        Location enemySpawn = entity.getLocation();
-        double distance = worldSpawn.distance(enemySpawn);
+        if (nmChance < 400) { // 4% chance
+            enemyLevel += 2;
+            isNM = true;
+        } else if (nmChance < 700) { // 3% chance
+            enemyLevel += 5;
+            isNM = true;
+        } else if (nmChance < 900) { // 2% chance
+            enemyLevel += 10;
+            isNM = true;
+        } else if (nmChance < 1000) { // 1% chance
+            enemyLevel += 15;
+            isNM = true;
+        } else if (nmChance < 1005) { // 0.05% chance
+            enemyLevel += 20;
+            isNM = true;
+        }
+    
 
-        // Calculate enemy level based on distance from world spawn
-        int enemyLevel = (int) Math.floor(distance / 1000);
+        // Set NM status in PersistentDataContainer
+        NamespacedKey nmKey = new NamespacedKey(plugin, "nm");
+        dataContainer.set(nmKey, PersistentDataType.INTEGER, isNM ? 1 : 0);
 
-        return enemyLevel;
+        int roundedHealth = (int) Math.round(entity.getHealth());
+        String entityType = entity.getType().toString();
+
+        String heartColor = "\u00A75"; // Purple, change the color as needed
+
+        String healthInfo = "[\u00A76" + enemyLevel + "\u00A7f] " + entityType + " HP: " + heartColor + roundedHealth + " " + heartColor + "\u2764";
+
+        entity.setCustomName(healthInfo);
+        entity.setCustomNameVisible(true);
+
+        // Add custom effects and generate random names for NM mobs
+        if (isNM) {
+            // Apply effects and generate a random name
+            // Replace the following line with your own custom effects and name generation logic
+            String nmName = NameGenerator.generateRandomName();
+                        // Set NM name in PersistentDataContainer
+                        NamespacedKey nmNameKey = new NamespacedKey(plugin, "NMName");
+                        dataContainer.set(nmNameKey, PersistentDataType.STRING, nmName);
+            
+            entity.setCustomName(nmName);
+            System.out.println("NM Spawned: " +nmName);
+            
+        }
     }
 
-    private String generateRandomName() {
-        String[] adjectives = {"Fierce", "Swift", "Infernal", "Shadowy", "Gargantuan"};
-        String[] names = {"Dragon", "Goblin", "Wraith", "Behemoth", "Colossus"};
+public class NameGenerator {
+    private static final String[] PREFIXES = {"Fred", "Bob", "Paul", "Jim","Ritz","Cold","Bean","Dailey"};
+    private static final String[] MIDDLES = {"the", "of","von"};
+    private static final String[] SUFFIXES = {"Destroyer", "Builder", "Pantless", "Corn","Idiot","Stinky","Goose"};
 
-        String adjective = adjectives[random.nextInt(adjectives.length)];
-        String name = names[random.nextInt(names.length)];
+    public static String generateRandomName() {
+        Random random = new Random();
+        String prefix = PREFIXES[random.nextInt(PREFIXES.length)];
+        String middle = MIDDLES[random.nextInt(MIDDLES.length)];
+        String suffix = SUFFIXES[random.nextInt(SUFFIXES.length)];
 
-        return adjective + " " + name;
+        return prefix + " " + middle + " " + suffix;
     }
-
-    private void applyPowerUps(LivingEntity livingEntity) {
-        // Example: Give the rare monster a powerful enchanted weapon
-        ItemStack weapon = new ItemStack(Material.DIAMOND_SWORD);
-        ItemMeta weaponMeta = weapon.getItemMeta();
-        weaponMeta.addEnchant(Enchantment.DAMAGE_ALL, 5, true);
-        weapon.setItemMeta(weaponMeta);
-        livingEntity.getEquipment().setItemInMainHand(weapon);
-    }
+}
 
 }

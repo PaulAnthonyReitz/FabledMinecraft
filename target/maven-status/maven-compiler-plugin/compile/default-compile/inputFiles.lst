@@ -7,7 +7,6 @@ C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\UnenchantCommand.jav
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EnemyCache.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\Abilities.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EnemyData.java
-C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EntityDamageListener.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\SetAttributesCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\PlayerDeathListener.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\SettingsCommand.java
@@ -21,6 +20,7 @@ C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\Main.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\AbilityUseListener.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\HomeCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\Leaderboard.java
+C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EntityDamageListenerPlayers.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EnchantCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\ViewEnemiesCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EntitySpawnListener.java
@@ -28,5 +28,6 @@ C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EntityDeathListener.
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\SummonCommand.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\DatabaseManager.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\LockCommand.java
+C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\EntityDamageListenerMobs.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\PlayerJoinListener.java
 C:\Users\Reitz\FabledMinecraft\src\main\java\com\fabledclan\PlayerInteractListener.java
