@@ -24,7 +24,7 @@ public abstract class StaminaAbility extends Ability {
         Abilities abilities = getAbilities();
         int currentStamina = abilities.getPlayerStamina(player);
         UUID playerID = player.getUniqueId();
-        if (currentStamina < this.staminaCost) {
+        if (currentStamina < staminaCost) {
             if (alertMessageReady(playerID)) {
                 player.sendMessage(ChatColor.BLUE + String.format("Need stamina level %d and %d stamina points for %s", getRequiredStaminaLevel(), getStaminaCost(), getName()));
             }
@@ -45,7 +45,7 @@ public abstract class StaminaAbility extends Ability {
     }
 
     private int getStaminaCost() {
-        return this.staminaCost;
+        return staminaCost;
     }
 
     // checks if the player can cast the spell

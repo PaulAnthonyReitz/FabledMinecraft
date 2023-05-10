@@ -39,7 +39,7 @@ public abstract class Ability {
     public abstract void cast(Player player); // method to fill out when initializing a new ability
 
     public Abilities getAbilities() {
-        return this.abilities;
+        return abilities;
     }
 
     // Checks if a player is on a cooldown
@@ -50,7 +50,7 @@ public abstract class Ability {
         if (difference <= cooldown) {
             player.sendMessage(
                     ChatColor.RED
-                            + String.format("%s ability is on cooldown! Please wait %d seconds", this.name, (int)(difference / 1000)));
+                            + String.format("%s ability is on cooldown! Please wait %d seconds", name, (int)(difference / 1000)));
             return true;
         }
         return false;
@@ -63,11 +63,11 @@ public abstract class Ability {
     }
 
     public long getCooldown(Player player) {
-        return this.cooldowns.getOrDefault(player.getUniqueId(), 0L);
+        return cooldowns.getOrDefault(player.getUniqueId(), 0L);
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Plugin getPlugin() {

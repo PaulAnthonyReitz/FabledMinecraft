@@ -24,7 +24,7 @@ public abstract class SpellAbility extends Ability {
         Abilities abilities = getAbilities();
         int currentMana = abilities.getPlayerMana(player);
         UUID playerID = player.getUniqueId();
-        if (currentMana < this.manaCost) {
+        if (currentMana < manaCost) {
             if (alertMessageReady(playerID)) {
                 player.sendMessage(ChatColor.BLUE + String.format("Need magic level %d and %d mana points for %s",
                         getRequriedMagicLevel(), getManaCost(), getName()));
@@ -42,11 +42,11 @@ public abstract class SpellAbility extends Ability {
     }
 
     private int getRequriedMagicLevel() {
-        return this.requiredMagicLevel;
+        return requiredMagicLevel;
     }
 
     private int getManaCost() {
-        return this.manaCost;
+        return manaCost;
     }
 
     // checks if the player can cast the spell
