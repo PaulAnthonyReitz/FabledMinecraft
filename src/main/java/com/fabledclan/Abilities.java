@@ -22,7 +22,7 @@ public class Abilities implements Listener {
     public Abilities(Main plugin) {
         this.plugin = plugin;
     }
-    
+
     public void startTasks() {
         new BukkitRunnable() {
             @Override
@@ -31,13 +31,13 @@ public class Abilities implements Listener {
                     UUID playerId = player.getUniqueId();
 
                     // Regenerate stamina
-                    int currentStamina = playerStamina.getOrDefault(playerId, 0);
+                    int currentStamina = getPlayerStamina(player);
                     if (currentStamina < 100) {
                         playerStamina.put(playerId, Math.min(currentStamina + 2, 100));
                     }
 
                     // Regenerate mana
-                    int currentMana = playerMana.getOrDefault(playerId, 0);
+                    int currentMana = getPlayerMana(player);
                     if (currentMana < 100) {
                         playerMana.put(playerId, Math.min(currentMana + 2, 100));
                     }
@@ -49,25 +49,40 @@ public class Abilities implements Listener {
         }.runTaskTimer(plugin, 0, 40); // 20 ticks = 1 second
     }
 
-    
     private void sendActionBarText(Player player) {
-        UUID playerId = player.getUniqueId();
         int currentHealth = (int) player.getHealth();
-        Integer stamina = playerStamina.get(playerId);
-        Integer mana = playerMana.get(playerId);
+        Integer stamina = getPlayerStamina(player);
+        Integer mana = getPlayerMana(player);
         String hpSymbol = ChatColor.RED + "\u2764" + ChatColor.RESET;
         String staminaSymbol = ChatColor.GREEN + "\u26A1" + ChatColor.RESET;
         String manaSymbol = ChatColor.BLUE + "\u2726" + ChatColor.RESET;
-        String actionBarText = ChatColor.RED + "" + currentHealth + hpSymbol + " " + ChatColor.GREEN + stamina + staminaSymbol + " " + ChatColor.BLUE + mana + manaSymbol;
+        String actionBarText = ChatColor.RED + "" + currentHealth + hpSymbol + " " + ChatColor.GREEN + stamina
+                + staminaSymbol + " " + ChatColor.BLUE + mana + manaSymbol;
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionBarText));
     }
 
-    public Map<UUID, Integer> getPlayerMana() {
+    public int getPlayerMana(Player player) {
+        return playerMana.getOrDefault(player.getUniqueId(), 0);
+    }
+
+    public int getPlayerStamina(Player player) {
+        return playerStamina.getOrDefault(player.getUniqueId(), 0);
+    }
+
+    public void setPlayerMana(Player player, int mana) {
+        playerMana.put(player.getUniqueId(), mana);
+    }
+
+    public void setPlayerStamina(Player player, int stamina) {
+        playerStamina.put(player.getUniqueId(), stamina);
+    }
+
+    public Map<UUID, Integer> getPlayerManaMap() {
         return playerMana;
     }
-    public Map<UUID, Integer> getPlayerStamina() {
+
+    public Map<UUID, Integer> getPlayerStaminaMap() {
         return playerStamina;
     }
-    
 
 }

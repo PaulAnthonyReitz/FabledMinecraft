@@ -1,4 +1,5 @@
 package com.fabledclan;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +18,6 @@ public class Main extends JavaPlugin {
     private static Main instance;
     private PlayerJoinListener playerJoinListener;
     private Map<EntityType, EnemyData> enemyDataCache = new HashMap<>();
-
 
     @Override
     public void onEnable() {
@@ -43,7 +43,6 @@ public class Main extends JavaPlugin {
         getCommand("book").setExecutor(new BookCommand(this));
         getCommand("settings").setExecutor(new SettingsCommand(this));
 
-        
         MenuGUI menuGUI = new MenuGUI(databaseManager);
         getServer().getPluginManager().registerEvents(menuGUI, this);
         getCommand("menu").setExecutor(new MenuCommand(menuGUI));
@@ -56,21 +55,21 @@ public class Main extends JavaPlugin {
         // Populate the cache when the server starts
         populateEnemyDataCache();
         Abilities abilities = new Abilities(this);
-        SummonCommand summonCommand = new SummonCommand(this,abilities);
+        SummonCommand summonCommand = new SummonCommand(this, abilities);
         getCommand("summon").setExecutor(summonCommand);
         getServer().getPluginManager().registerEvents(abilities, this);
         getServer().getPluginManager().registerEvents(summonCommand, this);
         abilities.startTasks();
 
+        AbilityUseListener abilityUseListener = new AbilityUseListener(this, abilities);
+
         getServer().getPluginManager().registerEvents(new LockInteractionListener(this), this);
         this.getCommand("enchant").setExecutor(new EnchantCommand(this));
-        getServer().getPluginManager().registerEvents(new AbilityUseListener(this, abilities), this);
+        getServer().getPluginManager().registerEvents(abilityUseListener, this);
         this.getCommand("unenchant").setExecutor(new UnenchantCommand(this));
-
-        AbilityUseListener abilityUseListener = new AbilityUseListener(this, abilities);
         this.getServer().getPluginManager().registerEvents(abilityUseListener, this);
         this.getCommand("spells").setExecutor(new SpellsCommand(abilityUseListener));
-        
+
         getCommand("home").setExecutor(new HomeCommand(this));
 
     }
@@ -79,7 +78,6 @@ public class Main extends JavaPlugin {
         return instance;
     }
 
-    
     @Override
     public void onDisable() {
         Bukkit.getLogger().info("Plugin disabled!");
@@ -91,7 +89,7 @@ public class Main extends JavaPlugin {
 
     public BarColor getBossBarColor(double currentHealth, double maxHealth) {
         double healthPercentage = (currentHealth / maxHealth) * 100;
-    
+
         if (healthPercentage > 50) {
             return BarColor.GREEN;
         } else if (healthPercentage > 15) {
@@ -100,7 +98,6 @@ public class Main extends JavaPlugin {
             return BarColor.RED;
         }
     }
-    
 
     public BarStyle getBossBarStyle() {
         return BarStyle.SOLID;
@@ -118,9 +115,11 @@ public class Main extends JavaPlugin {
         reloadConfig();
         config = getConfig();
     }
+
     public PlayerJoinListener getPlayerJoinListener() {
         return playerJoinListener;
     }
+
     private void populateEnemyDataCache() {
         for (EntityType entityType : EntityType.values()) {
             EnemyData enemyData = getDatabaseManager().getEnemyData(entityType.name());
@@ -134,8 +133,4 @@ public class Main extends JavaPlugin {
         return enemyDataCache.get(entityType);
     }
 
-    
-    
-  
-    
 }

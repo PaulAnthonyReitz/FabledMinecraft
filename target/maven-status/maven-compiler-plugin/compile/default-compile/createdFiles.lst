@@ -24,6 +24,11 @@ com\fabledclan\EntityDeathListener$1.class
 com\fabledclan\DatabaseManager$PlayerStats.class
 com\fabledclan\EntityDeathListener.class
 com\fabledclan\PlayerJoinListener.class
+<<<<<<< HEAD
+=======
+com\fabledclan\EntityDamageListener$1.class
+com\fabledclan\EntityDamageListener.class
+>>>>>>> 8ea463303ebb8f2a25262b1c53e953ca8933aa0a
 com\fabledclan\SpellsCommand.class
 com\fabledclan\EntityDamageListenerPlayers$1.class
 com\fabledclan\LockInteractionListener.class
@@ -36,14 +41,36 @@ com\fabledclan\EntityDamageListenerMobs.class
 com\fabledclan\BlockBreakListener.class
 com\fabledclan\SettingsCommand.class
 com\fabledclan\ViewStatsCommand.class
+<<<<<<< HEAD
 com\fabledclan\AbilityUseListener$3.class
+=======
+com\fabledclan\RemoveLockCommand.class
+com\fabledclan\PlayerDeathListener.class
+com\fabledclan\abilities\DragonBreath$1.class
+>>>>>>> 8ea463303ebb8f2a25262b1c53e953ca8933aa0a
 com\fabledclan\UnenchantCommand.class
 com\fabledclan\EntitySpawnListener.class
-com\fabledclan\AbilityUseListener$4.class
 com\fabledclan\SummonCommand$1.class
+<<<<<<< HEAD
+=======
+com\fabledclan\LockCommand.class
+>>>>>>> 8ea463303ebb8f2a25262b1c53e953ca8933aa0a
 com\fabledclan\UnlockLockCommand.class
 com\fabledclan\SummonCommand.class
+<<<<<<< HEAD
 com\fabledclan\Abilities.class
+=======
+com\fabledclan\abilities\DragonBreath.class
+com\fabledclan\EntityDamageListener$2.class
+com\fabledclan\Abilities.class
+com\fabledclan\Ability.class
+com\fabledclan\Main.class
+>>>>>>> 8ea463303ebb8f2a25262b1c53e953ca8933aa0a
 com\fabledclan\CustomDropTableListener.class
 com\fabledclan\EntityDamageListenerPlayers.class
 com\fabledclan\MenuCommand.class
+<<<<<<< HEAD
+=======
+com\fabledclan\AbilityUseListener.class
+com\fabledclan\SummonCommand$2.class
+>>>>>>> 8ea463303ebb8f2a25262b1c53e953ca8933aa0a

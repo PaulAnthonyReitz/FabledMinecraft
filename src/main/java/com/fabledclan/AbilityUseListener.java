@@ -2,168 +2,109 @@ package com.fabledclan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.DyeColor;
-import org.bukkit.Effect;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
-import org.bukkit.FireworkEffect.Type;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.Bat;
-import org.bukkit.entity.Boat;
-import org.bukkit.entity.DragonFireball;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Giant;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Snowball;
-import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.util.BoundingBox;
-import org.bukkit.util.RayTraceResult;
-import org.bukkit.util.Vector;
-import org.bukkit.metadata.FixedMetadataValue;
+// import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
+import com.fabledclan.abilities.*;
 
 public class AbilityUseListener implements Listener {
 
     private final Main plugin;
     private final Abilities abilities;
-    private final Map<UUID, Long> lastDashTime = new HashMap<>();
-    private final Map<UUID, Long> lastFireballTime = new HashMap<>();
-    private final Map<UUID, Long> lastGiantTime = new HashMap<>();
-    private HashMap<UUID, Long> featherAbilityCooldowns = new HashMap<>();
-    private HashMap<UUID, Long> lightningStrikeCooldowns = new HashMap<>();
-    private final HashMap<UUID, Long> undeadArmyCooldowns = new HashMap<>();
-    private final HashMap<UUID, Long> vaderChokeCooldowns = new HashMap<>();
-    private final Map<UUID, Long> yeetBoatCooldowns = new HashMap<>();
-    private final Map<UUID, Long> wrangleCooldowns = new HashMap<>();
-    private final Map<UUID, Long> partyCooldowns = new HashMap<>();
-    private final long abilityCooldownMillis = 1000; // Adjust this to change the cooldown time (in milliseconds)
-    private final Map<UUID, BukkitTask> lightningStrikeTasks = new HashMap<>();
-    List<String> spellList = Arrays.asList("dash", "dark_vortex", "dragon_breath", "feather", "fireball", "ice_shard", "lightning_strike", "magic_missile", "party", "plague_swarm", "power_strike", "summon_giant", "undead_army", "vader_choke", "wrangle", "yeet_boat");
+    private Map<UUID, Long> lastRightClickTime = new HashMap<>();
+    // private final Map<UUID, BukkitTask> lightningStrikeTasks = new HashMap<>();
+    private final ArrayList<Ability> abilityList;
+
+    List<String> spellList = Arrays.asList("dash", "dark_vortex", "dragon_breath", "feather", "fireball", "ice_shard",
+            "lightning_strike", "magic_missile", "party", "plague_swarm", "power_strike", "summon_giant", "undead_army",
+            "vader_choke", "wrangle", "yeet_boat");
 
     public AbilityUseListener(Main plugin, Abilities abilities) {
         this.plugin = plugin;
         this.abilities = abilities;
+        this.abilityList = initAbilities();
     }
+
     public List<String> getSpellList() {
         return spellList;
     }
-    
+
+    public ArrayList<Ability> initAbilities() {
+        ArrayList<Ability> abilityList = new ArrayList<Ability>();
+
+        // ADD ABILITIES HERE
+        abilityList.add(new DragonBreath(plugin, abilities, "dragon_breath", 1, 50));
+        abilityList.add(new SummonGiant(plugin, abilities, "summon_giant", 1, 50));
+        abilityList.add(new PartySpell(plugin, abilities, "party", 1, 100));
+        abilityList.add(new MagicMissile(plugin, abilities, "magic_missile", 1, 25));
+        abilityList.add(new YeetBoat(plugin, abilities, "yeet_boat", 1, 30));
+        abilityList.add(new Wrangle(plugin, abilities, "wrangle", 1, 50));
+        abilityList.add(new Dash(plugin, abilities, "dash", 1, 25));
+        abilityList.add(new IceShard(plugin, abilities, "ice_shard", 1, 20));
+        abilityList.add(new PowerStrike(plugin, abilities, "power_strike", 1, 20));
+        abilityList.add(new FireballSpell(plugin, abilities, "fireball", 1, 25));
+        abilityList.add(new DarkVortex(plugin, abilities, "dark_vortex", 1, 75));
+        abilityList.add(new PlagueSwarm(plugin, abilities, "plague_swarm", 1, 60));
+        abilityList.add(new VaderChoke(plugin, abilities, "vader_choke", 1, 50));
+        abilityList.add(new UndeadArmy(plugin, abilities, "undead_army", 1, 75));
+        abilityList.add(new Feather(plugin, abilities, "feather", 1, 40));
+
+        return abilityList;
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
+        Player player = event.getPlayer();
+        UUID playerID = player.getUniqueId();
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+        Action eventAction = event.getAction();
 
         if (itemInHand == null || !itemInHand.hasItemMeta()) {
             return;
         }
-        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)){
-            return; //only fire on right click
+        if (!(eventAction == Action.RIGHT_CLICK_AIR) && !(eventAction == Action.RIGHT_CLICK_BLOCK)) {
+            return; // only fire on right click
         }
-        
 
-        ItemMeta itemMeta = itemInHand.getItemMeta();
-        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
-        NamespacedKey abilityKey = new NamespacedKey(plugin, "embedded_ability");
+        // Simple debounce logic, not perfect
+        long time = System.currentTimeMillis();
+        long previous = lastRightClickTime.getOrDefault(playerID, 0L);
+        if (time - previous <= 200) {
+            return;
+        }
+        lastRightClickTime.put(playerID, time);
 
-        if (dataContainer.has(abilityKey, PersistentDataType.STRING)) {
-            String ability = dataContainer.get(abilityKey, PersistentDataType.STRING);
+        if (event.getHand() == EquipmentSlot.HAND) {
+            ItemMeta itemMeta = itemInHand.getItemMeta();
+            PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
+            NamespacedKey abilityKey = new NamespacedKey(plugin, "embedded_ability");
 
-            if (ability != null) {
-                // Use the ability
-                switch (ability) {
-                    case "dash":
-                        // Perform the dash ability
-                        performDashAbility(event.getPlayer());
-                        break;
-                    case "fireball":
-                        // Perform the fireball ability
-                        performFireballAbility(event.getPlayer());
-                        break;
-                    case "power_strike":
-                        performPowerStrikeAbility(event.getPlayer());
-                        break;
-                    case "ice_shard":
-                        performIceShardAbility(event.getPlayer());
-                        break;
-                    case "dark_vortex":
-                        performDarkVortexAbility(event.getPlayer());
-                        break;
-                    case "plague_swarm":
-                        performPlagueSwarmAbility(event.getPlayer());
-                        break;
-                    case "lightning_strike":
-                        performLightningStrikeAbility(event.getPlayer());
-                        break;
-                    case "undead_army":
-                        // Perform the Undead Army ability
-                        performUndeadArmyAbility(event.getPlayer());
-                        break;
-                    // Add more cases for other abilities as needed
-                    case "feather":
-                    // Perform the Feather ability
-                    performFeatherAbility(event.getPlayer());
-                        break;
-                    case "magic_missile":
-                        performMagicMissileAbility(event.getPlayer());
-                        break;
-                    case "wrangle":
-                        performWrangleAbility(event.getPlayer());
+            if (dataContainer.has(abilityKey, PersistentDataType.STRING)) {
+                String ability = dataContainer.get(abilityKey, PersistentDataType.STRING);
+                for (Ability a : this.abilityList) {
+                    if (!a.getName().equals(ability))
+                        continue;
+                    a.cast(player);
                     break;
-                    case "yeet_boat":
-                        performYeetBoatAbility(event.getPlayer());
-                        break;
-                    case "party":
-                        performPartySpellAbility(event.getPlayer());
-                        break;
-                    case "summon_giant":
-                        // Perform the Giant spell ability
-                        performGiantSpellAbility(event.getPlayer());
-                        break;
-                    case "vader_choke":
-                        // Perform the Giant spell ability
-                        performVaderChokeAbility(event.getPlayer());
-                        break;
-                    case "dragon_breath":
-                        // Perform the Giant spell ability
-                        performDragonBreathAbility(event.getPlayer());
-                        break;
-                    default:
-                        event.getPlayer().sendMessage("Unknown ability: " + ability);
-                        break;
                 }
             }
         }
@@ -179,63 +120,83 @@ public class AbilityUseListener implements Listener {
         }
     }
 
-    private void performDragonBreathAbility(Player player) {
-        int requiredMagicLevel = 1;
-        int manaCost = 50;
-    
-        Integer currentMana = abilities.getPlayerMana().get(player.getUniqueId());
-    
-        if (currentMana != null && currentMana >= manaCost) {
-            // Reduce the player's magic energy by the required amount
-            int newMana = currentMana - manaCost;
-            abilities.getPlayerMana().put(player.getUniqueId(), newMana);
-    
-            // Get the direction the player is facing
-            Vector direction = player.getLocation().getDirection();
-    
-            // Calculate the starting point of the dragon breath
-            Location startPoint = player.getEyeLocation().add(direction.multiply(2));
-    
-            // Spawn a dragon fireball at the starting point
-            DragonFireball fireball = (DragonFireball) player.getWorld().spawnEntity(startPoint, EntityType.DRAGON_FIREBALL);
-    
-            // Set the shooter to the player to prevent self-damage
-            fireball.setShooter(player);
-    
-            // Set the direction and velocity of the dragon fireball
-            fireball.setDirection(direction);
-            fireball.setVelocity(direction.multiply(2));
-    
-            // Set the explosion power of the dragon fireball
-            fireball.setYield(0);
-    
-            // Set the fire duration of the dragon fireball
-            fireball.setFireTicks(40);
-    
-            // Register an event listener to handle the dragon fireball collision
-            plugin.getServer().getPluginManager().registerEvents(new Listener() {
-                @EventHandler
-                public void onProjectileHit(ProjectileHitEvent event) {
-                    if (event.getEntity().equals(fireball)) {
-                        // Check if the dragon fireball hit an entity
-                        if (event.getHitEntity() != null) {
-                            // Set the hit entity on fire
-                            event.getHitEntity().setFireTicks(40);
-                        }
-    
-                        // Remove the dragon fireball
-                        fireball.remove();
-                    }
-                }
-            }, plugin);
-    
-        } else {
-            player.sendMessage(ChatColor.BLUE + "Need Magic Level " + requiredMagicLevel + " and " + manaCost + " mana points for Dragon Breath!");
-        }
-    }
-    
+    // HERE LIES LIGHTNING STRIKE ABILITY TO BE REFACTORED INTO A CLASS
 
+    // private void performLightningStrikeAbility(Player player) {
+    //     int requiredMagicLevel = 1;
+    //     int manaCost = 50;
+    
+    //     Integer currentMana = abilities.getPlayerMana().get(player.getUniqueId());
+    //     UUID playerId = player.getUniqueId();
+    
+    //     long currentTime = System.currentTimeMillis();
+    //     long lastActivationTime = lightningStrikeCooldowns.getOrDefault(playerId,
+    //     0L);
+    
+    //     if (currentTime - lastActivationTime < abilityCooldownMillis) {
+    //     player.sendMessage(ChatColor.RED + "Lightning Strike ability is on cooldown!
+    //     Please wait.");
+    //     return;
+    //     }
+    
+    //     if (currentMana != null && currentMana >= manaCost) {
+    //     // Reduce the player's magic energy by the required amount
+    //     int newMana = currentMana - manaCost;
+    //     abilities.getPlayerMana().put(player.getUniqueId(), newMana);
+    
+    //     // Strike lightning at the targeted location
+    //     Location targetLocation = player.getTargetBlock(null, 100).getLocation();
+    //     player.getWorld().strikeLightning(targetLocation);
+    
+    //     // Notify the player
+    //     player.sendMessage(ChatColor.GREEN + "Lightning Strike ability activated!");
+    
+    //     // Update the last activation time for this player
+    //     lightningStrikeCooldowns.put(playerId, currentTime);
+    //     } else {
+    //     player.sendMessage(ChatColor.BLUE + "Need Magic Level " + requiredMagicLevel
+    //     + " and " + manaCost + " mana points for Lightning Strike!");
+    //     }
+    //     }
+    
+    //     public class ChargeDurationTask extends BukkitRunnable {
+    //     private final Player player;
+    //     private Location lastLocation;
+    //     private int duration;
+    
+    //     public ChargeDurationTask(Player player, Plugin plugin) {
+    //     this.player = player;
+    //     this.lastLocation = player.getLocation();
+    //     this.duration = 0;
+    //     }
+    
+    //     public int getDuration() {
+    //     return duration;
+    //     }
+    
+    //     @Override
+    //     public void run() {
+    //     if (player.isDead() || !player.isOnline()) {
+    //     cancel();
+    //     lightningStrikeTasks.remove(player.getUniqueId());
+    //     return;
+    //     }
+    
+    //     if (player.getLocation().distanceSquared(lastLocation) < 0.01) {
+    //     duration += 3;
+    //     } else {
+    //     lastLocation = player.getLocation();
+    //     duration = 0;
+    //     }
+    
+    //     // Every 3 seconds, increase the lightning bolt radius by 1 block
+    //     if (duration % 60 == 0) {
+    //     player.getWorld().playEffect(player.getLocation(), Effect.SMOKE, 0);
+    //     }
+    //     }
+    //     }
 
+<<<<<<< HEAD
     private void performGiantSpellAbility(Player player) {
         UUID playerId = player.getUniqueId();
         int requiredMagicLevel = 1;
@@ -958,3 +919,6 @@ public class AbilityUseListener implements Listener {
     
   
 }
+=======
+}
+>>>>>>> 8ea463303ebb8f2a25262b1c53e953ca8933aa0a
