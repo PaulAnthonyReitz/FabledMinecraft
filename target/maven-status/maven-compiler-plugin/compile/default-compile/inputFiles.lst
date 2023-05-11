@@ -17,6 +17,7 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\HomeCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EnemyCache.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\UndeadArmy.java
+C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CraftingRecipes.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SpellsCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\BlockBreakListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SettingsCommand.java
@@ -40,6 +41,7 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\ViewEnemiesCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\DatabaseManager.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EntitySpawnListener.java
+C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\recipes\FakeDiamond.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EntityDeathListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\UpdateEnemyPagesCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\DragonBreath.java
@@ -49,3 +51,4 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\Feather.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\VaderChoke.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomDropTableListener.java
+C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\recipes\Recipe.java
