@@ -9,6 +9,7 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\IceShard.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\FireballSpell.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\SummonGiant.java
+C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomRecipes.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\PlayerJoinListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SummonCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EnemyData.java
@@ -17,7 +18,6 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\HomeCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EnemyCache.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\UndeadArmy.java
-C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CraftingRecipes.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SpellsCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\BlockBreakListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SettingsCommand.java
@@ -28,6 +28,7 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\AbilityUseListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EnchantCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\PlayerInteractListener.java
+C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\recipes\RecipeClass.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\PowerStrike.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SetAttributesCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EntityDamageListenerPlayers.java
@@ -51,4 +52,3 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\Feather.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\VaderChoke.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomDropTableListener.java
-C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\recipes\Recipe.java

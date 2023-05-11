@@ -1,7 +1,8 @@
 com\fabledclan\EnemyCache.class
 com\fabledclan\ViewEnemiesCommand.class
+com\fabledclan\CustomRecipes.class
 com\fabledclan\abilities\PowerStrike.class
-com\fabledclan\CraftingRecipes.class
+com\fabledclan\recipes\RecipeClass.class
 com\fabledclan\Leaderboard.class
 com\fabledclan\EnchantCommand.class
 com\fabledclan\SetAttributesCommand.class
@@ -55,7 +56,6 @@ com\fabledclan\SummonCommand$1.class
 com\fabledclan\abilities\DarkVortex.class
 com\fabledclan\abilities\VaderChoke.class
 com\fabledclan\abilities\PartySpell$1.class
-com\fabledclan\recipes\Recipe.class
 com\fabledclan\UnlockLockCommand.class
 com\fabledclan\SummonCommand.class
 com\fabledclan\abilities\Wrangle.class

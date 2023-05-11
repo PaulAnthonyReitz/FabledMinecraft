@@ -72,7 +72,7 @@ public class Main extends JavaPlugin {
 
         getCommand("home").setExecutor(new HomeCommand(this));
 
-        new CraftingRecipes(this); // initializes all the custom recipes
+        new CustomRecipes(this); // initializes all the custom recipes
 
     }
 

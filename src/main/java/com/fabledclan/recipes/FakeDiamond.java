@@ -9,7 +9,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-public class FakeDiamond extends Recipe {
+public class FakeDiamond extends RecipeClass {
     public FakeDiamond(Plugin plugin) {
         ItemStack fake_diamond = new ItemStack(Material.DIAMOND, 1);
         ItemMeta fake_diamond_meta = fake_diamond.getItemMeta();
@@ -20,6 +20,6 @@ public class FakeDiamond extends Recipe {
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "fake_diamond"), fake_diamond);
         recipe.shape(" X ", "XXX", " X ");
         recipe.setIngredient('X', Material.DIRT);
-        setShapedRecipe(recipe);
+        setRecipe(recipe);
     }
 }
