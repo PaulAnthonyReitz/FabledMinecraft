@@ -28,6 +28,9 @@ public class Main extends JavaPlugin {
         databaseManager = new DatabaseManager(this);
         playerJoinListener = new PlayerJoinListener(this, databaseManager);
 
+        CustomBlockRegistry.initializeBlocks(this);
+        CustomRecipes.addRecipes();
+        
         getServer().getPluginManager().registerEvents(playerJoinListener, this);
         getServer().getPluginManager().registerEvents(new EntityDamageListenerMobs(this), this);
         getServer().getPluginManager().registerEvents(new EntityDamageListenerPlayers(this), this);
@@ -36,6 +39,7 @@ public class Main extends JavaPlugin {
         PlayerInteractListener playerInteractListener = new PlayerInteractListener(this, playerJoinListener);
         getServer().getPluginManager().registerEvents(playerInteractListener, this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         this.getCommand("lock").setExecutor(new LockCommand(this));
         getCommand("unlock").setExecutor(new UnlockLockCommand(this));
         getCommand("removelock").setExecutor(new RemoveLockCommand(this));
@@ -71,8 +75,6 @@ public class Main extends JavaPlugin {
         this.getCommand("spells").setExecutor(new SpellsCommand(abilityUseListener));
 
         getCommand("home").setExecutor(new HomeCommand(this));
-
-        new CustomRecipes(this); // initializes all the custom recipes
 
     }
 
