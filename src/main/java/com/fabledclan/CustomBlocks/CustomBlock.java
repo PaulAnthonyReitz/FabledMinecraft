@@ -34,6 +34,7 @@ public abstract class CustomBlock {
 
     public abstract void breakEvent(BlockBreakEvent event);
 
+
     public String getName() {
         return name;
     }

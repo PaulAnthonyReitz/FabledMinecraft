@@ -14,9 +14,11 @@ import com.fabledclan.CustomBlocks.CustomBlock;
 
 public class BlockPlaceListener implements Listener {
     private final Plugin PLUGIN;
+
     public BlockPlaceListener(Plugin plugin) {
         this.PLUGIN = plugin;
     }
+    
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         PersistentDataContainer data = event.getItemInHand().getItemMeta().getPersistentDataContainer(); // gets the data container of the item

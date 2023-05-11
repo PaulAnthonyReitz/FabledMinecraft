@@ -1,18 +1,31 @@
 package com.fabledclan.CustomBlocks;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
-public class WandCrafter extends CustomBlock {
+public class WandCrafter extends CustomContainer {
+
     public WandCrafter() {
         super("wand_crafter");
     }
@@ -23,6 +36,7 @@ public class WandCrafter extends CustomBlock {
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey(getPlugin(), getKey()), PersistentDataType.STRING, getName());
         meta.setDisplayName(ChatColor.RESET + "Wand Crafter");
+        meta.setLore(new ArrayList<String>(Arrays.asList("Requires the power", "of Crying Obsidian")));
         wandCrafter.setItemMeta(meta);
         return wandCrafter;
     }
@@ -36,13 +50,27 @@ public class WandCrafter extends CustomBlock {
         return recipe;
     }
 
-    public void placeEvent(BlockPlaceEvent event) {
-        System.out.println("Wand Crafter Placed!");
-        event.setCancelled(true);
+    public Inventory makeInventory() {
+        Inventory inventory = Bukkit.createInventory(null, 9);
+        return inventory;
     }
 
-    public void breakEvent(BlockBreakEvent event) {
+    public void placeEvent(BlockPlaceEvent event) {
+        Block blockPlacedAgainst = event.getBlockAgainst();
+        if (blockPlacedAgainst.getType() != Material.CRYING_OBSIDIAN) {
+            event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "CAN NOT PLACE HERE"));
+            event.setCancelled(true);
+        }
 
+        Block block = event.getBlock();
+        block.getState().setMetadata(getContainerKey(), new FixedMetadataValue(getPlugin(), getName()));
+    }
+
+    public void breakEvent(BlockBreakEvent event) {}
+
+    public void interactEvent(PlayerInteractEvent event) {
+        event.setCancelled(true);
+        event.getPlayer().openInventory(getInventory());
     }
     
 }

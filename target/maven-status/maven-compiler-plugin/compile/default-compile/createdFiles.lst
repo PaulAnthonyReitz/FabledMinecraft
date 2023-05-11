@@ -29,6 +29,7 @@ com\fabledclan\SummonCommand$2.class
 com\fabledclan\MenuGUI.class
 com\fabledclan\EnemyData.class
 com\fabledclan\EntityDeathListener$1.class
+com\fabledclan\CustomBlocks\CustomContainer.class
 com\fabledclan\DatabaseManager$PlayerStats.class
 com\fabledclan\abilities\DarkVortex$1.class
 com\fabledclan\abilities\PartySpell.class
