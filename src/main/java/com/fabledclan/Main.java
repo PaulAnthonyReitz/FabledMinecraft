@@ -4,6 +4,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.fabledclan.CustomBlocks.CustomBlock;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,7 @@ public class Main extends JavaPlugin {
         databaseManager = new DatabaseManager(this);
         playerJoinListener = new PlayerJoinListener(this, databaseManager);
 
+        CustomBlock.setPlugin(this);
         CustomBlockRegistry.initializeBlocks(this);
         CustomRecipes.addRecipes();
         
@@ -39,7 +42,7 @@ public class Main extends JavaPlugin {
         PlayerInteractListener playerInteractListener = new PlayerInteractListener(this, playerJoinListener);
         getServer().getPluginManager().registerEvents(playerInteractListener, this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
-        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
         this.getCommand("lock").setExecutor(new LockCommand(this));
         getCommand("unlock").setExecutor(new UnlockLockCommand(this));
         getCommand("removelock").setExecutor(new RemoveLockCommand(this));

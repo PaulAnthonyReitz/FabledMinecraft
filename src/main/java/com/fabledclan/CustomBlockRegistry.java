@@ -7,6 +7,10 @@ import org.bukkit.plugin.Plugin;
 
 import com.fabledclan.CustomBlocks.*;
 
+// This class is used to register all the custom blocks
+// Newly created blocks will have to be registered in the initializeBlocks() method
+// initializeBlocks() is called in Main
+
 public class CustomBlockRegistry {
     private static ArrayList<CustomBlock> blocks;
 
@@ -14,7 +18,7 @@ public class CustomBlockRegistry {
         ArrayList<CustomBlock> list = new ArrayList<CustomBlock>(
             Arrays.asList(
                 // ADD BLOCKS HERE:
-                new WandCrafter(plugin)
+                new WandCrafter()
             ));
         blocks = list;
     }

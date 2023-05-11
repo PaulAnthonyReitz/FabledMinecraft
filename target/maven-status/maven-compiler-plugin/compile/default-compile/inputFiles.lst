@@ -30,7 +30,6 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomBlocks\WandCrafter.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EnchantCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\PlayerInteractListener.java
-C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\recipes\RecipeClass.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\PowerStrike.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\BlockPlaceListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SetAttributesCommand.java
@@ -42,11 +41,9 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\LockInteractionListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Main.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EntityDamageListenerMobs.java
-C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\recipes\NecroEnchanter.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\ViewEnemiesCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\DatabaseManager.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EntitySpawnListener.java
-C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\recipes\FakeDiamond.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EntityDeathListener.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\UpdateEnemyPagesCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\abilities\DragonBreath.java
