@@ -6,18 +6,16 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.SpellAbility;
 
 public class PlagueSwarm extends SpellAbility {
-    public PlagueSwarm(Plugin plugin, Abilities abilities, String name, int requiredMagicLevel, int manaCost) {
-        super(plugin, abilities, name, requiredMagicLevel, manaCost);
+    public PlagueSwarm(String name, int requiredMagicLevel, int manaCost) {
+        super(name, requiredMagicLevel, manaCost);
     }
 
     public void cast(Player player) {

@@ -7,14 +7,12 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.SpellAbility;
 
 public class SummonGiant extends SpellAbility {
-    public SummonGiant(Plugin plugin, Abilities abilities, String name, int requiredMagicLevel, int manaCost) {
-        super(plugin, abilities, name, requiredMagicLevel, manaCost);
+    public SummonGiant(String name, int requiredMagicLevel, int manaCost) {
+        super(name, requiredMagicLevel, manaCost);
     }
 
     public void cast(Player player) {

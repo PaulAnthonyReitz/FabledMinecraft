@@ -5,17 +5,15 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.SpellAbility;
 
 public class DarkVortex extends SpellAbility {
-    public DarkVortex(Plugin plugin, Abilities abilities, String name, int requiredMagicLevel, int manaCost) {
-        super(plugin, abilities, name, requiredMagicLevel, manaCost);
+    public DarkVortex(String name, int requiredMagicLevel, int manaCost) {
+        super(name, requiredMagicLevel, manaCost);
     }
 
     public void cast(Player player) {

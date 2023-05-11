@@ -1,13 +1,18 @@
 com\fabledclan\EnemyCache.class
 com\fabledclan\ViewEnemiesCommand.class
+com\fabledclan\CustomRecipes.class
 com\fabledclan\abilities\PowerStrike.class
+com\fabledclan\recipes\RecipeClass.class
 com\fabledclan\Leaderboard.class
 com\fabledclan\EnchantCommand.class
 com\fabledclan\SetAttributesCommand.class
 com\fabledclan\PlayerJoinListener$Flavor.class
+com\fabledclan\BlockPlaceListener.class
 com\fabledclan\BookCommand.class
 com\fabledclan\abilities\PlagueSwarm$1.class
 com\fabledclan\HomeCommand$1.class
+com\fabledclan\recipes\NecroEnchanter.class
+com\fabledclan\CustomBlocks\CustomBlock.class
 com\fabledclan\RemoveLockCommand.class
 com\fabledclan\PlayerDeathListener.class
 com\fabledclan\LockCommand.class
@@ -17,8 +22,10 @@ com\fabledclan\Main.class
 com\fabledclan\abilities\FireballSpell.class
 com\fabledclan\abilities\MagicMissile.class
 com\fabledclan\AbilityUseListener.class
+com\fabledclan\CustomBlocks\WandCrafter.class
 com\fabledclan\EntitySpawnListener$NameGenerator.class
 com\fabledclan\abilities\SummonGiant.class
+com\fabledclan\CustomBlockRegistry.class
 com\fabledclan\SpellAbility.class
 com\fabledclan\SummonCommand$2.class
 com\fabledclan\MenuGUI.class
@@ -59,6 +66,7 @@ com\fabledclan\SummonCommand.class
 com\fabledclan\abilities\Wrangle.class
 com\fabledclan\Abilities.class
 com\fabledclan\Ability.class
+com\fabledclan\recipes\FakeDiamond.class
 com\fabledclan\CustomDropTableListener.class
 com\fabledclan\EntityDamageListenerPlayers.class
 com\fabledclan\abilities\Dash.class

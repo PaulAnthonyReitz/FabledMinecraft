@@ -29,7 +29,6 @@ import com.fabledclan.abilities.*;
 public class AbilityUseListener implements Listener {
 
     private final Main plugin;
-    private final Abilities abilities;
     private Map<UUID, Long> lastRightClickTime = new HashMap<>();
     // private final Map<UUID, BukkitTask> lightningStrikeTasks = new HashMap<>();
     private final ArrayList<Ability> abilityList;
@@ -40,7 +39,8 @@ public class AbilityUseListener implements Listener {
 
     public AbilityUseListener(Main plugin, Abilities abilities) {
         this.plugin = plugin;
-        this.abilities = abilities;
+        Ability.setPlugin(plugin); // sets the static field for all abilities
+        Ability.setAbilities(abilities);
         this.abilityList = initAbilities();
     }
 
@@ -52,21 +52,21 @@ public class AbilityUseListener implements Listener {
         ArrayList<Ability> abilityList = new ArrayList<Ability>();
 
         // ADD ABILITIES HERE
-        abilityList.add(new DragonBreath(plugin, abilities, "dragon_breath", 1, 50));
-        abilityList.add(new SummonGiant(plugin, abilities, "summon_giant", 1, 50));
-        abilityList.add(new PartySpell(plugin, abilities, "party", 1, 100));
-        abilityList.add(new MagicMissile(plugin, abilities, "magic_missile", 1, 25));
-        abilityList.add(new YeetBoat(plugin, abilities, "yeet_boat", 1, 30));
-        abilityList.add(new Wrangle(plugin, abilities, "wrangle", 1, 50));
-        abilityList.add(new Dash(plugin, abilities, "dash", 1, 25));
-        abilityList.add(new IceShard(plugin, abilities, "ice_shard", 1, 20));
-        abilityList.add(new PowerStrike(plugin, abilities, "power_strike", 1, 20));
-        abilityList.add(new FireballSpell(plugin, abilities, "fireball", 1, 25));
-        abilityList.add(new DarkVortex(plugin, abilities, "dark_vortex", 1, 75));
-        abilityList.add(new PlagueSwarm(plugin, abilities, "plague_swarm", 1, 60));
-        abilityList.add(new VaderChoke(plugin, abilities, "vader_choke", 1, 50));
-        abilityList.add(new UndeadArmy(plugin, abilities, "undead_army", 1, 75));
-        abilityList.add(new Feather(plugin, abilities, "feather", 1, 40));
+        abilityList.add(new DragonBreath("dragon_breath", 1, 50));
+        abilityList.add(new SummonGiant("summon_giant", 1, 50));
+        abilityList.add(new PartySpell("party", 1, 100));
+        abilityList.add(new MagicMissile("magic_missile", 1, 25));
+        abilityList.add(new YeetBoat("yeet_boat", 1, 30));
+        abilityList.add(new Wrangle("wrangle", 1, 50));
+        abilityList.add(new Dash("dash", 1, 25));
+        abilityList.add(new IceShard("ice_shard", 1, 20));
+        abilityList.add(new PowerStrike("power_strike", 1, 20));
+        abilityList.add(new FireballSpell("fireball", 1, 25));
+        abilityList.add(new DarkVortex("dark_vortex", 1, 75));
+        abilityList.add(new PlagueSwarm("plague_swarm", 1, 60));
+        abilityList.add(new VaderChoke("vader_choke", 1, 50));
+        abilityList.add(new UndeadArmy("undead_army", 1, 75));
+        abilityList.add(new Feather("feather", 1, 40));
 
         return abilityList;
     }

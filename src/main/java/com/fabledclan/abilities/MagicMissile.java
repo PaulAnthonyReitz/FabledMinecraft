@@ -11,16 +11,14 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.SpellAbility;
 
 public class MagicMissile extends SpellAbility {
-    public MagicMissile(Plugin plugin, Abilities abilities, String name, int requiredMagicLevel, int manaCost) {
-        super(plugin, abilities, name, requiredMagicLevel, manaCost);
+    public MagicMissile(String name, int requiredMagicLevel, int manaCost) {
+        super(name, requiredMagicLevel, manaCost);
     }
 
     public void cast(Player player) {

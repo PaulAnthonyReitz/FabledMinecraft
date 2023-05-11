@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 // This is another abstract class built on top of the Ability class for mana abilities.
 // This class adds a required magic level and mana cost, as well as some extra methods.
@@ -13,8 +12,8 @@ public abstract class SpellAbility extends Ability {
     private int requiredMagicLevel;
     private int manaCost;
 
-    public SpellAbility(Plugin plugin, Abilities abilities, String name, int rml, int mc) {
-        super(plugin, abilities, name);
+    public SpellAbility(String name, int rml, int mc) {
+        super(name);
         this.requiredMagicLevel = rml;
         this.manaCost = mc;
     }
@@ -24,7 +23,7 @@ public abstract class SpellAbility extends Ability {
         Abilities abilities = getAbilities();
         int currentMana = abilities.getPlayerMana(player);
         UUID playerID = player.getUniqueId();
-        if (currentMana < this.manaCost) {
+        if (currentMana < manaCost) {
             if (alertMessageReady(playerID)) {
                 player.sendMessage(ChatColor.BLUE + String.format("Need magic level %d and %d mana points for %s",
                         getRequriedMagicLevel(), getManaCost(), getName()));
@@ -42,11 +41,11 @@ public abstract class SpellAbility extends Ability {
     }
 
     private int getRequriedMagicLevel() {
-        return this.requiredMagicLevel;
+        return requiredMagicLevel;
     }
 
     private int getManaCost() {
-        return this.manaCost;
+        return manaCost;
     }
 
     // checks if the player can cast the spell

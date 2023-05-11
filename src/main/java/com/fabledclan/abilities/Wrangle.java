@@ -3,15 +3,13 @@ package com.fabledclan.abilities;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.StaminaAbility;
 
 public class Wrangle extends StaminaAbility {
-    public Wrangle(Plugin plugin, Abilities abilities, String name, int requiredStaminaLevel, int staminaCost) {
-        super(plugin, abilities, name, requiredStaminaLevel, staminaCost);
+    public Wrangle(String name, int requiredStaminaLevel, int staminaCost) {
+        super(name, requiredStaminaLevel, staminaCost);
     }
 
     public void cast(Player player) {

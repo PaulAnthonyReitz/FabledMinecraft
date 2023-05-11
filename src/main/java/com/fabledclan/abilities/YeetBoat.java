@@ -7,15 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.StaminaAbility;
 
 public class YeetBoat extends StaminaAbility {
-    public YeetBoat(Plugin plugin, Abilities abilities, String name, int requiredStaminaLevel, int staminaCost) {
-        super(plugin, abilities, name, requiredStaminaLevel, staminaCost);
+    public YeetBoat(String name, int requiredStaminaLevel, int staminaCost) {
+        super(name, requiredStaminaLevel, staminaCost);
     }
 
     public void cast(Player player) {

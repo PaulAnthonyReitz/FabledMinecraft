@@ -9,15 +9,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 
-import com.fabledclan.Abilities;
 import com.fabledclan.SpellAbility;
 
 public class UndeadArmy extends SpellAbility {
-    public UndeadArmy(Plugin plugin, Abilities abilities, String name, int requiredMagicLevel, int manaCost) {
-        super(plugin, abilities, name, requiredMagicLevel, manaCost);
+    public UndeadArmy(String name, int requiredMagicLevel, int manaCost) {
+        super(name, requiredMagicLevel, manaCost);
     }
 
     public void cast(Player player) {

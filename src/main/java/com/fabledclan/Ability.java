@@ -14,33 +14,25 @@ import org.bukkit.plugin.Plugin;
 // This class has an abstract method called 'cast' which is filled out while creating a new ability
 
 public abstract class Ability {
-    private final Plugin plugin;
-    private final Abilities abilities;
+    private static Plugin plugin;
+    private static Abilities abilities;
     private final String name;
     private int cooldown = 1000; // default cooldown is 1s (1000ms)
     private Map<UUID, Long> cooldowns = new HashMap<>();
     private Map<UUID, Long> alertMessage = new HashMap<>();
-    private final int ALERT_COOLDOWN = 5000; // cooldown for alert message (default 5 seconds) (measured in ms)
+    private static int ALERT_COOLDOWN = 5000; // cooldown for alert message (default 5 seconds) (measured in ms)
 
-    public Ability(Plugin p, Abilities a, String n) {
-        this.plugin = p;
-        this.abilities = a;
+    public Ability(String n) {
         this.name = n;
     }
 
     // Overloaded constructor to change the default cooldown
-    public Ability(Plugin p, Abilities a, String n, int cd) {
-        this.plugin = p;
-        this.abilities = a;
+    public Ability(String n, int cd) {
         this.name = n;
         this.cooldown = cd;
     }
 
     public abstract void cast(Player player); // method to fill out when initializing a new ability
-
-    public Abilities getAbilities() {
-        return this.abilities;
-    }
 
     // Checks if a player is on a cooldown
     public Boolean isOnCooldown(Player player) {
@@ -50,7 +42,7 @@ public abstract class Ability {
         if (difference <= cooldown) {
             player.sendMessage(
                     ChatColor.RED
-                            + String.format("%s ability is on cooldown! Please wait %d seconds", this.name, (int)(difference / 1000)));
+                            + String.format("%s ability is on cooldown! Please wait %d seconds", name, (int)(difference / 1000)));
             return true;
         }
         return false;
@@ -63,15 +55,27 @@ public abstract class Ability {
     }
 
     public long getCooldown(Player player) {
-        return this.cooldowns.getOrDefault(player.getUniqueId(), 0L);
+        return cooldowns.getOrDefault(player.getUniqueId(), 0L);
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public Plugin getPlugin() {
+    public static Plugin getPlugin() {
         return plugin;
+    }
+
+    public static void setPlugin(Plugin p) {
+        plugin = p;
+    }
+
+    public static Abilities getAbilities() {
+        return abilities;
+    }
+
+    public static void setAbilities(Abilities a) {
+        abilities = a;
     }
 
     // checks if the player can be sent another alert
