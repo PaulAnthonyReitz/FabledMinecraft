@@ -1,6 +1,5 @@
 package com.fabledclan;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,14 +23,11 @@ import org.bukkit.potion.PotionEffectType;
 // import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-import com.fabledclan.abilities.*;
-
 public class AbilityUseListener implements Listener {
 
     private final Main plugin;
     private Map<UUID, Long> lastRightClickTime = new HashMap<>();
     // private final Map<UUID, BukkitTask> lightningStrikeTasks = new HashMap<>();
-    private final ArrayList<Ability> abilityList;
 
     List<String> spellList = Arrays.asList("dash", "dark_vortex", "dragon_breath", "feather", "fireball", "ice_shard",
             "lightning_strike", "magic_missile", "party", "plague_swarm", "power_strike", "summon_giant", "undead_army",
@@ -41,34 +37,10 @@ public class AbilityUseListener implements Listener {
         this.plugin = plugin;
         Ability.setPlugin(plugin); // sets the static field for all abilities
         Ability.setAbilities(abilities);
-        this.abilityList = initAbilities();
     }
 
     public List<String> getSpellList() {
         return spellList;
-    }
-
-    public ArrayList<Ability> initAbilities() {
-        ArrayList<Ability> abilityList = new ArrayList<Ability>();
-
-        // ADD ABILITIES HERE
-        abilityList.add(new DragonBreath("dragon_breath", 1, 50));
-        abilityList.add(new SummonGiant("summon_giant", 1, 50));
-        abilityList.add(new PartySpell("party", 1, 100));
-        abilityList.add(new MagicMissile("magic_missile", 1, 25));
-        abilityList.add(new YeetBoat("yeet_boat", 1, 30));
-        abilityList.add(new Wrangle("wrangle", 1, 50));
-        abilityList.add(new Dash("dash", 1, 25));
-        abilityList.add(new IceShard("ice_shard", 1, 20));
-        abilityList.add(new PowerStrike("power_strike", 1, 20));
-        abilityList.add(new FireballSpell("fireball", 1, 25));
-        abilityList.add(new DarkVortex("dark_vortex", 1, 75));
-        abilityList.add(new PlagueSwarm("plague_swarm", 1, 60));
-        abilityList.add(new VaderChoke("vader_choke", 1, 50));
-        abilityList.add(new UndeadArmy("undead_army", 1, 75));
-        abilityList.add(new Feather("feather", 1, 40));
-
-        return abilityList;
     }
 
     @EventHandler
@@ -100,7 +72,7 @@ public class AbilityUseListener implements Listener {
 
             if (dataContainer.has(abilityKey, PersistentDataType.STRING)) {
                 String ability = dataContainer.get(abilityKey, PersistentDataType.STRING);
-                for (Ability a : this.abilityList) {
+                for (Ability a : AbilityRegistry.getAbilities()) {
                     if (!a.getName().equals(ability))
                         continue;
                     a.cast(player);

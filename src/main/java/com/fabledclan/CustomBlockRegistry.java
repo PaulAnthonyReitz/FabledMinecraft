@@ -16,9 +16,10 @@ import com.fabledclan.CustomBlocks.*;
 // initializeBlocks() is called in Main
 
 public class CustomBlockRegistry {
-    private static ArrayList<CustomBlock> blocks;
+    private static ArrayList<CustomBlock> blocks = null;
 
     public static void initializeBlocks(Plugin plugin) {
+        if (blocks != null) return;
         ArrayList<CustomBlock> list = new ArrayList<CustomBlock>(
             Arrays.asList(
                 // ADD BLOCKS HERE:
@@ -33,7 +34,6 @@ public class CustomBlockRegistry {
                 ArrayList<Location> locations = DatabaseManager.getAllCustomContainerLocations(world);
                 for (Location location : locations) {
                     String blockName = DatabaseManager.getCustomContainerName(location);
-                    System.out.println("from db return: " + blockName);
                     if (!b.getName().equals(blockName)) continue;
                     Block worldBlock = world.getBlockAt((int)location.getX(), (int)location.getY(), (int)location.getZ());
                     worldBlock.getState().setMetadata(CustomContainer.getContainerKey(), new FixedMetadataValue(plugin, b.getName()));

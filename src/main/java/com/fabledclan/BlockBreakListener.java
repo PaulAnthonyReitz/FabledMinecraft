@@ -1,5 +1,6 @@
 package com.fabledclan;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Sound;
@@ -7,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.metadata.MetadataValue;
 
 import com.fabledclan.CustomBlocks.CustomBlock;
 import com.fabledclan.CustomBlocks.CustomContainer;
@@ -26,9 +28,12 @@ public class BlockBreakListener implements Listener {
         UUID playerUUID = event.getPlayer().getUniqueId();
 
         if (event.getBlock().getState().hasMetadata(CustomContainer.getContainerKey())) {
-            String value = event.getBlock().getState().getMetadata(CustomContainer.getContainerKey()).get(0).asString();
+            List<MetadataValue> metadataValues = event.getBlock().getState().getMetadata(CustomContainer.getContainerKey());
+            if (metadataValues.size() == 0) return;
+            String value = metadataValues.get(0).asString();
             for (CustomBlock b : CustomBlockRegistry.getBlocks()) {
                 if (!(b instanceof CustomContainer)) continue;
+                if (b.getMaterial() != event.getBlock().getType()) continue;
                 if (b.getName().equals(value)) {
                     ((CustomContainer)b).breakEvent(event);
                 }

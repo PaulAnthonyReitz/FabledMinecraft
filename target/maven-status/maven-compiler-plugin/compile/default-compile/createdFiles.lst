@@ -13,9 +13,11 @@ com\fabledclan\HomeCommand$1.class
 com\fabledclan\CustomBlocks\CustomBlock.class
 com\fabledclan\RemoveLockCommand.class
 com\fabledclan\PlayerDeathListener.class
+com\fabledclan\CustomStructures\CustomStructure.class
 com\fabledclan\LockCommand.class
 com\fabledclan\HomeCommand.class
 com\fabledclan\abilities\DragonBreath.class
+com\fabledclan\CustomItemRegistry.class
 com\fabledclan\Main.class
 com\fabledclan\abilities\FireballSpell.class
 com\fabledclan\abilities\MagicMissile.class
@@ -55,13 +57,14 @@ com\fabledclan\SettingsCommand.class
 com\fabledclan\ViewStatsCommand.class
 com\fabledclan\abilities\DragonBreath$1.class
 com\fabledclan\UnenchantCommand.class
+com\fabledclan\AbilityRegistry.class
 com\fabledclan\EntitySpawnListener.class
+com\fabledclan\CustomItems\DashSpell.class
 com\fabledclan\SummonCommand$1.class
 com\fabledclan\abilities\DarkVortex.class
 com\fabledclan\abilities\VaderChoke.class
 com\fabledclan\abilities\PartySpell$1.class
 com\fabledclan\UnlockLockCommand.class
-com\fabledclan\WorldLoadListener.class
 com\fabledclan\SummonCommand.class
 com\fabledclan\abilities\Wrangle.class
 com\fabledclan\Abilities.class
@@ -70,3 +73,4 @@ com\fabledclan\CustomDropTableListener.class
 com\fabledclan\EntityDamageListenerPlayers.class
 com\fabledclan\abilities\Dash.class
 com\fabledclan\MenuCommand.class
+com\fabledclan\CustomItems\CustomItem.class

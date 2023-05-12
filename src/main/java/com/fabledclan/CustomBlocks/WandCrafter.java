@@ -11,17 +11,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.fabledclan.DatabaseManager;
-
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -29,11 +22,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class WandCrafter extends CustomContainer {
 
     public WandCrafter() {
-        super("wand_crafter");
+        super("wand_crafter", Material.SMITHING_TABLE);
     }
 
     public ItemStack item() {
-        ItemStack wandCrafter = new ItemStack(Material.SMITHING_TABLE, 1);
+        ItemStack wandCrafter = new ItemStack(getMaterial(), 1);
         ItemMeta meta = wandCrafter.getItemMeta();
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey(getPlugin(), getKey()), PersistentDataType.STRING, getName());
@@ -43,7 +36,7 @@ public class WandCrafter extends CustomContainer {
         return wandCrafter;
     }
 
-    public Recipe recipe(ItemStack item) {
+    public Recipe recipe() {
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(getPlugin(), getName()), getItem());
         recipe.shape(" D ", "DCD", " D ");
         recipe.setIngredient('D', Material.DIAMOND);
@@ -58,21 +51,11 @@ public class WandCrafter extends CustomContainer {
     }
 
     public void placeEvent(BlockPlaceEvent event) {
-        Block blockPlacedAgainst = event.getBlockAgainst();
-        if (blockPlacedAgainst.getType() != Material.CRYING_OBSIDIAN) {
-            event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "CAN NOT PLACE HERE"));
-            event.setCancelled(true);
-            return;
-        }
-
-        Block block = event.getBlock();
-        block.getState().setMetadata(getContainerKey(), new FixedMetadataValue(getPlugin(), getName()));
-
-        DatabaseManager.insertCustomContainerBlock(block.getLocation(), getName());
+        defaultPlace(event);
     }
 
     public void breakEvent(BlockBreakEvent event) {
-        DatabaseManager.deleteCustomContainerBlock(event.getBlock().getLocation());
+        defaultBreak(event);
     }
 
     public void interactEvent(PlayerInteractEvent event) {

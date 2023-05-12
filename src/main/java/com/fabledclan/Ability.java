@@ -21,6 +21,7 @@ public abstract class Ability {
     private Map<UUID, Long> cooldowns = new HashMap<>();
     private Map<UUID, Long> alertMessage = new HashMap<>();
     private static int ALERT_COOLDOWN = 5000; // cooldown for alert message (default 5 seconds) (measured in ms)
+    private static final String KEY = "embedded_ability";
 
     public Ability(String n) {
         this.name = n;
@@ -89,4 +90,8 @@ public abstract class Ability {
 
     // another abstract class that gets filled out in SpellAbility and StaminaAbility classes
     public abstract Boolean failedCastChecks(Player player);
+
+    public static String getKey() {
+        return KEY;
+    }
 }

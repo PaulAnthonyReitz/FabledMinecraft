@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Recipe;
 
 import com.fabledclan.CustomBlocks.CustomBlock;
+import com.fabledclan.CustomItems.CustomItem;
 
 // This class simply initializes all the recipes
 //
@@ -14,7 +15,12 @@ public class CustomRecipes {
         for (CustomBlock block : CustomBlockRegistry.getBlocks()) {
             Recipe recipe = block.getRecipe();
             if (recipe == null) continue;
-            Bukkit.addRecipe(block.getRecipe());
+            Bukkit.addRecipe(recipe);
+        }
+        for (CustomItem item : CustomItemRegistry.getItems()) {
+            Recipe recipe = item.getRecipe();
+            if (recipe == null) continue;
+            Bukkit.addRecipe(recipe);
         }
     }
 }

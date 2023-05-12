@@ -2,6 +2,7 @@ package com.fabledclan;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.fabledclan.CustomBlocks.CustomBlock;
@@ -30,6 +31,8 @@ public class Main extends JavaPlugin {
 
         CustomBlock.setPlugin(this);
         CustomBlockRegistry.initializeBlocks(this);
+        CustomItemRegistry.initializeItems();
+        AbilityRegistry.initializeAbilities();
         CustomRecipes.addRecipes();
         
         getServer().getPluginManager().registerEvents(playerJoinListener, this);
@@ -77,6 +80,10 @@ public class Main extends JavaPlugin {
 
         getCommand("home").setExecutor(new HomeCommand(this));
 
+    }
+
+    public static Plugin getPlugin() {
+        return Bukkit.getPluginManager().getPlugins()[0];
     }
 
     public static Main getInstance() {

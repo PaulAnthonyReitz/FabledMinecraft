@@ -1,5 +1,6 @@
 package com.fabledclan.CustomBlocks;
 
+import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,18 +18,20 @@ public abstract class CustomBlock {
     private final String name;
     private final Recipe recipe;
     private final ItemStack item;
+    private final Material material;
     private static Plugin PLUGIN;
     private static final String KEY = "custom_block"; // key used for data containers
 
-    public CustomBlock(String name) {
+    public CustomBlock(String name, Material material) {
         this.name = name;
+        this.material = material;
         this.item = item();
-        this.recipe = recipe(this.item);
+        this.recipe = recipe();
     }
 
     public abstract ItemStack item();
 
-    public abstract Recipe recipe(ItemStack item);
+    public abstract Recipe recipe();
 
     public abstract void placeEvent(BlockPlaceEvent event);
 
@@ -53,6 +56,10 @@ public abstract class CustomBlock {
 
     public ItemStack getItem() {
         return item;
+    }
+
+    public Material getMaterial() {
+        return material;
     }
 
     public static String getKey() {
