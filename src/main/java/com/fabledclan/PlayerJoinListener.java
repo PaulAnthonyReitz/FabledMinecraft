@@ -30,8 +30,6 @@ import java.sql.PreparedStatement;
 
 public class PlayerJoinListener implements Listener {
 
-    private Main plugin;
-    private DatabaseManager databaseManager;
     private EnemyCache enemyCache;
     private Random random = new Random();
 
@@ -48,14 +46,12 @@ public class PlayerJoinListener implements Listener {
     );
     
 
-    public PlayerJoinListener(Main plugin, DatabaseManager databaseManager) {
-        this.plugin = plugin;
-        this.databaseManager = databaseManager;
+    public PlayerJoinListener(Main plugin) {
         this.enemyCache = new EnemyCache(plugin, this);
     }
 
     private void applyPlayerStats(Player player) {
-        PlayerStats playerStats = databaseManager.getPlayerStats(player.getUniqueId());
+        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
         double movementspeed = (playerStats.getMovementSpeed() * .0125) + .1;
         int health = playerStats.getMaxHealth();
         player.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MOVEMENT_SPEED)
@@ -74,20 +70,20 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        databaseManager.createNewPlayerStats(player.getUniqueId());
-        databaseManager.applyPlayerConfig(player.getUniqueId());
+        DatabaseManager.createNewPlayerStats(player.getUniqueId());
+        DatabaseManager.applyPlayerConfig(player.getUniqueId());
         applyPlayerStats(player);
 
-        if (databaseManager.shouldGiveCustomBook(player.getUniqueId())) {
+        if (DatabaseManager.shouldGiveCustomBook(player.getUniqueId())) {
             giveCustomBook(player);
         }
 
-        int bounty = databaseManager.getBounty(player.getUniqueId());
+        int bounty = DatabaseManager.getBounty(player.getUniqueId());
         if (bounty > 0) {
             Bukkit.getServer().broadcastMessage(ChatColor.RED + "A murderer named " +player.getName() + " has joined the server! Bounty on their head: " + ChatColor.GOLD + bounty);
         }
         //ENERY DRINKS
-        if (databaseManager.shouldGiveGlytchPotion(player.getUniqueId())) {
+        if (DatabaseManager.shouldGiveGlytchPotion(player.getUniqueId())) {
             Flavor randomFlavor = glytchFlavors.get(random.nextInt(glytchFlavors.size()));
         
             ItemStack glytchEnergy = new ItemStack(Material.POTION);
@@ -122,7 +118,7 @@ public class PlayerJoinListener implements Listener {
         List<BaseComponent[]> enemyPages = new ArrayList<>();
     
         try {
-            PreparedStatement statement = plugin.getDatabaseManager().getConnection().prepareStatement(
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
                     "SELECT * FROM enemies"
             );
             ResultSet resultSet = statement.executeQuery();
@@ -165,7 +161,7 @@ public class PlayerJoinListener implements Listener {
 
     public BaseComponent[] createSecondPage(Player player) {
         // Retrieve player stats and build the second page of the book
-        PlayerStats playerStats = databaseManager.getPlayerStats(player.getUniqueId());
+        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
     
         TextComponent secondPage = new TextComponent();
         secondPage.addExtra("Movement Speed: " + playerStats.getMovementSpeed() + "\n");

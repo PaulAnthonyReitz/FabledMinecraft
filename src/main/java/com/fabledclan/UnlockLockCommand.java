@@ -50,7 +50,7 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
     }
 
     // Check if the provided PIN matches the one stored in the database
-    String storedPin = plugin.getDatabaseManager().getLockedBlockPin(targetBlock.getLocation());
+    String storedPin = DatabaseManager.getLockedBlockPin(targetBlock.getLocation());
 
     if ((storedPin == null || !storedPin.equals(pin))) {
         player.sendMessage("Incorrect PIN. Access denied.");

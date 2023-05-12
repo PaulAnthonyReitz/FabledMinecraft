@@ -15,11 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class LockInteractionListener implements Listener {
 
-    private Main plugin;
-
-    public LockInteractionListener(Main plugin) {
-        this.plugin = plugin;
-    }
+    public LockInteractionListener() {}
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -35,7 +31,7 @@ public class LockInteractionListener implements Listener {
                 connectedBlock = block.getRelative(BlockFace.UP);
             }
     
-            if (connectedBlock != null && isLockable(connectedBlock) && plugin.getDatabaseManager().isLocked(connectedBlock.getLocation())) {
+            if (connectedBlock != null && isLockable(connectedBlock) && DatabaseManager.isLocked(connectedBlock.getLocation())) {
                 event.getPlayer().sendMessage("This door or chest is locked. Use /unlock <pin> to unlock it.");
                 event.setCancelled(true);
             }
@@ -51,7 +47,7 @@ public void onBlockRedstone(BlockRedstoneEvent event) {
         EnumSet<BlockFace> faces = EnumSet.of(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN);
         for (BlockFace face : faces) {
             Block connectedBlock = block.getRelative(face);
-            if (isLockable(connectedBlock) && plugin.getDatabaseManager().isLocked(connectedBlock.getLocation())) {
+            if (isLockable(connectedBlock) && DatabaseManager.isLocked(connectedBlock.getLocation())) {
                 event.setNewCurrent(0);
                 break;
             }

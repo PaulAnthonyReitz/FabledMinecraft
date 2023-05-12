@@ -61,6 +61,7 @@ com\fabledclan\abilities\DarkVortex.class
 com\fabledclan\abilities\VaderChoke.class
 com\fabledclan\abilities\PartySpell$1.class
 com\fabledclan\UnlockLockCommand.class
+com\fabledclan\WorldLoadListener.class
 com\fabledclan\SummonCommand.class
 com\fabledclan\abilities\Wrangle.class
 com\fabledclan\Abilities.class

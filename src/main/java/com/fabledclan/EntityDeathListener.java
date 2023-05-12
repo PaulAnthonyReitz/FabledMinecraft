@@ -29,12 +29,10 @@ import java.util.Random;
 
 public class EntityDeathListener implements Listener {
     private final Main plugin;
-    private final DatabaseManager databaseManager;
     private final Map<String, EnemyData> enemyDataCache;
     
     public EntityDeathListener(Main plugin) {
         this.plugin = plugin;
-        this.databaseManager = plugin.getDatabaseManager();
         this.enemyDataCache = new HashMap<>();
     }
 
@@ -49,7 +47,7 @@ public class EntityDeathListener implements Listener {
             // Check if the enemy data is in the cache
             if (!enemyDataCache.containsKey(entityType)) {
                 // Fetch enemy data from the database and store it in the cache
-                EnemyData enemyData = databaseManager.getEnemyData(entityType);
+                EnemyData enemyData = DatabaseManager.getEnemyData(entityType);
                 enemyDataCache.put(entityType, enemyData);
             }
     
@@ -60,7 +58,7 @@ public class EntityDeathListener implements Listener {
                 float expScale = cachedEnemyData.expScale;
                 int enemyLevel = Math.max(1, getEnemyLevel(entity));
                 int expToGrant = (int) (baseExp * Math.pow(expScale, enemyLevel - 1));
-                databaseManager.addExp(player.getUniqueId(), expToGrant);
+                DatabaseManager.addExp(player.getUniqueId(), expToGrant);
                 player.sendMessage(ChatColor.GREEN + "You gained " + expToGrant + " exp.");
             }
         }

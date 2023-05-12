@@ -16,12 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.BlockIterator;
 
 public class LockCommand implements CommandExecutor {
-
-    private Main plugin;
-
-    public LockCommand(Main plugin) {
-        this.plugin = plugin;
-    }
+    public LockCommand() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -51,10 +46,10 @@ public class LockCommand implements CommandExecutor {
     // Store the PIN in the database
     UUID ownerUuid = player.getUniqueId();
     String ownerName = Bukkit.getOfflinePlayer(ownerUuid).getName();
-    plugin.getDatabaseManager().insertLockedBlock(targetBlock.getLocation(), pin, ownerUuid, ownerName);
+    DatabaseManager.insertLockedBlock(targetBlock.getLocation(), pin, ownerUuid, ownerName);
     Block adjacentBlock = getAdjacentBlock(targetBlock);
     if (adjacentBlock != null) {
-        plugin.getDatabaseManager().insertLockedBlock(adjacentBlock.getLocation(), pin, ownerUuid, ownerName);
+        DatabaseManager.insertLockedBlock(adjacentBlock.getLocation(), pin, ownerUuid, ownerName);
     }
         // New code to lock double doors
         if (isDoor(targetBlock)) {
@@ -65,7 +60,7 @@ public class LockCommand implements CommandExecutor {
             }
             if (!doubleDoorBlocks.isEmpty()) {
                 for (Block doubleDoorBlock : doubleDoorBlocks) {
-                    plugin.getDatabaseManager().insertLockedBlock(doubleDoorBlock.getLocation(), pin, ownerUuid, ownerName);
+                    DatabaseManager.insertLockedBlock(doubleDoorBlock.getLocation(), pin, ownerUuid, ownerName);
                 }
             }
         }

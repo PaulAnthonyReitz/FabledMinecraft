@@ -7,11 +7,7 @@ import org.bukkit.entity.Player;
 
 public class SettingsCommand implements CommandExecutor {
 
-    private Main plugin;
-
-    public SettingsCommand(Main plugin) {
-        this.plugin = plugin;
-    }
+    public SettingsCommand() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -32,11 +28,11 @@ public class SettingsCommand implements CommandExecutor {
 
         switch (setting) {
             case "start_book":
-                plugin.getDatabaseManager().updatePlayerSetting(player.getUniqueId(), "start_book", value);
+                DatabaseManager.updatePlayerSetting(player.getUniqueId(), "start_book", value);
                 player.sendMessage("Start book setting updated.");
                 break;
             case "start_glytch":
-                plugin.getDatabaseManager().updatePlayerSetting(player.getUniqueId(), "start_glytch", value);
+                DatabaseManager.updatePlayerSetting(player.getUniqueId(), "start_glytch", value);
                 player.sendMessage("Start glytch setting updated.");
                 break;
             default:

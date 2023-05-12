@@ -15,6 +15,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import com.fabledclan.DatabaseManager;
+
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -60,13 +62,18 @@ public class WandCrafter extends CustomContainer {
         if (blockPlacedAgainst.getType() != Material.CRYING_OBSIDIAN) {
             event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "CAN NOT PLACE HERE"));
             event.setCancelled(true);
+            return;
         }
 
         Block block = event.getBlock();
         block.getState().setMetadata(getContainerKey(), new FixedMetadataValue(getPlugin(), getName()));
+
+        DatabaseManager.insertCustomContainerBlock(block.getLocation(), getName());
     }
 
-    public void breakEvent(BlockBreakEvent event) {}
+    public void breakEvent(BlockBreakEvent event) {
+        DatabaseManager.deleteCustomContainerBlock(event.getBlock().getLocation());
+    }
 
     public void interactEvent(PlayerInteractEvent event) {
         event.setCancelled(true);

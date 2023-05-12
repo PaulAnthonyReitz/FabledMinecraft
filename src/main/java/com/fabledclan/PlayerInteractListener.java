@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.metadata.MetadataValue;
 
 import com.fabledclan.CustomBlocks.CustomBlock;
 import com.fabledclan.CustomBlocks.CustomContainer;
@@ -26,11 +25,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class PlayerInteractListener implements Listener {
 
-    private Main plugin;
     private PlayerJoinListener playerJoinListener;
 
     public PlayerInteractListener(Main plugin, PlayerJoinListener playerJoinListener) {
-        this.plugin = plugin;
         this.playerJoinListener = playerJoinListener;
     }
 
@@ -39,8 +36,7 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.hasBlock() && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getClickedBlock().getState().hasMetadata(CustomContainer.getContainerKey())) {
-                List<MetadataValue> values = event.getClickedBlock().getState().getMetadata(CustomContainer.getContainerKey());
-                String value = values.get(0).asString();
+                String value = event.getClickedBlock().getState().getMetadata(CustomContainer.getContainerKey()).get(0).asString();
                 for (CustomBlock block : CustomBlockRegistry.getBlocks()) {
                     if (!(block instanceof CustomContainer)) continue;
                     if (block.getName().equals(value)) {
@@ -53,7 +49,7 @@ public class PlayerInteractListener implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block block = event.getClickedBlock();
             if (block != null && (isChest(block) || isDoor(block))) {
-                String storedPin = plugin.getDatabaseManager().getLockedBlockPin(block.getLocation());
+                String storedPin = DatabaseManager.getLockedBlockPin(block.getLocation());
 
                 if (storedPin != null) {
                     event.setCancelled(true);
