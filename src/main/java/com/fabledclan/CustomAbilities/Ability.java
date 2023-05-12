@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
-import com.fabledclan.Abilities;
+import com.fabledclan.Listeners.Abilities;
 
 // This is the base abstract class for all spells
 // It stores the cooldown, which is an overloaded operator in the constructor

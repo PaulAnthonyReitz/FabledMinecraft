@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Commands;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,9 +14,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class SummonCommand implements CommandExecutor, Listener {
+import com.fabledclan.Main;
+import com.fabledclan.Listeners.Abilities;
+
+public class SummonCommand extends CommandClass implements Listener {
 
     private final Map<UUID, UUID> pendingSummonRequests = new HashMap<>();
+
+    public SummonCommand() {
+        super("summon");
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

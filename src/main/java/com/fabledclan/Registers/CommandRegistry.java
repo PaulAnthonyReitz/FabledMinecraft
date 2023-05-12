@@ -26,7 +26,8 @@ public class CommandRegistry {
             new UpdateEnemyPagesCommand(),
             new ViewEnemiesCommand(),
             new ViewStatsCommand(),
-            new LeaderboardCommand()
+            new LeaderboardCommand(),
+            new SummonCommand()
         ));
         commands = ret;
     }

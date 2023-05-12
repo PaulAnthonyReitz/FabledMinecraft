@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 import org.bukkit.event.Listener;
 
+import com.fabledclan.Commands.SummonCommand;
+import com.fabledclan.Listeners.Abilities;
 import com.fabledclan.Listeners.AbilityUseListener;
 import com.fabledclan.Listeners.BlockBreakListener;
 import com.fabledclan.Listeners.BlockPlaceListener;
@@ -37,7 +39,9 @@ public class EventRegistry {
             new PlayerInteractListener(),
             new PlayerJoinListener(),
             new PrepareCraftItemListener(),
-            new MenuGUI()
+            new MenuGUI(),
+            new SummonCommand(),
+            new Abilities()
         ));
         listeners = ret;
     }

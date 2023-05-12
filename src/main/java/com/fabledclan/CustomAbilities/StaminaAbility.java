@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.fabledclan.Abilities;
+import com.fabledclan.Listeners.Abilities;
 
 // Another abstract class built on top of Ability class for spells that use Stamina
 // Almost identical to SpellAbility but uses stamina instead of mana

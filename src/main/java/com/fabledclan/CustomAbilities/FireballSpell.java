@@ -2,9 +2,10 @@ package com.fabledclan.CustomAbilities;
 
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.entity.Fireball;
 
-import com.fabledclan.Abilities;
+import com.fabledclan.Listeners.Abilities;
+
+import org.bukkit.entity.Fireball;
 
 public class FireballSpell extends SpellAbility{
     public FireballSpell(String name, int requiredMagicLevel, int manaCost) {

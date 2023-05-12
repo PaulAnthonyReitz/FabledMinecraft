@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.fabledclan.Abilities;
+import com.fabledclan.Listeners.Abilities;
 
 // This is another abstract class built on top of the Ability class for mana abilities.
 // This class adds a required magic level and mana cost, as well as some extra methods.

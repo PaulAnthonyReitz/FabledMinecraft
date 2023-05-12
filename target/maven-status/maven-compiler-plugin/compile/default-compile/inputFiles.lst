@@ -10,7 +10,6 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomRecipes.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\BookCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\LeaderboardCommand.java
-C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\SummonCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\SettingsCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomAbilities\PowerStrike.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\EnemyData.java
@@ -42,15 +41,16 @@ C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomAbilities\UndeadArmy.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\CommandClass.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Listeners\PrepareCraftItemListener.java
+C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Listeners\Abilities.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Listeners\MenuGUI.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomItems\DashSpell.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Main.java
+C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\SummonCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\DatabaseManager.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\EnchantCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\RemoveLockCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomAbilities\DarkVortex.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomAbilities\PartySpell.java
-C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Abilities.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Commands\HomeCommand.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\CustomBlocks\CustomBlock.java
 C:\Users\mattie\Desktop\code\fabled\FabledMinecraft\src\main\java\com\fabledclan\Listeners\PlayerDeathListener.java

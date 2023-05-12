@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.fabledclan.Main;
+
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -18,10 +20,9 @@ public class Abilities implements Listener {
 
     private static final Map<UUID, Integer> playerStamina = new HashMap<>();
     private static final Map<UUID, Integer> playerMana = new HashMap<>();
-    private Main plugin;
 
-    public Abilities(Main plugin) {
-        this.plugin = plugin;
+    public Abilities() {
+        startTasks();
     }
 
     public void startTasks() {
@@ -51,7 +52,7 @@ public class Abilities implements Listener {
                     sendActionBarText(player);
                 }
             }
-        }.runTaskTimer(plugin, 0, 40); // 20 ticks = 1 second
+        }.runTaskTimer(Main.getPlugin(), 0, 40); // 20 ticks = 1 second
     }
 
     private void sendActionBarText(Player player) {
