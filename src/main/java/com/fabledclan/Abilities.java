@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,8 +16,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class Abilities implements Listener {
 
-    final Map<UUID, Integer> playerStamina = new HashMap<>();
-    final Map<UUID, Integer> playerMana = new HashMap<>();
+    private static final Map<UUID, Integer> playerStamina = new HashMap<>();
+    private static final Map<UUID, Integer> playerMana = new HashMap<>();
     private Main plugin;
 
     public Abilities(Main plugin) {
@@ -28,18 +29,22 @@ public class Abilities implements Listener {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    UUID playerId = player.getUniqueId();
 
                     // Regenerate stamina
                     int currentStamina = getPlayerStamina(player);
                     if (currentStamina < 100) {
-                        playerStamina.put(playerId, Math.min(currentStamina + 2, 100));
+                        setPlayerStamina(player, Math.min(currentStamina + 2, 100));
                     }
 
                     // Regenerate mana
                     int currentMana = getPlayerMana(player);
                     if (currentMana < 100) {
-                        playerMana.put(playerId, Math.min(currentMana + 2, 100));
+                        setPlayerMana(player, Math.min(currentMana + 2, 100));
+                    }
+
+                    if (player.getGameMode() == GameMode.CREATIVE) {
+                        setPlayerMana(player, 100);
+                        setPlayerStamina(player, 100);
                     }
 
                     // Update action bar text
@@ -61,19 +66,19 @@ public class Abilities implements Listener {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionBarText));
     }
 
-    public int getPlayerMana(Player player) {
+    public static int getPlayerMana(Player player) {
         return playerMana.getOrDefault(player.getUniqueId(), 0);
     }
 
-    public int getPlayerStamina(Player player) {
+    public static int getPlayerStamina(Player player) {
         return playerStamina.getOrDefault(player.getUniqueId(), 0);
     }
 
-    public void setPlayerMana(Player player, int mana) {
+    public static void setPlayerMana(Player player, int mana) {
         playerMana.put(player.getUniqueId(), mana);
     }
 
-    public void setPlayerStamina(Player player, int stamina) {
+    public static void setPlayerStamina(Player player, int stamina) {
         playerStamina.put(player.getUniqueId(), stamina);
     }
 

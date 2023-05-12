@@ -20,8 +20,7 @@ public abstract class StaminaAbility extends Ability {
 
     // checks if the player has enough stamina to cast
     private Boolean playerHasStamina(Player player) {
-        Abilities abilities = getAbilities();
-        int currentStamina = abilities.getPlayerStamina(player);
+        int currentStamina = Abilities.getPlayerStamina(player);
         UUID playerID = player.getUniqueId();
         if (currentStamina < staminaCost) {
             if (alertMessageReady(playerID)) {
@@ -34,9 +33,8 @@ public abstract class StaminaAbility extends Ability {
 
     // removes the stamina cost from the players stamina
     private void removePlayerStamina(Player player) {
-        Abilities abilities = getAbilities();
-        int currentStamina = abilities.getPlayerStamina(player);
-        abilities.setPlayerStamina(player, currentStamina - getStaminaCost());
+        int currentStamina = Abilities.getPlayerStamina(player);
+        Abilities.setPlayerStamina(player, currentStamina - getStaminaCost());
     }
 
     private int getRequiredStaminaLevel() {

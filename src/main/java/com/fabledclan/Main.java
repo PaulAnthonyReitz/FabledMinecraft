@@ -53,7 +53,7 @@ public class Main extends JavaPlugin {
         // Populate the cache when the server starts
         populateEnemyDataCache();
         Abilities abilities = new Abilities(this);
-        SummonCommand summonCommand = new SummonCommand(this, abilities);
+        SummonCommand summonCommand = new SummonCommand();
         getCommand("summon").setExecutor(summonCommand);
         getServer().getPluginManager().registerEvents(abilities, this);
         getServer().getPluginManager().registerEvents(summonCommand, this);

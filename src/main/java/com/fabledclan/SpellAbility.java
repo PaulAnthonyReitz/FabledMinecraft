@@ -20,8 +20,7 @@ public abstract class SpellAbility extends Ability {
 
     // checks if the player has enough mana to cast
     private Boolean playerHasMana(Player player) {
-        Abilities abilities = getAbilities();
-        int currentMana = abilities.getPlayerMana(player);
+        int currentMana = Abilities.getPlayerMana(player);
         UUID playerID = player.getUniqueId();
         if (currentMana < manaCost) {
             if (alertMessageReady(playerID)) {
@@ -35,9 +34,8 @@ public abstract class SpellAbility extends Ability {
 
     // removes the mana cost from the players mana
     private void removePlayerMana(Player player) {
-        Abilities abilities = getAbilities();
-        int currentMana = abilities.getPlayerMana(player);
-        abilities.setPlayerMana(player, currentMana - getManaCost());
+        int currentMana = Abilities.getPlayerMana(player);
+        Abilities.setPlayerMana(player, currentMana - getManaCost());
     }
 
     private int getRequriedMagicLevel() {

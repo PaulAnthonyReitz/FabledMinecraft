@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.entity.Fireball;
 
+import com.fabledclan.Abilities;
 import com.fabledclan.SpellAbility;
 
 public class FireballSpell extends SpellAbility{
@@ -19,6 +20,6 @@ public class FireballSpell extends SpellAbility{
         fireball.setYield(1.0F); // Adjust the explosion yield as needed (higher values create bigger explosions)
         
         // Store the player's magic level as metadata on the fireball
-        fireball.setMetadata("magicLevel", new FixedMetadataValue(getPlugin(), getAbilities().getPlayerMana(player)));
+        fireball.setMetadata("magicLevel", new FixedMetadataValue(getPlugin(), Abilities.getPlayerMana(player)));
     } 
 }

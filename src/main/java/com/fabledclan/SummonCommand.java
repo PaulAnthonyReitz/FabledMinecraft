@@ -18,13 +18,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class SummonCommand implements CommandExecutor, Listener {
 
     private final Map<UUID, UUID> pendingSummonRequests = new HashMap<>();
-    private final Abilities abilities;
-    private Main plugin;
-
-    public SummonCommand(Main plugin, Abilities abilities) {
-        this.plugin = plugin;
-        this.abilities = abilities;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -51,7 +44,7 @@ public class SummonCommand implements CommandExecutor, Listener {
         UUID targetId = targetPlayer.getUniqueId();
 
         int requiredMana = 100;
-        int currentMana = abilities.getPlayerMana(player);
+        int currentMana = Abilities.getPlayerMana(player);
 
         if (currentMana < requiredMana) {
             player.sendMessage(ChatColor.BLUE + "Not enough magic to use Summon spell!");
@@ -59,7 +52,7 @@ public class SummonCommand implements CommandExecutor, Listener {
         }
 
         // Deduct mana
-        abilities.setPlayerMana(player, currentMana - requiredMana);
+        Abilities.setPlayerMana(player, currentMana - requiredMana);
 
         pendingSummonRequests.put(targetId, playerId);
 
@@ -91,7 +84,7 @@ public class SummonCommand implements CommandExecutor, Listener {
                                 player.teleport(player.getWorld().getSpawnLocation().add(Math.random() * 1000 - 500, 0,
                                         Math.random() * 1000 - 500));
                             }
-                        }.runTask(plugin);
+                        }.runTask(Main.getPlugin());
                         return;
                     } else {
                         new BukkitRunnable() {
@@ -103,7 +96,7 @@ public class SummonCommand implements CommandExecutor, Listener {
                                 requester.sendMessage(
                                         ChatColor.GREEN + player.getName() + " has been teleported to you!");
                             }
-                        }.runTask(plugin);
+                        }.runTask(Main.getPlugin());
                     }
                 }
             } else if (message.equals("no")) {
