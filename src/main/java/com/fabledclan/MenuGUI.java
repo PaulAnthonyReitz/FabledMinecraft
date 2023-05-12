@@ -16,12 +16,7 @@ import java.util.Arrays;
 
 public class MenuGUI implements Listener {
 
-
-    private final DatabaseManager databaseManager;
-
-    public MenuGUI(DatabaseManager databaseManager) {
-        this.databaseManager = databaseManager;
-    }
+    public MenuGUI() {}
 
     public void openGUI(Player player) {
         Inventory gui = Bukkit.createInventory(player, 9, ChatColor.GREEN + "Upgrade Menu");
@@ -47,7 +42,7 @@ public class MenuGUI implements Listener {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(color + name);
 
-        PlayerStats playerStats = databaseManager.getPlayerStats(player.getUniqueId());
+        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
         int playerExp = playerStats.getExp();
         int currentLevel = getCurrentLevel(stat, playerStats);
         int upgradeCost = getUpgradeCost(stat, currentLevel);
@@ -130,7 +125,7 @@ public class MenuGUI implements Listener {
     private void upgradeSkill(Player player, String stat) {
 
         // Get the player's current EXP and stats from the database
-        PlayerStats playerStats = databaseManager.getPlayerStats(player.getUniqueId());
+        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
         int playerExp = playerStats.getExp(); // Use the player's EXP from the database
     
         int currentLevel;
@@ -164,16 +159,16 @@ public class MenuGUI implements Listener {
             // Update the player's stat level and EXP (using your database manager)
             switch (stat.toLowerCase()) {
                 case "attack":
-                    databaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), currentLevel + 1, playerStats.getDefense(), playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    DatabaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), currentLevel + 1, playerStats.getDefense(), playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
                     break;
                 case "defense":
-                    databaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), playerStats.getAttack(), currentLevel + 1, playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    DatabaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), playerStats.getAttack(), currentLevel + 1, playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
                     break;
                 case "movement_speed":
-                    databaseManager.setPlayerStats(player.getUniqueId(), currentLevel + .025, playerStats.getAttack(), playerStats.getDefense(), playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    DatabaseManager.setPlayerStats(player.getUniqueId(), currentLevel + .025, playerStats.getAttack(), playerStats.getDefense(), playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
                     break;
                 case "max_health":
-                    databaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), playerStats.getAttack(), playerStats.getDefense(), currentLevel + 2, updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    DatabaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), playerStats.getAttack(), playerStats.getDefense(), currentLevel + 2, updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
                     break;
             }
             

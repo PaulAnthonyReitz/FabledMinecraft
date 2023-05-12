@@ -11,11 +11,7 @@ import java.sql.SQLException;
 
 public class ViewEnemiesCommand implements CommandExecutor {
 
-    private final Main plugin;
-
-    public ViewEnemiesCommand(Main plugin) {
-        this.plugin = plugin;
-    }
+    public ViewEnemiesCommand() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -27,7 +23,7 @@ public class ViewEnemiesCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         try {
-            PreparedStatement statement = plugin.getDatabaseManager().getConnection().prepareStatement(
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
                     "SELECT * FROM enemies"
             );
             ResultSet resultSet = statement.executeQuery();

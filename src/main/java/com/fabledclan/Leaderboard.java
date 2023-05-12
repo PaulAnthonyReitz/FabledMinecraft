@@ -16,11 +16,7 @@ import java.util.UUID;
 
 public class Leaderboard implements CommandExecutor {
 
-    private final Main plugin;
-
-    public Leaderboard(Main plugin) {
-        this.plugin = plugin;
-    }
+    public Leaderboard() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -48,7 +44,7 @@ public class Leaderboard implements CommandExecutor {
         List<List<String>> topPlayers = new ArrayList<>();
 
         try {
-            PreparedStatement statement = plugin.getDatabaseManager().getConnection().prepareStatement(
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
                     "SELECT uuid, level, exp FROM player_stats ORDER BY level DESC, exp DESC LIMIT ?"
             );
             statement.setInt(1, limit);

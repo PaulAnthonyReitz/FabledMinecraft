@@ -1,5 +1,6 @@
 package com.fabledclan;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Sound;
@@ -7,30 +8,45 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.metadata.MetadataValue;
+
+import com.fabledclan.CustomBlocks.CustomBlock;
+import com.fabledclan.CustomBlocks.CustomContainer;
 
 public class BlockBreakListener implements Listener {
 
-    private Main plugin;
     private RemoveLockCommand removeLockCommand;
     private int protectionRadius = 2; // 2-block radius around the locked block
 
     public BlockBreakListener(Main plugin) {
-        this.plugin = plugin;
-        this.removeLockCommand = new RemoveLockCommand(plugin);
+        this.removeLockCommand = new RemoveLockCommand(); // 🐈
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         UUID playerUUID = event.getPlayer().getUniqueId();
+
+        if (event.getBlock().getState().hasMetadata(CustomContainer.getContainerKey())) {
+            List<MetadataValue> metadataValues = event.getBlock().getState().getMetadata(CustomContainer.getContainerKey());
+            if (metadataValues.size() == 0) return;
+            String value = metadataValues.get(0).asString();
+            for (CustomBlock b : CustomBlockRegistry.getBlocks()) {
+                if (!(b instanceof CustomContainer)) continue;
+                if (b.getMaterial() != event.getBlock().getType()) continue;
+                if (b.getName().equals(value)) {
+                    ((CustomContainer)b).breakEvent(event);
+                }
+            }
+        }
     
         for (int x = -protectionRadius; x <= protectionRadius; x++) {
             for (int y = -protectionRadius; y <= protectionRadius; y++) {
                 for (int z = -protectionRadius; z <= protectionRadius; z++) {
                     Block nearbyBlock = block.getRelative(x, y, z);
                     if (removeLockCommand.isChest(nearbyBlock) || removeLockCommand.isDoor(nearbyBlock)) {
-                        String storedPin = plugin.getDatabaseManager().getLockedBlockPin(nearbyBlock.getLocation());
-                        UUID ownerUUID = plugin.getDatabaseManager().getLockedBlockOwnerUUID(nearbyBlock.getLocation());
+                        String storedPin = DatabaseManager.getLockedBlockPin(nearbyBlock.getLocation());
+                        UUID ownerUUID = DatabaseManager.getLockedBlockOwnerUUID(nearbyBlock.getLocation());
     
                         if (storedPin != null && !playerUUID.equals(ownerUUID)) {
                             // Cancel the BlockBreakEvent if a nearby block has a lock on it and the player is not the owner

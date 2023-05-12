@@ -11,11 +11,7 @@ import org.bukkit.command.Command;
 
 public class ViewStatsCommand implements CommandExecutor {
 
-    private final Main plugin;
-
-    public ViewStatsCommand(Main plugin) {
-        this.plugin = plugin;
-    }
+    public ViewStatsCommand() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -27,7 +23,7 @@ public class ViewStatsCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         try {
-            PreparedStatement statement = plugin.getDatabaseManager().getConnection().prepareStatement(
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
                     "SELECT * FROM player_stats"
             );
             ResultSet resultSet = statement.executeQuery();

@@ -14,11 +14,7 @@ import org.bukkit.util.BlockIterator;
 
 public class RemoveLockCommand implements CommandExecutor {
 
-    private Main plugin;
-
-    public RemoveLockCommand(Main plugin) {
-        this.plugin = plugin;
-    }
+    public RemoveLockCommand() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -46,7 +42,7 @@ public class RemoveLockCommand implements CommandExecutor {
         }
     
         // Check if the provided PIN matches the one stored in the database
-        String storedPin = plugin.getDatabaseManager().getLockedBlockPin(targetBlock.getLocation());
+        String storedPin = DatabaseManager.getLockedBlockPin(targetBlock.getLocation());
 
     
         if ((storedPin == null || !storedPin.equals(pin))) {
@@ -55,7 +51,7 @@ public class RemoveLockCommand implements CommandExecutor {
         }
     
         // Remove the lock from the target block and the adjacent block (if present)
-        plugin.getDatabaseManager().deleteLockedBlock(targetBlock.getLocation());
+        DatabaseManager.deleteLockedBlock(targetBlock.getLocation());
         // Remove the lock from the adjacent door, if present
         if (isDoor(targetBlock)) {
             List<Block> doubleDoorBlocks = getDoubleDoor(targetBlock);
@@ -64,18 +60,18 @@ public class RemoveLockCommand implements CommandExecutor {
                 doubleDoorBlocks.addAll(getDoubleDoor(adjacentBlock));
             }
             for (Block doubleDoorBlock : doubleDoorBlocks) {
-                String doubleDoorStoredPin = plugin.getDatabaseManager().getLockedBlockPin(doubleDoorBlock.getLocation());
+                String doubleDoorStoredPin = DatabaseManager.getLockedBlockPin(doubleDoorBlock.getLocation());
                 if (doubleDoorStoredPin != null && doubleDoorStoredPin.equals(pin)) {
-                    plugin.getDatabaseManager().deleteLockedBlock(doubleDoorBlock.getLocation());
+                    DatabaseManager.deleteLockedBlock(doubleDoorBlock.getLocation());
                 }
             }
         }
         if (isChest(targetBlock)) {
             Block adjacentChest = getAdjacentChest(targetBlock);
             if (adjacentChest != null) {
-                String adjacentChestStoredPin = plugin.getDatabaseManager().getLockedBlockPin(adjacentChest.getLocation());
+                String adjacentChestStoredPin = DatabaseManager.getLockedBlockPin(adjacentChest.getLocation());
                 if (adjacentChestStoredPin != null && adjacentChestStoredPin.equals(pin)) {
-                    plugin.getDatabaseManager().deleteLockedBlock(adjacentChest.getLocation());
+                    DatabaseManager.deleteLockedBlock(adjacentChest.getLocation());
                 }
             }
         }

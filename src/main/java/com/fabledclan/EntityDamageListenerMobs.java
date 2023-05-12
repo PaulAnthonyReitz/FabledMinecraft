@@ -18,12 +18,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class EntityDamageListenerMobs implements Listener {
 
     private final Main plugin;
-    private final DatabaseManager databaseManager;
     private final Map<String, Integer> mobDefenseCache;
 
     public EntityDamageListenerMobs(Main plugin) {
         this.plugin = plugin;
-        this.databaseManager = plugin.getDatabaseManager();
         this.mobDefenseCache = new HashMap<>();
     }
 
@@ -41,7 +39,7 @@ public class EntityDamageListenerMobs implements Listener {
         Creature creature = (Creature) event.getEntity();
 
         // Get the player's attack damage from the database
-        int playerAttack = databaseManager.getPlayerStats(player.getUniqueId()).getAttack();
+        int playerAttack = DatabaseManager.getPlayerStats(player.getUniqueId()).getAttack();
 
         // Get the mob level
         PersistentDataContainer dataContainer = creature.getPersistentDataContainer();
@@ -113,7 +111,7 @@ public class EntityDamageListenerMobs implements Listener {
         // Check if the defense value is in the cache
         if (!mobDefenseCache.containsKey(entityType)) {
             // Get the enemy data from the database
-            EnemyData enemyData = databaseManager.getEnemyData(entityType);
+            EnemyData enemyData = DatabaseManager.getEnemyData(entityType);
 
             // Get the defense value from the enemy data
             int defense = enemyData != null ? enemyData.defense : 0;
