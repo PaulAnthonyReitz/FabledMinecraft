@@ -10,16 +10,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+
+import com.fabledclan.Listeners.PlayerJoinListener;
+
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class BookCommand implements CommandExecutor {
-    
-    private Main plugin;
-    
-    public BookCommand(Main plugin) {
-        this.plugin = plugin;
-    }
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -57,8 +54,8 @@ public class BookCommand implements CommandExecutor {
         bookMeta.setAuthor("Fabled Clan");
         List<BaseComponent[]> pages = new ArrayList<>();
         pages.add(new BaseComponent[]{new TextComponent("Welcome to Fabled Clan")});
-        pages.add(plugin.getPlayerJoinListener().createSecondPage(player));
-        pages.addAll(plugin.getPlayerJoinListener().createEnemyPages());
+        pages.add(PlayerJoinListener.createSecondPage(player));
+        pages.addAll(PlayerJoinListener.createEnemyPages());
 
         bookMeta.spigot().setPages(pages);
         fabledBook.setItemMeta(bookMeta);

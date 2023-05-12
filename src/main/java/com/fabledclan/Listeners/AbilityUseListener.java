@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,26 +20,24 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import com.fabledclan.Ability;
+import com.fabledclan.AbilityRegistry;
+import com.fabledclan.Main;
+
 // import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class AbilityUseListener implements Listener {
 
-    private final Main plugin;
     private Map<UUID, Long> lastRightClickTime = new HashMap<>();
     // private final Map<UUID, BukkitTask> lightningStrikeTasks = new HashMap<>();
 
-    List<String> spellList = Arrays.asList("dash", "dark_vortex", "dragon_breath", "feather", "fireball", "ice_shard",
+    public static List<String> spellList = Arrays.asList("dash", "dark_vortex", "dragon_breath", "feather", "fireball", "ice_shard",
             "lightning_strike", "magic_missile", "party", "plague_swarm", "power_strike", "summon_giant", "undead_army",
             "vader_choke", "wrangle", "yeet_boat");
 
-    public AbilityUseListener(Main plugin, Abilities abilities) {
-        this.plugin = plugin;
-        Ability.setPlugin(plugin); // sets the static field for all abilities
-        Ability.setAbilities(abilities);
-    }
-
-    public List<String> getSpellList() {
+    public static List<String> getSpellList() {
         return spellList;
     }
 
@@ -68,7 +66,7 @@ public class AbilityUseListener implements Listener {
         if (event.getHand() == EquipmentSlot.HAND) {
             ItemMeta itemMeta = itemInHand.getItemMeta();
             PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
-            NamespacedKey abilityKey = new NamespacedKey(plugin, "embedded_ability");
+            NamespacedKey abilityKey = new NamespacedKey(Main.getPlugin(), "embedded_ability");
 
             if (dataContainer.has(abilityKey, PersistentDataType.STRING)) {
                 String ability = dataContainer.get(abilityKey, PersistentDataType.STRING);

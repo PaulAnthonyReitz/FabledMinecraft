@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import java.util.EnumSet;
 
@@ -13,9 +13,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class LockInteractionListener implements Listener {
+import com.fabledclan.DatabaseManager;
 
-    public LockInteractionListener() {}
+public class LockInteractionListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {

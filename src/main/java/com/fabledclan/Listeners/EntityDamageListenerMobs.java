@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,15 +15,13 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.fabledclan.DatabaseManager;
+import com.fabledclan.EnemyData;
+import com.fabledclan.Main;
+
 public class EntityDamageListenerMobs implements Listener {
 
-    private final Main plugin;
-    private final Map<String, Integer> mobDefenseCache;
-
-    public EntityDamageListenerMobs(Main plugin) {
-        this.plugin = plugin;
-        this.mobDefenseCache = new HashMap<>();
-    }
+    private final Map<String, Integer> mobDefenseCache = new HashMap<>();
 
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
@@ -43,7 +41,7 @@ public class EntityDamageListenerMobs implements Listener {
 
         // Get the mob level
         PersistentDataContainer dataContainer = creature.getPersistentDataContainer();
-        NamespacedKey levelKey = new NamespacedKey(plugin, "enemy_level");
+        NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
         int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
 
         // Get the mob defense value
@@ -74,14 +72,14 @@ public class EntityDamageListenerMobs implements Listener {
         }
 
         // Check if the mob is a NM
-        NamespacedKey nmKey = new NamespacedKey(plugin, "nm");
+        NamespacedKey nmKey = new NamespacedKey(Main.getPlugin(), "nm");
         boolean isNM = dataContainer.getOrDefault(nmKey, PersistentDataType.INTEGER, 0) == 1;
 
         // If the mob is a NM, use a different string for the custom name
         String healthInfo;
         if (isNM) {
             // Use the custom name of the NM, you should replace `getNMCustomName` with the appropriate method to get the custom name
-            NamespacedKey nmNameKey = new NamespacedKey(plugin, "NMName");
+            NamespacedKey nmNameKey = new NamespacedKey(Main.getPlugin(), "NMName");
             String NMNAME = dataContainer.getOrDefault(nmNameKey, PersistentDataType.STRING, "SILLY GOOSE");
             healthInfo = NMNAME + " HP: " + heartColor + roundedHealth + " " + heartColor + "\u2764";
         } else {
@@ -101,7 +99,7 @@ public class EntityDamageListenerMobs implements Listener {
 
                 creature.setCustomNameVisible(false);
             }
-        }.runTaskLater(plugin, 5 * 20); // 5 seconds * 20 ticks per second
+        }.runTaskLater(Main.getPlugin(), 5 * 20); // 5 seconds * 20 ticks per second
 
             }
 

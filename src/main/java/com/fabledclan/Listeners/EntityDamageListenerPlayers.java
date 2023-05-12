@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -9,16 +9,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.fabledclan.Main;
+
 import java.util.HashMap;
 import java.util.UUID;
 
 public class EntityDamageListenerPlayers implements Listener {
     private final HashMap<UUID, BossBar> bossBars = new HashMap<>();
-    private final Main plugin;
-
-    public EntityDamageListenerPlayers(Main plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     public void onEntityDamageByPlayer(EntityDamageByEntityEvent event) {
@@ -49,7 +46,7 @@ public class EntityDamageListenerPlayers implements Listener {
                     bossBar.setVisible(false);
                     bossBar.removePlayer((Player) event.getDamager());
                 }
-            }.runTaskLater(plugin, 20 * 20);
+            }.runTaskLater(Main.getPlugin(), 20 * 20);
         }
     }
 }

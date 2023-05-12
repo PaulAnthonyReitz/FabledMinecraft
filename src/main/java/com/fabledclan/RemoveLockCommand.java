@@ -176,11 +176,11 @@ public  Block getTargetBlock(Player player, int maxDistance) {
         return null;
     }
         
-    public boolean isChest(Block block) {
+    public static boolean isChest(Block block) {
         return block.getBlockData() instanceof org.bukkit.block.data.type.Chest;
     }
     
-    public boolean isDoor(Block block) {
+    public static boolean isDoor(Block block) {
         return block.getBlockData() instanceof Door;
     }       
 }

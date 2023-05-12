@@ -6,13 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.fabledclan.Listeners.AbilityUseListener;
+
 public class SpellsCommand implements CommandExecutor {
-    private AbilityUseListener abilities;
-
-    public SpellsCommand(AbilityUseListener abilities) {
-        this.abilities = abilities;
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -24,7 +20,7 @@ public class SpellsCommand implements CommandExecutor {
 
         player.sendMessage(ChatColor.GOLD + "Available Spells:");
 
-        for (String spell : abilities.getSpellList()) {
+        for (String spell : AbilityUseListener.getSpellList()) {
             player.sendMessage(ChatColor.GREEN + "- " + spell);
         }
 

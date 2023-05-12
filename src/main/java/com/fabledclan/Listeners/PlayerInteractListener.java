@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import com.fabledclan.CustomBlockRegistry;
+import com.fabledclan.DatabaseManager;
 import com.fabledclan.CustomBlocks.CustomBlock;
 import com.fabledclan.CustomBlocks.CustomContainer;
 
@@ -24,13 +26,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 // Add other required imports
 
 public class PlayerInteractListener implements Listener {
-
-    private PlayerJoinListener playerJoinListener;
-
-    public PlayerInteractListener(Main plugin, PlayerJoinListener playerJoinListener) {
-        this.playerJoinListener = playerJoinListener;
-    }
-
     
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -84,9 +79,9 @@ public class PlayerInteractListener implements Listener {
         List<BaseComponent[]> pages = new ArrayList<>();
         pages.add(new BaseComponent[]{new TextComponent("Welcome to Fabled Clan")});
         // player stats and URL
-        pages.add(playerJoinListener.createSecondPage(player));
+        pages.add(PlayerJoinListener.createSecondPage(player));
         // ENEMY PAGES
-        pages.addAll(playerJoinListener.createEnemyPages());
+        pages.addAll(PlayerJoinListener.createEnemyPages());
         return pages;
     }
 }

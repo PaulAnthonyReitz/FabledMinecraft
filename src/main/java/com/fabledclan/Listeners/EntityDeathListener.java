@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,16 +25,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import com.fabledclan.DatabaseManager;
+import com.fabledclan.EnemyData;
+import com.fabledclan.Main;
+
 import java.util.Random;
 
 public class EntityDeathListener implements Listener {
-    private final Main plugin;
-    private final Map<String, EnemyData> enemyDataCache;
-    
-    public EntityDeathListener(Main plugin) {
-        this.plugin = plugin;
-        this.enemyDataCache = new HashMap<>();
-    }
+    private final Map<String, EnemyData> enemyDataCache = new HashMap<>();
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
@@ -203,7 +202,7 @@ public class EntityDeathListener implements Listener {
 
     private int getEnemyLevel(Entity entity) {
         PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
-        NamespacedKey levelKey = new NamespacedKey(plugin, "enemy_level");
+        NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
         int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
         return enemyLevel;
     }

@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

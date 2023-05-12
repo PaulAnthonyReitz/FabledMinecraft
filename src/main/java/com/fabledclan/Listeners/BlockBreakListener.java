@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,17 +10,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.metadata.MetadataValue;
 
+import com.fabledclan.CustomBlockRegistry;
+import com.fabledclan.DatabaseManager;
+import com.fabledclan.RemoveLockCommand;
 import com.fabledclan.CustomBlocks.CustomBlock;
 import com.fabledclan.CustomBlocks.CustomContainer;
 
 public class BlockBreakListener implements Listener {
 
-    private RemoveLockCommand removeLockCommand;
     private int protectionRadius = 2; // 2-block radius around the locked block
-
-    public BlockBreakListener(Main plugin) {
-        this.removeLockCommand = new RemoveLockCommand(); // 🐈
-    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
@@ -44,7 +42,7 @@ public class BlockBreakListener implements Listener {
             for (int y = -protectionRadius; y <= protectionRadius; y++) {
                 for (int z = -protectionRadius; z <= protectionRadius; z++) {
                     Block nearbyBlock = block.getRelative(x, y, z);
-                    if (removeLockCommand.isChest(nearbyBlock) || removeLockCommand.isDoor(nearbyBlock)) {
+                    if (RemoveLockCommand.isChest(nearbyBlock) || RemoveLockCommand.isDoor(nearbyBlock)) {
                         String storedPin = DatabaseManager.getLockedBlockPin(nearbyBlock.getLocation());
                         UUID ownerUUID = DatabaseManager.getLockedBlockOwnerUUID(nearbyBlock.getLocation());
     

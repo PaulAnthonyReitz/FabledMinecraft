@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -12,6 +12,9 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import com.fabledclan.DatabaseManager;
+import com.fabledclan.EnemyCache;
 import com.fabledclan.DatabaseManager.PlayerStats;
 
 import net.md_5.bungee.api.ChatColor;
@@ -30,7 +33,7 @@ import java.sql.PreparedStatement;
 
 public class PlayerJoinListener implements Listener {
 
-    private EnemyCache enemyCache;
+    private static EnemyCache enemyCache = new EnemyCache();
     private Random random = new Random();
 
     private List<Flavor> glytchFlavors = Arrays.asList(
@@ -44,11 +47,6 @@ public class PlayerJoinListener implements Listener {
         new Flavor("Cherry Bomb", Color.fromRGB(255, 0, 0), ChatColor.RED, new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 600, 1)),
         new Flavor("Fabled FBomb", Color.fromRGB(255, 165, 0), ChatColor.GOLD, new PotionEffect(PotionEffectType.ABSORPTION, 600, 1))
     );
-    
-
-    public PlayerJoinListener(Main plugin) {
-        this.enemyCache = new EnemyCache(plugin, this);
-    }
 
     private void applyPlayerStats(Player player) {
         PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
@@ -61,7 +59,7 @@ public class PlayerJoinListener implements Listener {
         // Set other attributes if needed
     }
 
-    public EnemyCache getEnemyCache() {
+    public static EnemyCache getEnemyCache() {
         return enemyCache;
     }
     
@@ -114,7 +112,7 @@ public class PlayerJoinListener implements Listener {
         }
     }
         
-    public List<BaseComponent[]> createEnemyPages() {
+    public static List<BaseComponent[]> createEnemyPages() {
         List<BaseComponent[]> enemyPages = new ArrayList<>();
     
         try {
@@ -159,7 +157,7 @@ public class PlayerJoinListener implements Listener {
         return enemyPages;
     }
 
-    public BaseComponent[] createSecondPage(Player player) {
+    public static BaseComponent[] createSecondPage(Player player) {
         // Retrieve player stats and build the second page of the book
         PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
     

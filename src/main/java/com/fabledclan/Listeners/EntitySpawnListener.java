@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Listeners;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
@@ -8,17 +8,13 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import com.fabledclan.Main;
+
 import java.util.Random;
 
 public class EntitySpawnListener implements Listener {
 
-    private final Main plugin;
-    private final Random random;
-
-    public EntitySpawnListener(Main plugin) {
-        this.plugin = plugin;
-        this.random = new Random();
-    }
+    private final Random random = new Random();
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
@@ -32,7 +28,7 @@ public class EntitySpawnListener implements Listener {
 
     private void setCustomMobNameAndHealthAndNM(LivingEntity entity) {
         PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
-        NamespacedKey levelKey = new NamespacedKey(plugin, "enemy_level");
+        NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
         int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
     
         // Check for NM status and adjust level
@@ -58,7 +54,7 @@ public class EntitySpawnListener implements Listener {
     
 
         // Set NM status in PersistentDataContainer
-        NamespacedKey nmKey = new NamespacedKey(plugin, "nm");
+        NamespacedKey nmKey = new NamespacedKey(Main.getPlugin(), "nm");
         dataContainer.set(nmKey, PersistentDataType.INTEGER, isNM ? 1 : 0);
 
         int roundedHealth = (int) Math.round(entity.getHealth());
@@ -77,7 +73,7 @@ public class EntitySpawnListener implements Listener {
             // Replace the following line with your own custom effects and name generation logic
             String nmName = NameGenerator.generateRandomName();
                         // Set NM name in PersistentDataContainer
-                        NamespacedKey nmNameKey = new NamespacedKey(plugin, "NMName");
+                        NamespacedKey nmNameKey = new NamespacedKey(Main.getPlugin(), "NMName");
                         dataContainer.set(nmNameKey, PersistentDataType.STRING, nmName);
             
             entity.setCustomName(nmName);
