@@ -5,6 +5,8 @@ import org.bukkit.inventory.Recipe;
 
 import com.fabledclan.CustomBlocks.CustomBlock;
 import com.fabledclan.CustomItems.CustomItem;
+import com.fabledclan.Registers.CustomBlockRegistry;
+import com.fabledclan.Registers.CustomItemRegistry;
 
 // This class simply initializes all the recipes
 //

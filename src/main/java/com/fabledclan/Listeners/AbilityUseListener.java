@@ -21,9 +21,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.fabledclan.Ability;
-import com.fabledclan.AbilityRegistry;
 import com.fabledclan.Main;
+import com.fabledclan.CustomAbilities.Ability;
+import com.fabledclan.Registers.AbilityRegistry;
 
 // import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.event.entity.ProjectileHitEvent;

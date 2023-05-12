@@ -10,8 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.fabledclan.Ability;
 import com.fabledclan.Main;
+import com.fabledclan.CustomAbilities.Ability;
 
 public class DashSpell extends CustomItem {
     public DashSpell() {

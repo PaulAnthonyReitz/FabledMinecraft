@@ -7,6 +7,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.fabledclan.Listeners.PlayerJoinListener;
+import com.fabledclan.Registers.AbilityRegistry;
+import com.fabledclan.Registers.CustomBlockRegistry;
+import com.fabledclan.Registers.CustomItemRegistry;
+import com.fabledclan.Registers.EventRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

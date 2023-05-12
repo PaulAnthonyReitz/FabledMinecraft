@@ -15,10 +15,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-import com.fabledclan.CustomBlockRegistry;
 import com.fabledclan.DatabaseManager;
 import com.fabledclan.CustomBlocks.CustomBlock;
 import com.fabledclan.CustomBlocks.CustomContainer;
+import com.fabledclan.Registers.CustomBlockRegistry;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;

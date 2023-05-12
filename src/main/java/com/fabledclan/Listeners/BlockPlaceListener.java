@@ -7,9 +7,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.fabledclan.CustomBlockRegistry;
 import com.fabledclan.Main;
 import com.fabledclan.CustomBlocks.CustomBlock;
+import com.fabledclan.Registers.CustomBlockRegistry;
 
 // Listens for any custom block that was placed and calls the placeEvent() method
 
