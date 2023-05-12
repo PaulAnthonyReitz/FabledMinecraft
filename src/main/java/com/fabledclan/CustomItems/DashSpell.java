@@ -15,13 +15,14 @@ import com.fabledclan.Main;
 
 public class DashSpell extends CustomItem {
     public DashSpell() {
-        super("dash_spell");
+        super("dash_spell", false);
     }
 
     public ItemStack item() {
         ItemStack dashSpell = new ItemStack(Material.SUGAR, 1);
         ItemMeta meta = dashSpell.getItemMeta();
         meta.setDisplayName(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "DASH");
+        // meta.setCustomModelData(12358);
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey(Main.getPlugin(), Ability.getKey()), PersistentDataType.STRING, "dash");
         dashSpell.setItemMeta(meta);

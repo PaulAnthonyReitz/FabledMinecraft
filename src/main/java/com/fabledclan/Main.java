@@ -40,6 +40,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(playerInteractListener, this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new PrepareCraftItemListener(), this);
         this.getCommand("lock").setExecutor(new LockCommand());
         getCommand("unlock").setExecutor(new UnlockLockCommand(this));
         getCommand("removelock").setExecutor(new RemoveLockCommand());
