@@ -152,3 +152,4 @@ target/classes/com/fabledclan/CustomItems/CustomItem.class
 target/classes/com/fabledclan/CustomItems/DashSpell.class
 target/classes/com/fabledclan/CustomStructures/CustomStructure.class
 target/test-classes/com/fabledclan/AppTest.class
+pom.xml
