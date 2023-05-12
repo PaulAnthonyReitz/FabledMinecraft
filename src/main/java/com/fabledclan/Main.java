@@ -5,8 +5,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.fabledclan.CustomBlocks.CustomBlock;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,11 +24,9 @@ public class Main extends JavaPlugin {
         Bukkit.getLogger().info("Plugin enabled!");
 
         saveDefaultConfig();
-        DatabaseManager.setPlugin(this);
         playerJoinListener = new PlayerJoinListener(this);
 
-        CustomBlock.setPlugin(this);
-        CustomBlockRegistry.initializeBlocks(this);
+        CustomBlockRegistry.initializeBlocks();
         CustomItemRegistry.initializeItems();
         AbilityRegistry.initializeAbilities();
         CustomRecipes.addRecipes();

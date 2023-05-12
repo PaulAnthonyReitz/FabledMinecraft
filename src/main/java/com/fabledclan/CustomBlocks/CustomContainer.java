@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.fabledclan.DatabaseManager;
+import com.fabledclan.Main;
 
 public abstract class CustomContainer extends CustomBlock {
     private static final String CONTAINER_KEY = "custom_container";
@@ -19,13 +20,13 @@ public abstract class CustomContainer extends CustomBlock {
     }
 
     public void defaultPlace(BlockPlaceEvent event) {
-        event.getBlock().getState().setMetadata(getContainerKey(), new FixedMetadataValue(getPlugin(), getName()));
+        event.getBlock().getState().setMetadata(getContainerKey(), new FixedMetadataValue(Main.getPlugin(), getName()));
         DatabaseManager.insertCustomContainerBlock(event.getBlock().getLocation(), getName());
     }
 
     public void defaultBreak(BlockBreakEvent event) {
         DatabaseManager.deleteCustomContainerBlock(event.getBlock().getLocation());
-        event.getBlock().removeMetadata(getContainerKey(), getPlugin()); // removes the metadata from the block position (IMPORTANT)
+        event.getBlock().removeMetadata(getContainerKey(), Main.getPlugin()); // removes the metadata from the block position (IMPORTANT)
         Boolean itemWillDrop = event.isDropItems();
         if (!itemWillDrop) return;
         event.setDropItems(false); // stops the default smithing table from dropping

@@ -14,6 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import com.fabledclan.Main;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -29,7 +31,7 @@ public class WandCrafter extends CustomContainer {
         ItemStack wandCrafter = new ItemStack(getMaterial(), 1);
         ItemMeta meta = wandCrafter.getItemMeta();
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(getPlugin(), getKey()), PersistentDataType.STRING, getName());
+        data.set(new NamespacedKey(Main.getPlugin(), getKey()), PersistentDataType.STRING, getName());
         meta.setDisplayName(ChatColor.RESET + "Wand Crafter");
         meta.setLore(new ArrayList<String>(Arrays.asList("Requires the power", "of Crying Obsidian")));
         wandCrafter.setItemMeta(meta);
@@ -37,7 +39,7 @@ public class WandCrafter extends CustomContainer {
     }
 
     public Recipe recipe() {
-        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(getPlugin(), getName()), getItem());
+        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Main.getPlugin(), getName()), getItem());
         recipe.shape(" D ", "DCD", " D ");
         recipe.setIngredient('D', Material.DIAMOND);
         recipe.setIngredient('C', Material.CRAFTING_TABLE);

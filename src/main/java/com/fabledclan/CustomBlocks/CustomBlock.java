@@ -5,7 +5,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.plugin.Plugin;
 
 // This abstract class is the base for all custom blocks in the plugin
 // The only thing it needs passed into the super() is the name of it
@@ -19,7 +18,6 @@ public abstract class CustomBlock {
     private final Recipe recipe;
     private final ItemStack item;
     private final Material material;
-    private static Plugin PLUGIN;
     private static final String KEY = "custom_block"; // key used for data containers
 
     public CustomBlock(String name, Material material) {
@@ -44,14 +42,6 @@ public abstract class CustomBlock {
 
     public Recipe getRecipe() {
         return recipe;
-    }
-
-    public static Plugin getPlugin() {
-        return PLUGIN;
-    }
-
-    public static void setPlugin(Plugin plugin) {
-        PLUGIN = plugin;
     }
 
     public ItemStack getItem() {

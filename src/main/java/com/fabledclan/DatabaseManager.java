@@ -15,12 +15,11 @@ import org.bukkit.World;
 public class DatabaseManager {
     private static final String DB_FILE = "player_stats.db";
     private static Connection connection;
-    private static Main PLUGIN;
 
     public static void initDatabase() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + getPlugin().getDataFolder().toPath().resolve(DB_FILE));
+            connection = DriverManager.getConnection("jdbc:sqlite:" + Main.getPlugin().getDataFolder().toPath().resolve(DB_FILE));
             createTables();
             createEnemyTable();
             createBounties();
@@ -30,14 +29,6 @@ public class DatabaseManager {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void setPlugin(Main plugin) {
-        PLUGIN = plugin;
-    }
-
-    public static Main getPlugin() {
-        return PLUGIN;
     }
 
     private static void createCustomContainerTable() {
@@ -291,7 +282,7 @@ public class DatabaseManager {
     public static void ensureConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             // Replace this line with your actual code to open the connection
-            connection = DriverManager.getConnection("jdbc:sqlite:" + getPlugin().getDataFolder().toPath().resolve(DB_FILE));
+            connection = DriverManager.getConnection("jdbc:sqlite:" + Main.getPlugin().getDataFolder().toPath().resolve(DB_FILE));
         }
     }
 
@@ -599,7 +590,7 @@ public class DatabaseManager {
             if (connection == null || connection.isClosed()) {
                 Class.forName("org.sqlite.JDBC");
                 connection = DriverManager
-                        .getConnection("jdbc:sqlite:" + getPlugin().getDataFolder().toPath().resolve(DB_FILE));
+                        .getConnection("jdbc:sqlite:" + Main.getPlugin().getDataFolder().toPath().resolve(DB_FILE));
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
