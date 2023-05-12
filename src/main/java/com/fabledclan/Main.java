@@ -6,8 +6,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.fabledclan.Listeners.PlayerJoinListener;
+import com.fabledclan.Commands.CommandClass;
 import com.fabledclan.Registers.AbilityRegistry;
+import com.fabledclan.Registers.CommandRegistry;
 import com.fabledclan.Registers.CustomBlockRegistry;
 import com.fabledclan.Registers.CustomItemRegistry;
 import com.fabledclan.Registers.EventRegistry;
@@ -37,22 +38,8 @@ public class Main extends JavaPlugin {
         CustomRecipes.addRecipes();
 
         initializeListeners();
-        
-        this.getCommand("lock").setExecutor(new LockCommand());
-        getCommand("unlock").setExecutor(new UnlockLockCommand(this));
-        getCommand("removelock").setExecutor(new RemoveLockCommand());
-        getCommand("leaderboard").setExecutor(new Leaderboard());
-        getCommand("book").setExecutor(new BookCommand());
-        getCommand("settings").setExecutor(new SettingsCommand());
 
-        MenuGUI menuGUI = new MenuGUI();
-        getServer().getPluginManager().registerEvents(menuGUI, this);
-        getCommand("menu").setExecutor(new MenuCommand(menuGUI));
-
-        getCommand("viewstats").setExecutor(new ViewStatsCommand());
-        getCommand("viewenemies").setExecutor(new ViewEnemiesCommand());
-        getCommand("setattributes").setExecutor(new SetAttributesCommand());
-        getCommand("updateenemypages").setExecutor(new UpdateEnemyPagesCommand(PlayerJoinListener.getEnemyCache()));
+        initializeCommands();
 
         // Populate the cache when the server starts
         populateEnemyDataCache();
@@ -62,12 +49,6 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(abilities, this);
         getServer().getPluginManager().registerEvents(summonCommand, this);
         abilities.startTasks();
-
-        this.getCommand("enchant").setExecutor(new EnchantCommand(this));
-        this.getCommand("unenchant").setExecutor(new UnenchantCommand(this));
-        this.getCommand("spells").setExecutor(new SpellsCommand());
-
-        getCommand("home").setExecutor(new HomeCommand(this));
 
     }
 
@@ -88,6 +69,13 @@ public class Main extends JavaPlugin {
         EventRegistry.init();
         for (Listener listener : EventRegistry.getListeners()) {
             getServer().getPluginManager().registerEvents(listener, getPlugin());
+        }
+    }
+
+    private void initializeCommands() {
+        CommandRegistry.init();
+        for (CommandClass command : CommandRegistry.getCommands()) {
+            getCommand(command.getName()).setExecutor(command);
         }
     }
 

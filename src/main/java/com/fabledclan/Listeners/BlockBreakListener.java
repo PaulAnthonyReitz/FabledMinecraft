@@ -11,7 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.fabledclan.DatabaseManager;
-import com.fabledclan.RemoveLockCommand;
+import com.fabledclan.Commands.RemoveLockCommand;
 import com.fabledclan.CustomBlocks.CustomBlock;
 import com.fabledclan.CustomBlocks.CustomContainer;
 import com.fabledclan.Registers.CustomBlockRegistry;

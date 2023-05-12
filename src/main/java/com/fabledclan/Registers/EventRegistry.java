@@ -13,6 +13,7 @@ import com.fabledclan.Listeners.EntityDamageListenerPlayers;
 import com.fabledclan.Listeners.EntityDeathListener;
 import com.fabledclan.Listeners.EntitySpawnListener;
 import com.fabledclan.Listeners.LockInteractionListener;
+import com.fabledclan.Listeners.MenuGUI;
 import com.fabledclan.Listeners.PlayerDeathListener;
 import com.fabledclan.Listeners.PlayerInteractListener;
 import com.fabledclan.Listeners.PlayerJoinListener;
@@ -35,7 +36,8 @@ public class EventRegistry {
             new PlayerDeathListener(),
             new PlayerInteractListener(),
             new PlayerJoinListener(),
-            new PrepareCraftItemListener()
+            new PrepareCraftItemListener(),
+            new MenuGUI()
         ));
         listeners = ret;
     }
