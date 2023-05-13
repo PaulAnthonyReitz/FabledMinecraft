@@ -38,7 +38,8 @@ public class DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS xp_container" +
             "(player TEXT NOT NULL," +
-            "xp INTEGER NOT NULL)");
+            "xp INTEGER NOT NULL, " +
+            "name TEXT NOT NULL)");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
