@@ -11,6 +11,13 @@ import org.bukkit.metadata.FixedMetadataValue;
 import com.fabledclan.DatabaseManager;
 import com.fabledclan.Main;
 
+// CustomContainer class extends the CustomBlock class to add some extra functionallity for custom blocks that are
+// specifically containers. CustomContainer adds defaultPlace() and defaultBreak() which automatically set the 
+// blocks metadata to the name of the block as well as store the information in the database.
+// CustomContainer also adds the abstract interactEvent() method which needs to be filled out for when a player
+// interacts (usually opening an inventory).
+// Also adds the abstract method makeInventory() to create the inventory the container is using.
+
 public abstract class CustomContainer extends CustomBlock {
     private static final String CONTAINER_KEY = "custom_container";
     private final Inventory inventory;

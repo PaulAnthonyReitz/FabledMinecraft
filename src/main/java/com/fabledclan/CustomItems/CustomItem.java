@@ -4,6 +4,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+// CustomItem class is an abstract class that defines all items added to the plugin. The boolean USED_IN_DEFAULT_RECIPES
+// determines whether or not the item is allowed to be used in vanilla recipes, i.e. if the Material is a stick it shouldn't
+// be crafted into a pickaxe
+
+// item() and recipe() are required to be filled out
+
 public abstract class CustomItem {
     private final String NAME;
     private final Recipe RECIPE;

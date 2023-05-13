@@ -6,6 +6,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
+import com.fabledclan.CustomItems.CustomItem;
+
 // This abstract class is the base for all custom blocks in the plugin
 // The only thing it needs passed into the super() is the name of it
 
@@ -13,18 +15,13 @@ import org.bukkit.inventory.Recipe;
 // if the block doesn't have a recipe you can set the method to return 'null' (the recipe handler will deal with this)
 // also the event methods don't have to be filled out but it may be requried to initialize them
 
-public abstract class CustomBlock {
-    private final String name;
-    private final Recipe recipe;
-    private final ItemStack item;
+public abstract class CustomBlock extends CustomItem {
     private final Material material;
     private static final String KEY = "custom_block"; // key used for data containers
 
     public CustomBlock(String name, Material material) {
-        this.name = name;
+        super(name, false);
         this.material = material;
-        this.item = item();
-        this.recipe = recipe();
     }
 
     public abstract ItemStack item();
@@ -34,19 +31,6 @@ public abstract class CustomBlock {
     public abstract void placeEvent(BlockPlaceEvent event);
 
     public abstract void breakEvent(BlockBreakEvent event);
-
-
-    public String getName() {
-        return name;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public ItemStack getItem() {
-        return item;
-    }
 
     public Material getMaterial() {
         return material;

@@ -40,6 +40,7 @@ public class DarkVortex extends SpellAbility {
 
                 for (Entity entity : vortexLocation.getWorld().getNearbyEntities(vortexLocation, 10, 10, 10)) {
                     if (vortexArea.contains(entity.getLocation().toVector())) {
+                        if (entity == player) continue;
                         Vector direction = vortexLocation.toVector().subtract(entity.getLocation().toVector())
                                 .normalize();
                         entity.setVelocity(entity.getVelocity().add(direction.multiply(0.5)));
