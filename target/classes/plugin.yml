@@ -1,0 +1,49 @@
+name: FabledClanPlugin
+version: 1.0.0
+main: com.fabledclan.Main
+api-version: 1.19
+commands:
+  viewstats:
+    description: View player stats
+    usage: /viewstats
+  viewenemies:
+    description: View enemy stats
+    usage: /viewenemies
+  leaderboard:
+    description: View the top 10 players by level and exp
+    usage: /leaderboard
+  setattributes:
+    description: Sets attack damage and attack speed for the item in hand
+    usage: /<command> <damage> <speed>
+  menu:
+    description: Opens the upgrade menu
+    usage: /<command>
+  lock:
+    description: Locks a door or chest with a PIN.
+  unlock:
+    description: Unlocks a door or chest with a PIN.    
+  removelock:
+    description: Removes a door or chest with a PIN.
+  book:
+    description: Gives you a new Fabled Book.   
+  settings:
+    description: Update player settings.
+    usage: /settings <start_book | start_glytch> <true | false>
+  updateenemypages:
+    description: Force an update of the enemy pages cache
+    usage: /<command>
+  summon:
+    description: Summon a player to your location.
+    usage: /<command> <player>
+  enchant:
+    description: Embeds a spell or stamina ability onto the item in hand.
+    usage: /<command> [ability]
+  unenchant:
+    description: Remove an ability from the item in your main hand.
+    usage: /unenchant
+  spells:
+    description: Displays a list of available spells
+    usage: /spells
+  home:
+    description: warps you home in a 20 second delay
+    usage: /home
