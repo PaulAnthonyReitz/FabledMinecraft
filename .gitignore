@@ -1,0 +1,10 @@
+*.class
+target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+target/surefire-reports/com.fabledclan.AppTest.txt
+target/surefire-reports/TEST-com.fabledclan.AppTest.xml
+target/maven-archiver/pom.properties
+target/maven-archiver/pom.properties
+*.properties
