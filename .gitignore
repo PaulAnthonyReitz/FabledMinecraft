@@ -153,3 +153,14 @@ target/classes/com/fabledclan/CustomItems/DashSpell.class
 target/classes/com/fabledclan/CustomStructures/CustomStructure.class
 target/test-classes/com/fabledclan/AppTest.class
 pom.xml
+target/classes/com/fabledclan/CustomBlocks/CustomContainer.class
+target/classes/com/fabledclan/CustomItems/CustomItem.class
+target/classes/com/fabledclan/CustomItems/DashSpell.class
+target/classes/com/fabledclan/CustomRecipes.class
+target/classes/com/fabledclan/EnemyCache.class
+target/classes/com/fabledclan/Main.class
+target/maven-archiver/pom.properties
+target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+target/surefire-reports/TEST-com.fabledclan.AppTest.xml
+target/surefire-reports/com.fabledclan.AppTest.txt
