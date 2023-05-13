@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class DatabaseManager {
     private static final String DB_FILE = "player_stats.db";
@@ -304,11 +305,12 @@ public class DatabaseManager {
         }
     }
 
-    public static void insertPlayerExperience(UUID playerID, int xpLevel) {
+    public static void insertPlayerExperience(Player player, int xpLevel) {
         Connection connection = getConnection();
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO xp_container (player, xp) VALUES (?, ?)")) {
-            ps.setString(1, playerID.toString());
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO xp_container (player, xp, name) VALUES (?, ?, ?)")) {
+            ps.setString(1, player.getUniqueId().toString());
             ps.setInt(2, xpLevel);
+            ps.setString(3, player.getName());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

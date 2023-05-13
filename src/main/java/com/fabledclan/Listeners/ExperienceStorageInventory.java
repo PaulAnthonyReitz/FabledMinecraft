@@ -134,7 +134,7 @@ public class ExperienceStorageInventory implements Listener {
         player.giveExp(playerXPChange);
 
         if (DatabaseManager.getPlayerExperience(player.getUniqueId()) == -1) {
-            DatabaseManager.insertPlayerExperience(player.getUniqueId(), newStoredXP);
+            DatabaseManager.insertPlayerExperience(player, newStoredXP);
         } else {
             DatabaseManager.updatePlayerExperience(player.getUniqueId(), newStoredXP);
         }
