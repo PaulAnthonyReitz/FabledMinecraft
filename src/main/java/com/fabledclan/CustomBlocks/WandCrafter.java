@@ -1,18 +1,11 @@
 package com.fabledclan.CustomBlocks;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import com.fabledclan.Main;
 
@@ -24,18 +17,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class WandCrafter extends CustomContainer {
 
     public WandCrafter() {
-        super("wand_crafter", Material.SMITHING_TABLE);
-    }
-
-    public ItemStack item() {
-        ItemStack wandCrafter = new ItemStack(getMaterial(), 1);
-        ItemMeta meta = wandCrafter.getItemMeta();
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(Main.getPlugin(), getKey()), PersistentDataType.STRING, getName());
-        meta.setDisplayName(ChatColor.RESET + "Wand Crafter");
-        meta.setLore(new ArrayList<String>(Arrays.asList("Requires the power", "of Crying Obsidian")));
-        wandCrafter.setItemMeta(meta);
-        return wandCrafter;
+        super("wand_crafter", (ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "Wand Crafter"),
+        Material.SMITHING_TABLE);
     }
 
     public Recipe recipe() {

@@ -1,5 +1,7 @@
 package com.fabledclan.CustomBlocks;
 
+import java.util.ArrayList;
+
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -22,8 +24,13 @@ public abstract class CustomContainer extends CustomBlock {
     private static final String CONTAINER_KEY = "custom_container";
     private final Inventory inventory;
 
-    public CustomContainer(String name, Material material) {
-        super(name, material);
+    public CustomContainer(String name, String displayName, Material material) {
+        super(name, displayName, material);
+        this.inventory = makeInventory();
+    }
+
+    public CustomContainer(String name, String displayName, Material material, ArrayList<String> lore) {
+        super(name, displayName, material, lore);
         this.inventory = makeInventory();
     }
 
@@ -37,7 +44,7 @@ public abstract class CustomContainer extends CustomBlock {
         event.getBlock().removeMetadata(getContainerKey(), Main.getPlugin()); // removes the metadata from the block position (IMPORTANT)
         Boolean itemWillDrop = event.isDropItems();
         if (!itemWillDrop) return;
-        event.setDropItems(false); // stops the default smithing table from dropping
+        event.setDropItems(false); // stops the default block from dropping
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), getItem()); // drops the ItemStack at the block location
     }

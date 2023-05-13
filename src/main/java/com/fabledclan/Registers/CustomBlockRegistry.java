@@ -24,7 +24,8 @@ public class CustomBlockRegistry {
         ArrayList<CustomBlock> list = new ArrayList<CustomBlock>(
             Arrays.asList(
                 // ADD BLOCKS HERE:
-                new WandCrafter()
+                new WandCrafter(),
+                new ExperienceStorage()
             ));
         blocks = list;
 
