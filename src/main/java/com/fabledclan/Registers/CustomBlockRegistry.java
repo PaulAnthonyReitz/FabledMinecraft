@@ -33,6 +33,7 @@ public class CustomBlockRegistry {
             if (!(b instanceof CustomContainer)) continue;
             for (World world : Main.getPlugin().getServer().getWorlds()) {
                 ArrayList<Location> locations = DatabaseManager.getAllCustomContainerLocations(world);
+                if (locations == null) return;
                 for (Location location : locations) {
                     String blockName = DatabaseManager.getCustomContainerName(location);
                     if (!b.getName().equals(blockName)) continue;
