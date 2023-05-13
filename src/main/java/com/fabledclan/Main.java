@@ -30,8 +30,6 @@ public class Main extends JavaPlugin {
         instance = this;
         Bukkit.getLogger().info("Plugin enabled!");
 
-        DatabaseManager.initDatabase();
-        
         saveDefaultConfig();
 
         CustomBlockRegistry.initializeBlocks();
