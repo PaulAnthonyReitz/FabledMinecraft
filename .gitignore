@@ -10,3 +10,4 @@ target/maven-archiver/pom.properties
 *.yml
 *.xml
 
+pom.xml

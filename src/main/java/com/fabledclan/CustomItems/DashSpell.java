@@ -15,22 +15,16 @@ import com.fabledclan.CustomAbilities.Ability;
 
 public class DashSpell extends CustomItem {
     public DashSpell() {
-        super("dash_spell", false);
-    }
-
-    public ItemStack item() {
-        ItemStack dashSpell = new ItemStack(Material.SUGAR, 1);
-        ItemMeta meta = dashSpell.getItemMeta();
-        meta.setDisplayName(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "DASH");
-        // meta.setCustomModelData(12358);
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(Main.getPlugin(), Ability.getKey()), PersistentDataType.STRING, "dash");
-        dashSpell.setItemMeta(meta);
-        return dashSpell;
+        super("dash_spell", Material.SUGAR, (ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "DASH"), false);
     }
 
     public Recipe recipe() {
-        ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(Main.getPlugin(), getName()), getItem());
+        ItemStack item = getItem();
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(new NamespacedKey(Main.getPlugin(), Ability.getKey()), PersistentDataType.STRING, "dash");
+        item.setItemMeta(meta);
+        ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(Main.getPlugin(), getName()), item);
         recipe.addIngredient(1, Material.STICK);
         recipe.addIngredient(1, Material.SUGAR);
         return recipe;

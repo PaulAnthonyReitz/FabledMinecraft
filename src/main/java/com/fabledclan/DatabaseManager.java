@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class DatabaseManager {
     private static final String DB_FILE = "player_stats.db";
@@ -26,8 +27,26 @@ public class DatabaseManager {
             createLockTable();
             createPlayerConfig();
             createCustomContainerTable();
+            createExperienceContainerTable();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private static void createExperienceContainerTable() {
+        Connection connection = getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("CREATE TABLE IF NOT EXISTS xp_container" +
+            "(player TEXT NOT NULL," +
+            "xp INTEGER NOT NULL)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -284,6 +303,43 @@ public class DatabaseManager {
             // Replace this line with your actual code to open the connection
             connection = DriverManager.getConnection("jdbc:sqlite:" + Main.getPlugin().getDataFolder().toPath().resolve(DB_FILE));
         }
+    }
+
+    public static void insertPlayerExperience(Player player, int xpLevel) {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO xp_container (player, xp, name) VALUES (?, ?, ?)")) {
+            ps.setString(1, player.getUniqueId().toString());
+            ps.setInt(2, xpLevel);
+            ps.setString(3, player.getName());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updatePlayerExperience(UUID playerID, int xp) {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE xp_container SET xp = ? WHERE player = ?")) {
+            ps.setInt(1, xp);
+            ps.setString(2, playerID.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getPlayerExperience(UUID playerID) {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT xp FROM xp_container WHERE player = ?")) {
+            ps.setString(1, playerID.toString());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public static void insertLockedBlock(Location location, String pin, UUID owner_uuid, String owner_name) {
