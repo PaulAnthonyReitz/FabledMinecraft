@@ -2,6 +2,8 @@ package com.fabledclan.CustomStructures;
 
 import org.bukkit.Location;
 
+// WIP class to create custom structures that custom containers may require (i.e. a beacon)
+
 public abstract class CustomStructure {
     private static final String KEY = "custom_structure"; // key given to structure blocks as metadata
     private final String NAME;

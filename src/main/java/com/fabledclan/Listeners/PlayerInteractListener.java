@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.metadata.MetadataValue;
 
 import com.fabledclan.DatabaseManager;
 import com.fabledclan.CustomBlocks.CustomBlock;
@@ -31,7 +32,9 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.hasBlock() && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getClickedBlock().getState().hasMetadata(CustomContainer.getContainerKey())) {
-                String value = event.getClickedBlock().getState().getMetadata(CustomContainer.getContainerKey()).get(0).asString();
+                List<MetadataValue> values = event.getClickedBlock().getState().getMetadata(CustomContainer.getContainerKey());
+                if (values.size() == 0) return;
+                String value = values.get(0).asString();
                 for (CustomBlock block : CustomBlockRegistry.getBlocks()) {
                     if (!(block instanceof CustomContainer)) continue;
                     if (block.getName().equals(value)) {

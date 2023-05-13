@@ -14,6 +14,7 @@ import com.fabledclan.Listeners.EntityDamageListenerMobs;
 import com.fabledclan.Listeners.EntityDamageListenerPlayers;
 import com.fabledclan.Listeners.EntityDeathListener;
 import com.fabledclan.Listeners.EntitySpawnListener;
+import com.fabledclan.Listeners.ExperienceStorageInventory;
 import com.fabledclan.Listeners.LockInteractionListener;
 import com.fabledclan.Listeners.MenuGUI;
 import com.fabledclan.Listeners.PlayerDeathListener;
@@ -41,7 +42,8 @@ public class EventRegistry {
             new PrepareCraftItemListener(),
             new MenuGUI(),
             new SummonCommand(),
-            new Abilities()
+            new Abilities(),
+            new ExperienceStorageInventory()
         ));
         listeners = ret;
     }
