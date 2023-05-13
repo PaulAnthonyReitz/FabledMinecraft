@@ -1,5 +1,6 @@
 package com.fabledclan.CustomBlocks;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -30,6 +31,7 @@ public abstract class CustomContainer extends CustomBlock {
         Boolean itemWillDrop = event.isDropItems();
         if (!itemWillDrop) return;
         event.setDropItems(false); // stops the default smithing table from dropping
+        if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), getItem()); // drops the ItemStack at the block location
     }
 

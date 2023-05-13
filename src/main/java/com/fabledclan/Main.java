@@ -2,8 +2,16 @@ package com.fabledclan;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.fabledclan.Commands.CommandClass;
+import com.fabledclan.Registers.AbilityRegistry;
+import com.fabledclan.Registers.CommandRegistry;
+import com.fabledclan.Registers.CustomBlockRegistry;
+import com.fabledclan.Registers.CustomItemRegistry;
+import com.fabledclan.Registers.EventRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +23,6 @@ import org.bukkit.boss.BarStyle;
 public class Main extends JavaPlugin {
     private FileConfiguration config;
     private static Main instance;
-    private PlayerJoinListener playerJoinListener;
     private Map<EntityType, EnemyData> enemyDataCache = new HashMap<>();
 
     @Override
@@ -24,58 +31,18 @@ public class Main extends JavaPlugin {
         Bukkit.getLogger().info("Plugin enabled!");
 
         saveDefaultConfig();
-        playerJoinListener = new PlayerJoinListener(this);
 
         CustomBlockRegistry.initializeBlocks();
         CustomItemRegistry.initializeItems();
         AbilityRegistry.initializeAbilities();
         CustomRecipes.addRecipes();
-        
-        getServer().getPluginManager().registerEvents(playerJoinListener, this);
-        getServer().getPluginManager().registerEvents(new EntityDamageListenerMobs(this), this);
-        getServer().getPluginManager().registerEvents(new EntityDamageListenerPlayers(this), this);
-        getServer().getPluginManager().registerEvents(new EntityDeathListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
-        PlayerInteractListener playerInteractListener = new PlayerInteractListener(this, playerJoinListener);
-        getServer().getPluginManager().registerEvents(playerInteractListener, this);
-        getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
-        getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
-        this.getCommand("lock").setExecutor(new LockCommand());
-        getCommand("unlock").setExecutor(new UnlockLockCommand(this));
-        getCommand("removelock").setExecutor(new RemoveLockCommand());
-        getCommand("leaderboard").setExecutor(new Leaderboard());
-        getCommand("book").setExecutor(new BookCommand(this));
-        getCommand("settings").setExecutor(new SettingsCommand());
 
-        MenuGUI menuGUI = new MenuGUI();
-        getServer().getPluginManager().registerEvents(menuGUI, this);
-        getCommand("menu").setExecutor(new MenuCommand(menuGUI));
+        initializeListeners();
 
-        getCommand("viewstats").setExecutor(new ViewStatsCommand());
-        getCommand("viewenemies").setExecutor(new ViewEnemiesCommand());
-        getCommand("setattributes").setExecutor(new SetAttributesCommand());
-        getCommand("updateenemypages").setExecutor(new UpdateEnemyPagesCommand(playerJoinListener.getEnemyCache()));
+        initializeCommands();
 
         // Populate the cache when the server starts
         populateEnemyDataCache();
-        Abilities abilities = new Abilities(this);
-        SummonCommand summonCommand = new SummonCommand(this, abilities);
-        getCommand("summon").setExecutor(summonCommand);
-        getServer().getPluginManager().registerEvents(abilities, this);
-        getServer().getPluginManager().registerEvents(summonCommand, this);
-        abilities.startTasks();
-
-        AbilityUseListener abilityUseListener = new AbilityUseListener(this, abilities);
-
-        getServer().getPluginManager().registerEvents(new LockInteractionListener(), this);
-        this.getCommand("enchant").setExecutor(new EnchantCommand(this));
-        getServer().getPluginManager().registerEvents(abilityUseListener, this);
-        this.getCommand("unenchant").setExecutor(new UnenchantCommand(this));
-        this.getServer().getPluginManager().registerEvents(abilityUseListener, this);
-        this.getCommand("spells").setExecutor(new SpellsCommand(abilityUseListener));
-
-        getCommand("home").setExecutor(new HomeCommand(this));
-
     }
 
     public static Plugin getPlugin() {
@@ -89,6 +56,20 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getLogger().info("Plugin disabled!");
+    }
+
+    private void initializeListeners() {
+        EventRegistry.init();
+        for (Listener listener : EventRegistry.getListeners()) {
+            getServer().getPluginManager().registerEvents(listener, getPlugin());
+        }
+    }
+
+    private void initializeCommands() {
+        CommandRegistry.init();
+        for (CommandClass command : CommandRegistry.getCommands()) {
+            getCommand(command.getName()).setExecutor(command);
+        }
     }
 
     public BarColor getBossBarColor(double currentHealth, double maxHealth) {
@@ -118,10 +99,6 @@ public class Main extends JavaPlugin {
     public void reloadPluginConfig() {
         reloadConfig();
         config = getConfig();
-    }
-
-    public PlayerJoinListener getPlayerJoinListener() {
-        return playerJoinListener;
     }
 
     private void populateEnemyDataCache() {
