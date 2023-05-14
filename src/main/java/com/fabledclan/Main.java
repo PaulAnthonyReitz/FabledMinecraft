@@ -32,6 +32,8 @@ public class Main extends JavaPlugin {
 
         saveDefaultConfig();
 
+        DatabaseManager.initDatabase();
+
         CustomBlockRegistry.initializeBlocks();
         CustomItemRegistry.initializeItems();
         AbilityRegistry.initializeAbilities();
