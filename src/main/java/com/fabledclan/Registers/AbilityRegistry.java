@@ -26,7 +26,9 @@ public class AbilityRegistry {
             new PlagueSwarm("plague_swarm", 1, 60),
             new VaderChoke("vader_choke", 1, 50),
             new UndeadArmy("undead_army", 1, 75),
-            new Feather("feather", 1, 40)
+            new Feather("feather", 1, 40),
+            new Feed(),
+            new Heal()
         ));
         abilityList = abilities;
     }

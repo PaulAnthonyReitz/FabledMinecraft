@@ -1,6 +1,6 @@
 package com.fabledclan.Listeners;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,12 +33,12 @@ public class AbilityUseListener implements Listener {
     private Map<UUID, Long> lastRightClickTime = new HashMap<>();
     // private final Map<UUID, BukkitTask> lightningStrikeTasks = new HashMap<>();
 
-    public static List<String> spellList = Arrays.asList("dash", "dark_vortex", "dragon_breath", "feather", "fireball", "ice_shard",
-            "lightning_strike", "magic_missile", "party", "plague_swarm", "power_strike", "summon_giant", "undead_army",
-            "vader_choke", "wrangle", "yeet_boat");
-
     public static List<String> getSpellList() {
-        return spellList;
+        ArrayList<String> spells = new ArrayList<String>();
+        for (Ability spell : AbilityRegistry.getAbilities()) {
+            spells.add(spell.getName());
+        }
+        return spells;
     }
 
     @EventHandler
