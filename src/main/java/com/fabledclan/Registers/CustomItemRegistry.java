@@ -12,7 +12,8 @@ public class CustomItemRegistry {
         if (ITEMS != null) return;
         ArrayList<CustomItem> items = new ArrayList<CustomItem>(Arrays.asList(
             // ADD ITEMS HERE:
-            new DashSpell()
+            new DashSpell(),
+            new AnimalCage()
         ));
         ITEMS = items;
     }
