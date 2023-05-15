@@ -10,8 +10,8 @@ import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 public class DarkVortex extends SpellAbility {
-    public DarkVortex(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public DarkVortex() {
+        super("dark_vortext", 1, 75);
     }
 
     public void cast(Player player) {

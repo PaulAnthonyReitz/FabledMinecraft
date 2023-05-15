@@ -17,8 +17,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class PartySpell extends SpellAbility {
 
-    public PartySpell(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public PartySpell() {
+        super("party", 1, 100);
     }
 
     public void cast(Player player) {

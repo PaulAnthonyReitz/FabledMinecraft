@@ -12,8 +12,8 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.util.RayTraceResult;
 
 public class UndeadArmy extends SpellAbility {
-    public UndeadArmy(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public UndeadArmy() {
+        super("undead_army", 1, 75);
     }
 
     public void cast(Player player) {

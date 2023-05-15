@@ -5,8 +5,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class PowerStrike extends StaminaAbility{
-    public PowerStrike(String name, int requiredStaminaLevel, int staminaCost) {
-        super(name, requiredStaminaLevel, staminaCost);
+    public PowerStrike() {
+        super("power_strike", 1, 20);
     }
 
     public void cast(Player player) {

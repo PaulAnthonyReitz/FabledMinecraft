@@ -19,8 +19,8 @@ import org.bukkit.entity.Entity;
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 public class VaderChoke extends SpellAbility {
-    public VaderChoke(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public VaderChoke() {
+        super("vader_choke", 1, 50);
     }
 
     public void cast(Player player) {

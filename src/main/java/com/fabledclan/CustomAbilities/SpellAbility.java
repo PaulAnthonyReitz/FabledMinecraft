@@ -14,10 +14,10 @@ public abstract class SpellAbility extends Ability {
     private int requiredMagicLevel;
     private int manaCost;
 
-    public SpellAbility(String name, int rml, int mc) {
+    public SpellAbility(String name, int requiredMagicLevel, int manaCost) {
         super(name);
-        this.requiredMagicLevel = rml;
-        this.manaCost = mc;
+        this.requiredMagicLevel = requiredMagicLevel;
+        this.manaCost = manaCost;
     }
 
     // checks if the player has enough mana to cast

@@ -11,8 +11,8 @@ import org.bukkit.Location;
 
 public class DragonBreath extends SpellAbility {
 
-    public DragonBreath(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public DragonBreath() {
+        super("dragon_breath", 1, 50);
     }
 
     public void cast(Player player) {
