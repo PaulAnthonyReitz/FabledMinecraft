@@ -43,7 +43,7 @@ public class LeaderboardCommand extends CommandClass {
         return false;
     }
 
-    private List<List<String>> getTopPlayersByLevel(int limit) {
+    public static List<List<String>> getTopPlayersByLevel(int limit) {
         List<List<String>> topPlayers = new ArrayList<>();
 
         try {
@@ -73,4 +73,42 @@ public class LeaderboardCommand extends CommandClass {
 
         return topPlayers;
     }
+
+    public static List<Player> getTopPlayersByLevelWebsite(int limit) {
+        List<LeaderboardCommand.Player> topPlayers = new ArrayList<>();
+    
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
+                    "SELECT uuid, level, exp FROM player_stats ORDER BY level DESC, exp DESC LIMIT ?"
+            );
+            statement.setInt(1, limit);
+            ResultSet resultSet = statement.executeQuery();
+    
+            while (resultSet.next()) {
+                String uuidString = resultSet.getString("uuid");
+                UUID uuid = UUID.fromString(uuidString);
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+                String playerName = offlinePlayer.getName();
+                Player player = new Player();
+                player.name = playerName;
+                player.level = resultSet.getInt("level");
+                player.exp = resultSet.getInt("exp");
+                topPlayers.add(player);
+            }
+    
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return topPlayers;
+    }
+    
+    public static class Player {
+        String name;
+        int level;
+        int exp;
+    }
+    
 }

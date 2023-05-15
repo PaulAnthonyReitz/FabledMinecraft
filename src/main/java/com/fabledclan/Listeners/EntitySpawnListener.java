@@ -77,7 +77,7 @@ public class EntitySpawnListener implements Listener {
                         dataContainer.set(nmNameKey, PersistentDataType.STRING, nmName);
             
             entity.setCustomName(nmName);
-            System.out.println("NM Spawned: " +nmName);
+            //System.out.println("NM Spawned: " +nmName);
             
         }
     }

@@ -12,6 +12,7 @@ import com.fabledclan.Registers.CommandRegistry;
 import com.fabledclan.Registers.CustomBlockRegistry;
 import com.fabledclan.Registers.CustomItemRegistry;
 import com.fabledclan.Registers.EventRegistry;
+import com.fabledclan.Website.Website;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +46,8 @@ public class Main extends JavaPlugin {
 
         // Populate the cache when the server starts
         populateEnemyDataCache();
+
+        Website.initWebsite();
     }
 
     public static Plugin getPlugin() {
@@ -58,6 +61,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getLogger().info("Plugin disabled!");
+        Website.stopWebsite();
     }
 
     private void initializeListeners() {
