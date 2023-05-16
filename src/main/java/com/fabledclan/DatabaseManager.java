@@ -329,9 +329,34 @@ public class DatabaseManager {
         }
     }
 
-    public static int getPlayerExperience(UUID playerID) {
+    public static void updatePlayerExperiencePlayerStats(UUID playerID, int exp) {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE player_stats SET exp = ? WHERE uuid = ?")) {
+            ps.setInt(1, exp);
+            ps.setString(2, playerID.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getPlayerExperienceXPContainer(UUID playerID) {
         Connection connection = getConnection();
         try (PreparedStatement ps = connection.prepareStatement("SELECT xp FROM xp_container WHERE player = ?")) {
+            ps.setString(1, playerID.toString());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static int getPlayerExperiencePlayerStats(UUID playerID) {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT exp FROM player_stats WHERE uuid = ?")) {
             ps.setString(1, playerID.toString());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
