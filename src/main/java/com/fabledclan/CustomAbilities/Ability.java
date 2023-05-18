@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
+import com.fabledclan.Main;
 import com.fabledclan.Listeners.Abilities;
 
 // This is the base abstract class for all spells
@@ -16,7 +17,6 @@ import com.fabledclan.Listeners.Abilities;
 // This class has an abstract method called 'cast' which is filled out while creating a new ability
 
 public abstract class Ability {
-    private static Plugin plugin;
     private static Abilities abilities;
     private final String name;
     private int cooldown = 1000; // default cooldown is 1s (1000ms)
@@ -66,11 +66,7 @@ public abstract class Ability {
     }
 
     public static Plugin getPlugin() {
-        return plugin;
-    }
-
-    public static void setPlugin(Plugin p) {
-        plugin = p;
+        return Main.getPlugin();
     }
 
     public static Abilities getAbilities() {

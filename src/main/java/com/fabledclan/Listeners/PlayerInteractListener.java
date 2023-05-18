@@ -33,6 +33,11 @@ public class PlayerInteractListener implements Listener {
         if (event.hasBlock() && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getClickedBlock().getState().hasMetadata(CustomContainer.getContainerKey())) {
                 List<MetadataValue> values = event.getClickedBlock().getState().getMetadata(CustomContainer.getContainerKey());
+
+                for (MetadataValue value : values) {
+                    System.out.println(value);
+                }
+
                 if (values.size() == 0) return;
                 String value = values.get(0).asString();
                 for (CustomBlock block : CustomBlockRegistry.getBlocks()) {

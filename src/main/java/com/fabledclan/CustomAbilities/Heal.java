@@ -12,7 +12,7 @@ public class Heal extends SpellAbility {
         double health = player.getHealth();
         if (health >= (20 * healthScale)) return;
         if (failedCastChecks(player)) return;
-        player.setHealth(health + 8);
+        player.setHealth(Math.max(20, health + 8));
     }
     
 }

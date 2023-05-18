@@ -1,6 +1,9 @@
 package com.fabledclan.CustomAbilities;
 
 import org.bukkit.util.Vector;
+
+import com.fabledclan.Main;
+
 import org.bukkit.entity.DragonFireball;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -42,7 +45,7 @@ public class DragonBreath extends SpellAbility {
         fireball.setFireTicks(40);
 
         // Register an event listener to handle the dragon fireball collision
-        getPlugin().getServer().getPluginManager().registerEvents(new Listener() {
+        Main.getPlugin().getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onProjectileHit(ProjectileHitEvent event) {
                 if (event.getEntity().equals(fireball)) {

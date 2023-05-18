@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.bukkit.event.Listener;
 
 import com.fabledclan.Commands.*;
+import com.fabledclan.CustomBlocks.WandCrafter;
 import com.fabledclan.CustomItems.*;
 import com.fabledclan.Listeners.*;
 
@@ -31,7 +32,8 @@ public class EventRegistry {
             new SummonCommand(),
             new Abilities(),
             new ExperienceStorageInventory(),
-            new AnimalCage()
+            new AnimalCage(),
+            new WandCrafter()
         ));
         listeners = ret;
     }

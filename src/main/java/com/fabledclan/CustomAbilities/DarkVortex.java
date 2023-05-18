@@ -11,7 +11,7 @@ import org.bukkit.util.Vector;
 
 public class DarkVortex extends SpellAbility {
     public DarkVortex() {
-        super("dark_vortext", 1, 75);
+        super("dark_vortex", 1, 75);
     }
 
     public void cast(Player player) {

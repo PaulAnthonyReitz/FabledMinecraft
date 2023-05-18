@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 
 public class MagicMissile extends SpellAbility {
     public MagicMissile() {
-        super("magic_missle", 1, 25);
+        super("magic_missile", 1, 25);
     }
 
     public void cast(Player player) {
