@@ -33,7 +33,8 @@ public class EventRegistry {
             new Abilities(),
             new ExperienceStorageInventory(),
             new AnimalCage(),
-            new WandCrafter()
+            new WandCrafter(),
+            new Wand()
         ));
         listeners = ret;
     }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -54,6 +55,9 @@ public class AbilityUseListener implements Listener {
         if (!(eventAction == Action.RIGHT_CLICK_AIR) && !(eventAction == Action.RIGHT_CLICK_BLOCK)) {
             return; // only fire on right click
         }
+
+        // if you interact with a tile entity, like a chest, cancels the ability activation
+        if (eventAction == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getState() instanceof TileState ) return;
 
         // Simple debounce logic, not perfect
         long time = System.currentTimeMillis();

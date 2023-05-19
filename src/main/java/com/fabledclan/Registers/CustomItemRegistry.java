@@ -13,7 +13,8 @@ public class CustomItemRegistry {
         ArrayList<CustomItem> items = new ArrayList<CustomItem>(Arrays.asList(
             // ADD ITEMS HERE:
             new DashSpell(),
-            new AnimalCage()
+            new AnimalCage(),
+            new Wand()
         ));
         ITEMS = items;
     }

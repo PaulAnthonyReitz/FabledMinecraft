@@ -183,6 +183,8 @@ public class WandCrafter extends CustomContainer implements Listener {
         checkRecipe(inv);
     }
 
+
+    // CHECK PERSISTENT DATA CONTAINER TO MAKE SURE YOU CAN'T CRAFT CUSTOM ITEMS
     private void checkRecipe(Inventory inv) {
         new BukkitRunnable() {
             @Override
