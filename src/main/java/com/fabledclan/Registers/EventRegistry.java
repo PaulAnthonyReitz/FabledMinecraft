@@ -10,6 +10,7 @@ import com.fabledclan.Listeners.Abilities;
 import com.fabledclan.Listeners.AbilityUseListener;
 import com.fabledclan.Listeners.BlockBreakListener;
 import com.fabledclan.Listeners.BlockPlaceListener;
+import com.fabledclan.Listeners.ChatListener;
 import com.fabledclan.Listeners.EntityDamageListenerMobs;
 import com.fabledclan.Listeners.EntityDamageListenerPlayers;
 import com.fabledclan.Listeners.EntityDeathListener;
@@ -43,7 +44,8 @@ public class EventRegistry {
             new MenuGUI(),
             new SummonCommand(),
             new Abilities(),
-            new ExperienceStorageInventory()
+            new ExperienceStorageInventory(),
+            new ChatListener()
         ));
         listeners = ret;
     }

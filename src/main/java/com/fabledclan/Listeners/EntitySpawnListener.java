@@ -87,19 +87,23 @@ public static class NameGenerator {
         "Fred", "Bob", "Paul", "Jim", "Ritz", "Cold", "Bean", "Dailey", "Grim", "Sly", 
         "Bold", "Clever", "Dark", "Fierce", "Mighty", "Stout", "Wise", "Fearless", 
         "Brave", "Fiery", "Mattie", "Scruff", "Elder", "Young", "Swift", "Ruthless", 
-        "Humble", "Proud", "Silent", "Loud"
+        "Humble", "Proud", "Silent", "Loud", "4k", "Atomik", "Blvckrvft", "ColdMF", "Dizze", "Exxxtacy",
+        "Pumpkin", "Qwinn", "Plugz", "Dave", "Splitgator", "Corn", "Dana", "Haughtsauce","Anoetic",
+        "Melon", "BigBuddyNick", "Cyde", "DNW", "Endy", "Groudon", "Preston", "Tikka", "Sephy"
     };
     
     private static final String[] MIDDLES = {
         "the", "of", "the Mighty", "the Fierce", "the Dark", "the Bold", "the Fearless", 
         "the Brave", "the Fiery", "the Silent", "the Wise", "the Ruthless", "the Swift", 
-        "the Humble", "the Proud", "the Silent", "the Loud"
+        "the Humble", "the Proud", "the Silent", "the Loud", "the Sleepy", "the Stinky", 
+        "the Content Creator", "the Old", "the Silly"
     };
     
     private static final String[] SUFFIXES = {
         "Destroyer", "Builder", "Wanderer", "Seeker", "Keeper", "Guardian", "Bringer", 
         "Crusher", "Wielder", "Weaver", "Walker", "Bearer", "Conqueror", "Protector", 
-        "Challenger", "Defender", "Rider", "Warrior", "Hunter", "Sorcerer"
+        "Challenger", "Defender", "Rider", "Warrior", "Hunter", "Sorcerer", "Lover", 
+        "Chef", "Dancer", "Office-Worker", "Technomancer", "Hustler", "Goose", "NPC"
     };
     
 
