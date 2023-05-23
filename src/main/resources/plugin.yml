@@ -47,3 +47,15 @@ commands:
   home:
     description: warps you home in a 20 second delay
     usage: /home
+  partyinvite:
+    description: Invite to party
+    usage: /partyinvite <name>
+  partydisband:
+    description: disband party 
+    usage: /disbandparty
+  partyleave:
+    description: leave party
+    usage: /leaveparty
+  partycreate:
+    description: creates a party
+    usage: /partycreate

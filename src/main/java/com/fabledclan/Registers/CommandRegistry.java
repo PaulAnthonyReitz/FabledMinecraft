@@ -27,7 +27,11 @@ public class CommandRegistry {
             new ViewEnemiesCommand(),
             new ViewStatsCommand(),
             new LeaderboardCommand(),
-            new SummonCommand()
+            new SummonCommand(),
+            new PartyCreateCommand(),
+            new PartyDisbandCommand(),
+            new PartyInviteCommand(),
+            new PartyLeaveCommand()
         ));
         commands = ret;
     }
