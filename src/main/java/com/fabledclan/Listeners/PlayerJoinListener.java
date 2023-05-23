@@ -14,8 +14,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.fabledclan.DatabaseManager;
-import com.fabledclan.EnemyCache;
-import com.fabledclan.DatabaseManager.PlayerStats;
+import com.fabledclan.Main;
+import com.fabledclan.Enemy.EnemyBookCache;
+import com.fabledclan.Player.PlayerStats;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -29,11 +30,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.sql.PreparedStatement;
 
 public class PlayerJoinListener implements Listener {
 
-    private static EnemyCache enemyCache = new EnemyCache();
+    private static EnemyBookCache enemyCache = new EnemyBookCache();
     private Random random = new Random();
 
     private List<Flavor> glytchFlavors = Arrays.asList(
@@ -49,7 +51,13 @@ public class PlayerJoinListener implements Listener {
     );
 
     private void applyPlayerStats(Player player) {
-        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
+        UUID playerId = player.getUniqueId();
+        PlayerStats playerStats = Main.getPlayerStatsCache().get(playerId);
+        if (playerStats == null) {
+            playerStats = DatabaseManager.getPlayerStats(playerId);
+            Main.getPlayerStatsCache().put(playerId, playerStats);
+        }
+    
         double movementspeed = (playerStats.getMovementSpeed() * .0125) + .1;
         int health = playerStats.getMaxHealth();
         player.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MOVEMENT_SPEED)
@@ -58,8 +66,9 @@ public class PlayerJoinListener implements Listener {
                 .setBaseValue(health);               
         // Set other attributes if needed
     }
+    
 
-    public static EnemyCache getEnemyCache() {
+    public static EnemyBookCache getEnemyCache() {
         return enemyCache;
     }
     
@@ -159,7 +168,7 @@ public class PlayerJoinListener implements Listener {
 
     public static BaseComponent[] createSecondPage(Player player) {
         // Retrieve player stats and build the second page of the book
-        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
+        PlayerStats playerStats = Main.getPlayerStatsCache().get(player.getUniqueId());
     
         TextComponent secondPage = new TextComponent();
         secondPage.addExtra("Movement Speed: " + playerStats.getMovementSpeed() + "\n");

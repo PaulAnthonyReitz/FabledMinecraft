@@ -27,8 +27,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import com.fabledclan.DatabaseManager;
-import com.fabledclan.EnemyData;
 import com.fabledclan.Main;
+import com.fabledclan.Enemy.EnemyData;
+import com.fabledclan.Player.PlayerStats;
 
 import java.util.Random;
 
@@ -57,9 +58,17 @@ public class EntityDeathListener implements Listener {
                 float expScale = cachedEnemyData.expScale;
                 int enemyLevel = Math.max(1, getEnemyLevel(entity));
                 int expToGrant = (int) (baseExp * Math.pow(expScale, enemyLevel - 1));
-                DatabaseManager.addExp(player.getUniqueId(), expToGrant);
+            
+                // Get the player's stats from the cache
+                PlayerStats stats = Main.getPlayerStatsCache().get(player.getUniqueId());
+                if (stats != null) {
+                    // Update the player's experience in the cache
+                    stats.setExp(stats.getExp() + expToGrant);
+                }
+            
                 player.sendMessage(ChatColor.GREEN + "You gained " + expToGrant + " exp.");
             }
+            
         }
     
         // Check if the entity is a LivingEntity and a monster

@@ -21,6 +21,7 @@ import com.fabledclan.Listeners.MenuGUI;
 import com.fabledclan.Listeners.PlayerDeathListener;
 import com.fabledclan.Listeners.PlayerInteractListener;
 import com.fabledclan.Listeners.PlayerJoinListener;
+import com.fabledclan.Listeners.PlayerQuitListener;
 import com.fabledclan.Listeners.PrepareCraftItemListener;
 
 public class EventRegistry {
@@ -45,7 +46,8 @@ public class EventRegistry {
             new SummonCommand(),
             new Abilities(),
             new ExperienceStorageInventory(),
-            new ChatListener()
+            new ChatListener(),
+            new PlayerQuitListener()
         ));
         listeners = ret;
     }

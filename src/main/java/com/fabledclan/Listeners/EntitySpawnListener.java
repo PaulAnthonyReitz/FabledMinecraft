@@ -9,17 +9,20 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import com.fabledclan.Main;
+import com.fabledclan.Enemy.CalculateEnemyLevel;
 
 import java.util.Random;
 
 public class EntitySpawnListener implements Listener {
 
     private final Random random = new Random();
+    private CalculateEnemyLevel cel = new CalculateEnemyLevel();
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
         if (event.getEntity() instanceof Creature) {
             Creature creature = (Creature) event.getEntity();
+            cel.setEnemyLevel(creature);
 
             // Set custom name, health, and NM status for the spawned mob
             setCustomMobNameAndHealthAndNM(creature);
@@ -29,7 +32,8 @@ public class EntitySpawnListener implements Listener {
     private void setCustomMobNameAndHealthAndNM(LivingEntity entity) {
         PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
         NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
-        int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
+        int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER,1);
+        cel.setEnemyMaxHP(entity);
     
         // Check for NM status and adjust level
         boolean isNM = false;
@@ -77,7 +81,6 @@ public class EntitySpawnListener implements Listener {
                         dataContainer.set(nmNameKey, PersistentDataType.STRING, nmName);
             
             entity.setCustomName(nmName);
-            //System.out.println("NM Spawned: " +nmName);
             
         }
     }

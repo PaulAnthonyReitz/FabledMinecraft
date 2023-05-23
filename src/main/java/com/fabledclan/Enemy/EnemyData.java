@@ -1,4 +1,4 @@
-package com.fabledclan;
+package com.fabledclan.Enemy;
 
 public class EnemyData {
     public String entityName;

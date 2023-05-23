@@ -13,6 +13,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.fabledclan.Enemy.EnemyData;
+import com.fabledclan.Player.PlayerStats;
+
 public class DatabaseManager {
     private static final String DB_FILE = "player_stats.db";
     private static Connection connection;
@@ -811,66 +814,6 @@ public class DatabaseManager {
         return newBounty;
     }
 
-    public static class PlayerStats {
-        private final double movementSpeed;
-        private final int attack;
-        private final int defense;
-        private final int maxHealth;
-        private final int exp;
-        private final int level;
-        private final String name;
-        private final int magic;
-        private final int stamina;
-
-        public PlayerStats(double movementSpeed, int attack, int defense, int maxHealth, int exp, int level,
-                String name, int magic, int stamina) {
-            this.movementSpeed = movementSpeed;
-            this.attack = attack;
-            this.defense = defense;
-            this.maxHealth = maxHealth;
-            this.exp = exp;
-            this.level = level;
-            this.name = name;
-            this.magic = magic;
-            this.stamina = stamina;
-        }
-
-        // Add getter methods for each attribute
-        public double getMovementSpeed() {
-            return movementSpeed;
-        }
-
-        public int getAttack() {
-            return attack;
-        }
-
-        public int getDefense() {
-            return defense;
-        }
-
-        public int getMaxHealth() {
-            return maxHealth;
-        }
-
-        public int getExp() {
-            return exp;
-        }
-
-        public int getLevel() {
-            return level;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getMagic() {
-            return magic;
-        }
-
-        public int getStamina() {
-            return stamina;
-        }
-    }
+    
     // Other database-related methods go here
 }
