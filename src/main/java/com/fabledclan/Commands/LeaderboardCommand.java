@@ -50,27 +50,34 @@ public class LeaderboardCommand extends CommandClass {
     public static List<List<String>> getTopPlayersByLevel(int limit) {
         List<List<String>> topPlayers = new ArrayList<>();
     
-        // Get the player cache
-        PlayerStatsCache playerCache = Main.getPlayerStatsCache();
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
+                    "SELECT uuid, level, exp FROM player_stats ORDER BY level DESC, exp DESC LIMIT ?"
+            );
+            statement.setInt(1, limit);
+            ResultSet resultSet = statement.executeQuery();
     
-        // Sort the cache by level and exp, and limit the results
-        playerCache.values().stream()
-            .sorted(Comparator.comparing(PlayerStats::getLevel).thenComparing(PlayerStats::getExp).reversed())
-            .limit(limit)
-            .forEach(playerStats -> {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerStats.getUuid()));
+            while (resultSet.next()) {
+                String uuidString = resultSet.getString("uuid");
+                UUID uuid = UUID.fromString(uuidString);
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
                 String playerName = offlinePlayer.getName();
-                if (playerName != null) {
-                    List<String> playerData = new ArrayList<>();
-                    playerData.add(playerName);
-                    playerData.add(String.valueOf(playerStats.getLevel()));
-                    playerData.add(String.valueOf(playerStats.getExp()));
-                    topPlayers.add(playerData);
-                }
-            });
+                List<String> playerData = new ArrayList<>();
+                playerData.add(playerName);
+                playerData.add(String.valueOf(resultSet.getInt("level")));
+                playerData.add(String.valueOf(resultSet.getInt("exp")));
+                topPlayers.add(playerData);
+            }
+    
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     
         return topPlayers;
     }
+    
     
     
 

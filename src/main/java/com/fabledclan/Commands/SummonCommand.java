@@ -61,59 +61,12 @@ public class SummonCommand extends CommandClass implements Listener {
         Abilities.setPlayerMana(player, currentMana - requiredMana);
 
         pendingSummonRequests.put(targetId, playerId);
-
         targetPlayer.sendMessage(ChatColor.GREEN + player.getName()
                 + " would like to teleport you to them. Type 'yes' to accept, 'no' to decline.");
         player.sendMessage(ChatColor.GREEN + "Summon request sent to " + targetPlayer.getName() + ".");
         return true;
     }
-
-    @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        UUID playerId = player.getUniqueId();
-        String message = event.getMessage().toLowerCase();
-        Map<UUID, UUID> pendingSummonRequests = getPendingSummonRequests();
-
-        if (pendingSummonRequests.containsKey(playerId)) {
-            event.setCancelled(true);
-            UUID requesterId = pendingSummonRequests.remove(playerId);
-
-            if (message.equals("yes")) {
-                Player requester = Bukkit.getPlayer(requesterId);
-                if (requester != null) {
-                    if (player == requester) {
-                        player.sendMessage(ChatColor.RED + "WHAT IN GODS NAME HAVE YOU DONE");
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                player.teleport(player.getWorld().getSpawnLocation().add(Math.random() * 1000 - 500, 0,
-                                        Math.random() * 1000 - 500));
-                            }
-                        }.runTask(Main.getPlugin());
-                        return;
-                    } else {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                player.teleport(requester);
-                                player.sendMessage(
-                                        ChatColor.GREEN + "You have been teleported to " + requester.getName() + "!");
-                                requester.sendMessage(
-                                        ChatColor.GREEN + player.getName() + " has been teleported to you!");
-                            }
-                        }.runTask(Main.getPlugin());
-                    }
-                }
-            } else if (message.equals("no")) {
-                player.sendMessage(ChatColor.RED + "Teleport request declined.");
-            } else {
-                player.sendMessage(ChatColor.YELLOW + "Please type 'yes' or 'no' to respond to the teleport request.");
-                pendingSummonRequests.put(playerId, requesterId);
-            }
-        }
-    }
-
+    
     public Map<UUID, UUID> getPendingSummonRequests() {
         return pendingSummonRequests;
     }
