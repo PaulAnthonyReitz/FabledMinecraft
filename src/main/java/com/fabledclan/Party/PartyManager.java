@@ -23,6 +23,8 @@ public class PartyManager {
     public static void addPlayerToParty(Player player, Party party) {
         parties.put(player, party);
         party.addMember(player);
+        PartyScoreboard partyScoreboard = new PartyScoreboard(party);
+        player.setScoreboard(partyScoreboard.getScoreboard());
     }
     
 
