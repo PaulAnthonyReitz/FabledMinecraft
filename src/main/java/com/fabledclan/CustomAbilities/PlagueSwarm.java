@@ -22,9 +22,10 @@ public class PlagueSwarm extends SpellAbility {
             Bat bat = (Bat) player.getWorld().spawnEntity(player.getLocation().add(0, 1,
                     0), EntityType.BAT);
             bat.setMetadata("PlagueSwarm", new FixedMetadataValue(getPlugin(), true));
+            bat.setMetadata("Owner", new FixedMetadataValue(getPlugin(), player.getUniqueId()));
 
             new BukkitRunnable() {
-                int duration = 20 * 5; // 5 seconds
+                int duration = 20 * 60; // 60 seconds
 
                 @Override
                 public void run() {

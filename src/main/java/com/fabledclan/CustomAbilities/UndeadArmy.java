@@ -27,19 +27,20 @@ public class UndeadArmy extends SpellAbility {
             return;
         }
         LivingEntity target = (LivingEntity) rayTraceResult.getHitEntity();
-
+    
         // Play spooky wolf sound to all players in the area
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL,
                 SoundCategory.HOSTILE, 1.0F, 0.5F);
-
+    
         // Spawn wolves and set their target
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 6; i++) {
             Location spawnLocation = player.getLocation().add(0, 1, 0);
             Wolf wolf = (Wolf) player.getWorld().spawnEntity(spawnLocation,
                     EntityType.WOLF);
+            wolf.setOwner(player); // Set the owner of the wolf to the player
             wolf.setAngry(true); // Wolves are aggressive by default
             wolf.setTarget(target);
-
+    
             // Schedule the wolf to be removed after 20 seconds
             Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
                 if (!wolf.isDead()) {
@@ -47,5 +48,5 @@ public class UndeadArmy extends SpellAbility {
                 }
             }, 20 * 20);
         }
-    }
+    }    
 }

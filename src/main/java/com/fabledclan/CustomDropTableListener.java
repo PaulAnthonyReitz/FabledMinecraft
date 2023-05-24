@@ -42,7 +42,8 @@ public class CustomDropTableListener{
                 Material.LEATHER_HELMET,
                 Material.LEATHER_CHESTPLATE,
                 Material.LEATHER_LEGGINGS,
-                Material.LEATHER_BOOTS
+                Material.LEATHER_BOOTS,
+                Material.WOODEN_HOE
         };
         return new ItemStack(woodEquipment[random.nextInt(woodEquipment.length)]);
     }
@@ -55,7 +56,8 @@ public class CustomDropTableListener{
                 Material.IRON_HELMET,
                 Material.IRON_CHESTPLATE,
                 Material.IRON_LEGGINGS,
-                Material.IRON_BOOTS
+                Material.IRON_BOOTS,
+                Material.IRON_HOE
         };
         return new ItemStack(ironEquipment[random.nextInt(ironEquipment.length)]);
     }
@@ -68,7 +70,8 @@ public class CustomDropTableListener{
                 Material.DIAMOND_HELMET,
                 Material.DIAMOND_CHESTPLATE,
                 Material.DIAMOND_LEGGINGS,
-                Material.DIAMOND_BOOTS
+                Material.DIAMOND_BOOTS,
+                Material.DIAMOND_HOE
         };
         return new ItemStack(diamondEquipment[random.nextInt(diamondEquipment.length)]);
     }
