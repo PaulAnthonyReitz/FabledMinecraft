@@ -11,6 +11,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import com.fabledclan.Main;
+
 public class PlagueSwarm extends SpellAbility {
     public PlagueSwarm(String name, int requiredMagicLevel, int manaCost) {
         super(name, requiredMagicLevel, manaCost);
@@ -65,7 +67,7 @@ public class PlagueSwarm extends SpellAbility {
 
                     duration--;
                 }
-            }.runTaskTimer(getPlugin(), 0, 1);
+            }.runTaskTimer(Main.getPlugin(), 0, 1);
         }
     }
 }

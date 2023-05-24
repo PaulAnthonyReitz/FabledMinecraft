@@ -9,6 +9,8 @@ import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.fabledclan.Main;
+
 public class YeetBoat extends StaminaAbility {
     public YeetBoat(String name, int requiredStaminaLevel, int staminaCost) {
         super(name, requiredStaminaLevel, staminaCost);
@@ -56,7 +58,7 @@ public class YeetBoat extends StaminaAbility {
         }, 0L, 1L); // Run every tick
     
         // Cancel the repeating task after 30 seconds
-        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> Bukkit.getScheduler().cancelTask(taskId), 20 * 30);
+        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> Bukkit.getScheduler().cancelTask(taskId), 20 * 30);
     }
     
 }

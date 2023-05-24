@@ -17,6 +17,8 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.fabledclan.Main;
+
 public class PartySpell extends SpellAbility {
 
     public PartySpell(String name, int requiredMagicLevel, int manaCost) {
@@ -37,7 +39,7 @@ public class PartySpell extends SpellAbility {
         }
     
         // Change the color of the sheep periodically
-        BukkitTask sheepTask = Bukkit.getScheduler().runTaskTimer(getPlugin(), () -> {
+        BukkitTask sheepTask = Bukkit.getScheduler().runTaskTimer(Main.getPlugin(), () -> {
             for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
                 if (entity instanceof Sheep) {
                     Sheep sheep = (Sheep) entity;
@@ -48,20 +50,26 @@ public class PartySpell extends SpellAbility {
         }, 0, 20); // 20 ticks = 1 second
     
         // Launch fireworks of different colors periodically
-        BukkitTask fireworkTask = Bukkit.getScheduler().runTaskTimer(getPlugin(), () -> {
-            Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
-            FireworkMeta fireworkMeta = firework.getFireworkMeta();
-            fireworkMeta.addEffect(FireworkEffect.builder()
-                    .withColor(Color.fromRGB(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256)))
-                    .with(Type.BALL)
-                    .trail(true)
-                    .build());
-            fireworkMeta.setPower(1);
-            firework.setFireworkMeta(fireworkMeta);
-        }, 0, 20); // 20 ticks = 1 second
+    // Launch fireworks around the player continuously for 30 seconds
+    BukkitTask fireworkTask = Bukkit.getScheduler().runTaskTimer(Main.getPlugin(), () -> {
+        Location fireworkLocation = player.getLocation().add(Math.random() * 4 - 2, Math.random() * 4 + 2,
+                Math.random() * 4 - 2); // Added "+ 2" to the y-coordinate
+        Firework firework = (Firework) player.getWorld().spawnEntity(fireworkLocation, EntityType.FIREWORK);
+        FireworkMeta fireworkMeta = firework.getFireworkMeta();
+        fireworkMeta.addEffect(FireworkEffect.builder()
+                .withColor(Color.RED)
+                .withColor(Color.GREEN)
+                .withColor(Color.BLUE)
+                .with(Type.BURST)
+                .trail(true)
+                .build());
+        fireworkMeta.setPower(1);
+        firework.setFireworkMeta(fireworkMeta);
+    }, 0, 20); // 20 ticks = 1 second
+
     
         // Schedule the removal of all sheep and fireworks after 1 minute
-        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
             for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
                 if (entity instanceof Sheep || entity instanceof Firework) {
                     entity.remove();

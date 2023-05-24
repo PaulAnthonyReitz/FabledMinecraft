@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.RayTraceResult;
+
+import com.fabledclan.Main;
+
 import org.bukkit.entity.Entity;
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -28,28 +31,13 @@ public class VaderChoke extends SpellAbility {
         if (failedCastChecks(player))
             return;
     
-        // Get the targeted block
-        Block targetedBlock = player.getTargetBlock(null, 15);
-    
-        if (targetedBlock == null) {
-            player.sendMessage(ChatColor.RED + "No valid target found for Vader Choke!");
-            return;
-        }
-    
-        // Get the entities near the targeted block
-        Entity[] nearbyEntities = targetedBlock.getChunk().getEntities();
-    
-        // Filter the entities to get the closest living entity to the targeted block
+        // Get the targeted entity
+        RayTraceResult rayTraceResult = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getLocation().getDirection(), 15, entity -> !entity.getUniqueId().equals(player.getUniqueId()));
         LivingEntity target = null;
-        double minDistance = Double.MAX_VALUE;
-        for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity && entity.getLocation().distance(targetedBlock.getLocation()) < minDistance) {
-                target = (LivingEntity) entity;
-                minDistance = entity.getLocation().distance(targetedBlock.getLocation());
-            }
-        }
     
-        if (target == null) {
+        if (rayTraceResult != null && rayTraceResult.getHitEntity() instanceof LivingEntity) {
+            target = (LivingEntity) rayTraceResult.getHitEntity();
+        } else {
             player.sendMessage(ChatColor.RED + "No valid target found for Vader Choke!");
             return;
         }
@@ -66,7 +54,7 @@ public class VaderChoke extends SpellAbility {
     
         // Schedule the release of the target after 5 seconds
         final LivingEntity finalTarget = target;
-        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
             if (finalTarget.isValid()) {
                 finalTarget.teleport(targetLocation.subtract(0, 2, 0)); // Lower the target back to the ground
                 finalTarget.removePotionEffect(PotionEffectType.SLOW); // Remove the immobilization effect

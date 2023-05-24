@@ -10,6 +10,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.Player;
 
+import com.fabledclan.Main;
+
 public class SummonGiant extends SpellAbility {
     public SummonGiant(String name, int requiredMagicLevel, int manaCost) {
         super(name, requiredMagicLevel, manaCost);
@@ -29,7 +31,7 @@ public class SummonGiant extends SpellAbility {
         smoke.setDuration(30 * 20); // Set the duration to 30 seconds
     
         // Schedule the summoning of the giant after 30 seconds
-        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
             // Summon the giant at the target location
             Giant giant = (Giant) targetLocation.getWorld().spawnEntity(targetLocation, EntityType.GIANT);
     
