@@ -55,9 +55,9 @@ public class EntityDeathListener implements Listener {
     
             if (cachedEnemyData != null) {
                 int baseExp = cachedEnemyData.baseExp;
-                float expScale = cachedEnemyData.expScale;
+                int expScale = cachedEnemyData.expScale;
                 int enemyLevel = Math.max(1, getEnemyLevel(entity));
-                int expToGrant = (int) (baseExp * Math.pow(expScale, enemyLevel - 1));
+                int expToGrant = (int) baseExp + (expScale * (enemyLevel - 1));
             
                 // Get the player's stats from the cache
                 PlayerStats stats = Main.getPlayerStatsCache().get(player.getUniqueId());
@@ -207,8 +207,6 @@ public class EntityDeathListener implements Listener {
     }
     
     
-    
-
     private int getEnemyLevel(Entity entity) {
         PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
         NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
@@ -216,17 +214,6 @@ public class EntityDeathListener implements Listener {
         return enemyLevel;
     }
     
-
-        public static int generateEnemyLevel(Entity entity) {
-            Location worldSpawn = entity.getWorld().getSpawnLocation();
-            Location enemySpawn = entity.getLocation();
-            double distance = worldSpawn.distance(enemySpawn);
-        
-            // Calculate enemy level based on distance from world spawn
-            int enemyLevel = (int) Math.floor(distance / 1000);
-        
-            return enemyLevel;
-        }
 
         private void setCustomDrops(EntityDeathEvent event) {
             LivingEntity entity = event.getEntity();

@@ -1,4 +1,5 @@
 package com.fabledclan.Commands;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class EnchantCommand extends CommandClass {
         List<String> lore = itemMeta.getLore();
         if (lore == null) {
             lore = new ArrayList<>();
+        } else {
+            // Remove any existing enchantment line
+            lore.removeIf(line -> line.startsWith(ChatColor.GRAY + "Enchant: "));
         }
         lore.add(ChatColor.GRAY + "Enchant: " + ability);
         itemMeta.setLore(lore);

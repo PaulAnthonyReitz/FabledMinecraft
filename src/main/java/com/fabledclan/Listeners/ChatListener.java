@@ -12,6 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.fabledclan.Main;
+import com.fabledclan.Commands.SummonCommand;
 
 import java.util.Map;
 import java.util.UUID;
@@ -19,8 +20,7 @@ import java.util.UUID;
 public class ChatListener implements Listener {
 
     private Map<UUID, UUID> getPendingSummonRequests() {
-        // TODO: Implement this method to return the map of pending summon requests
-        return null;
+        return SummonCommand.getPendingSummonRequests();
     }
 
     @EventHandler

@@ -9,21 +9,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import com.fabledclan.Main;
 import com.fabledclan.Listeners.Abilities;
 
 public class SummonCommand extends CommandClass implements Listener {
 
-    private final Map<UUID, UUID> pendingSummonRequests = new HashMap<>();
+    public static Map<UUID, UUID> pendingSummonRequests = new HashMap<>();
 
     public SummonCommand() {
         super("summon");
     }
+
+    
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -66,8 +64,8 @@ public class SummonCommand extends CommandClass implements Listener {
         player.sendMessage(ChatColor.GREEN + "Summon request sent to " + targetPlayer.getName() + ".");
         return true;
     }
-    
-    public Map<UUID, UUID> getPendingSummonRequests() {
+
+    public static Map<UUID, UUID> getPendingSummonRequests() {
         return pendingSummonRequests;
     }
 }

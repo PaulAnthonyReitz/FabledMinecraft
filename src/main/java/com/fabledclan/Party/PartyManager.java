@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class PartyManager {
     private static Map<Player, Party> parties = new HashMap<>();
+    private static Map<Player, Party> pendingInvites = new HashMap<>();
+                    //invitee, Party they were invited to
 
     public static Party getParty(Player player) {
         return parties.get(player);
@@ -22,6 +24,7 @@ public class PartyManager {
         parties.put(player, party);
         party.addMember(player);
     }
+    
 
     public static void removePlayerFromParty(Player player) {
         Party party = getParty(player);
@@ -37,4 +40,23 @@ public class PartyManager {
         }
         party.disband();
     }
+
+    public static void addPendingInvite(Player invitee, Party party) {
+        pendingInvites.put(invitee, party);
+    }
+    
+    public static Party getPendingInvite(Player invitee) {
+        return pendingInvites.get(invitee);
+    }
+    
+    public static void removePendingInvite(Player invitee) {
+        pendingInvites.remove(invitee);
+    }
+
+    public static Player getPartyLeader(Party party)
+    {
+        return party.getLeader();
+    
+    }
+
 }
