@@ -34,7 +34,8 @@ public class EventRegistry {
             new ExperienceStorageInventory(),
             new AnimalCage(),
             new WandCrafter(),
-            new Wand()
+            new Wand(),
+            new ChunkLoadListener()
         ));
         listeners = ret;
     }

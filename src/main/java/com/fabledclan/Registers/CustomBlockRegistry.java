@@ -29,8 +29,16 @@ public class CustomBlockRegistry {
             ));
         blocks = list;
 
+        updateContainerBlocks();
+    }
+
+    public static ArrayList<CustomBlock> getBlocks() {
+        return blocks;
+    }
+
+    public static void updateContainerBlocks() {
         // Loops over CustomContainer blocks and checks each block listed in the database to initialize metadata
-        for (CustomBlock b : blocks) {
+        for (CustomBlock b : getBlocks()) {
             if (!(b instanceof CustomContainer)) continue;
             for (World world : Main.getPlugin().getServer().getWorlds()) {
                 ArrayList<Location> locations = DatabaseManager.getAllCustomContainerLocations(world);
@@ -43,9 +51,5 @@ public class CustomBlockRegistry {
                 }
             }
         }
-    }
-
-    public static ArrayList<CustomBlock> getBlocks() {
-        return blocks;
     }
 }
