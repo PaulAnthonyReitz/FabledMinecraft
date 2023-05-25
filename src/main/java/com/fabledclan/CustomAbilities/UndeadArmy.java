@@ -14,8 +14,8 @@ import org.bukkit.util.RayTraceResult;
 import com.fabledclan.Main;
 
 public class UndeadArmy extends SpellAbility {
-    public UndeadArmy(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public UndeadArmy() {
+        super("undead_army", 1, 75);
     }
 
     public void cast(Player player) {

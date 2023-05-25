@@ -7,8 +7,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class Feather extends SpellAbility {
-    public Feather(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public Feather() {
+        super("feather", 1, 40);
     }
 
     public void cast(Player player) {

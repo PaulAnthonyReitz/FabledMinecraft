@@ -4,8 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class Dash extends StaminaAbility {
-    public Dash(String name, int requiredStaminaLevel, int staminaCost) {
-        super(name, requiredStaminaLevel, staminaCost);
+    public Dash() {
+        super("dash", 1, 25);
     }
 
     public void cast(Player player) {

@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
 import com.fabledclan.Main;
 
 public class SummonGiant extends SpellAbility {
-    public SummonGiant(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public SummonGiant() {
+        super("summon_giant", 1, 50);
     }
 
     public void cast(Player player) {

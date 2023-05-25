@@ -5,26 +5,10 @@ import java.util.Arrays;
 
 import org.bukkit.event.Listener;
 
-import com.fabledclan.Commands.SummonCommand;
-import com.fabledclan.Listeners.Abilities;
-import com.fabledclan.Listeners.AbilityUseListener;
-import com.fabledclan.Listeners.BlockBreakListener;
-import com.fabledclan.Listeners.BlockPlaceListener;
-import com.fabledclan.Listeners.ChatListener;
-import com.fabledclan.Listeners.EntityDamageListenerEntityAttackingPlayer;
-import com.fabledclan.Listeners.EntityDamageListenerPlayerAttackingEntity;
-import com.fabledclan.Listeners.EntityDamageListenerPlayerAttackingPlayer;
-import com.fabledclan.Listeners.EntityDeathListener;
-import com.fabledclan.Listeners.EntitySpawnListener;
-import com.fabledclan.Listeners.ExperienceStorageInventory;
-import com.fabledclan.Listeners.LockInteractionListener;
-import com.fabledclan.Listeners.MenuGUI;
-import com.fabledclan.Listeners.PartyInviteListener;
-import com.fabledclan.Listeners.PlayerDeathListener;
-import com.fabledclan.Listeners.PlayerInteractListener;
-import com.fabledclan.Listeners.PlayerJoinListener;
-import com.fabledclan.Listeners.PlayerQuitListener;
-import com.fabledclan.Listeners.PrepareCraftItemListener;
+import com.fabledclan.Commands.*;
+import com.fabledclan.CustomBlocks.WandCrafter;
+import com.fabledclan.CustomItems.*;
+import com.fabledclan.Listeners.*;
 
 public class EventRegistry {
     private static ArrayList<Listener> listeners;
@@ -49,6 +33,10 @@ public class EventRegistry {
             new SummonCommand(),
             new Abilities(),
             new ExperienceStorageInventory(),
+            new AnimalCage(),
+            new WandCrafter(),
+            new Wand(),
+            new ChunkLoadListener(),
             new ChatListener(),
             new PlayerQuitListener(),
             new PartyInviteListener()

@@ -14,10 +14,10 @@ public abstract class StaminaAbility extends Ability {
     private int requiredStaminaLevel;
     private int staminaCost;
 
-    public StaminaAbility(String name, int rsl, int sc) {
+    public StaminaAbility(String name, int requiredStaminaLevel, int staminaCost) {
         super(name);
-        this.requiredStaminaLevel = rsl;
-        this.staminaCost = sc;
+        this.requiredStaminaLevel = requiredStaminaLevel;
+        this.staminaCost = staminaCost;
     }
 
     // checks if the player has enough stamina to cast

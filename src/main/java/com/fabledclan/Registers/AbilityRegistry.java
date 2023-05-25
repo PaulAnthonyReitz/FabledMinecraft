@@ -12,22 +12,23 @@ public class AbilityRegistry {
         if (abilityList != null) return;
         ArrayList<Ability> abilities = new ArrayList<Ability>(Arrays.asList(
             // ADD ABILITIES HERE:
-            new DragonBreath("dragon_breath", 1, 100),
-            new SummonGiant("summon_giant", 1, 50),
-            new PartySpell("party", 1, 100),
-            new MagicMissile("magic_missile", 1, 25),
-            new YeetBoat("yeet_boat", 1, 30),
-            new Wrangle("wrangle", 1, 35),
-            new Dash("dash", 1, 25),
-            new IceShard("ice_shard", 1, 20),
-            new PowerStrike("power_strike", 1, 20),
-            new FireballSpell("fireball", 1, 25),
-            new DarkVortex("dark_vortex", 1, 75),
-            new PlagueSwarm("plague_swarm", 1, 60),
-            new VaderChoke("vader_choke", 1, 50),
-            new UndeadArmy("undead_army", 1, 80),
-            new Feather("feather", 1, 35),
-            new LightningStrike("lightning_strike", 1, 50)
+            new DragonBreath(),
+            new SummonGiant(),
+            new PartySpell(),
+            new MagicMissile(),
+            new YeetBoat(),
+            new Wrangle(),
+            new Dash(),
+            new IceShard(),
+            new PowerStrike(),
+            new FireballSpell(),
+            new DarkVortex(),
+            new PlagueSwarm(),
+            new VaderChoke(),
+            new UndeadArmy(),
+            new Feather(),
+            new Feed(),
+            new Heal()
         ));
         abilityList = abilities;
     }

@@ -1,12 +1,7 @@
 package com.fabledclan.CustomAbilities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -15,15 +10,13 @@ import org.bukkit.util.RayTraceResult;
 
 import com.fabledclan.Main;
 
-import org.bukkit.entity.Entity;
-
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // CURRENTLY VADER CHOKE WILL TAKE AWAY MANA FROM THE PLAYER BEFORE CHECKING A VALID TARGET
 // PROBABLY SHOULD BE FIXED BUT I'M LAZY RIGHT NOW SO GIVE IT A BIT
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 public class VaderChoke extends SpellAbility {
-    public VaderChoke(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public VaderChoke() {
+        super("vader_choke", 1, 50);
     }
 
     public void cast(Player player) {

@@ -15,8 +15,8 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 public class MagicMissile extends SpellAbility {
-    public MagicMissile(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public MagicMissile() {
+        super("magic_missile", 1, 25);
     }
 
     public void cast(Player player) {

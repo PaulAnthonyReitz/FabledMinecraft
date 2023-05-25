@@ -5,8 +5,8 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class IceShard extends SpellAbility{
-    public IceShard(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public IceShard() {
+        super("ice_shard", 1, 20);
     }
 
     public void cast(Player player) {

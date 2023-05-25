@@ -8,8 +8,8 @@ import com.fabledclan.Listeners.Abilities;
 import org.bukkit.entity.Fireball;
 
 public class FireballSpell extends SpellAbility{
-    public FireballSpell(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public FireballSpell() {
+        super("fireball", 1, 25);
     }
 
     public void cast(Player player) {

@@ -7,8 +7,8 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 public class Wrangle extends StaminaAbility {
-    public Wrangle(String name, int requiredStaminaLevel, int staminaCost) {
-        super(name, requiredStaminaLevel, staminaCost);
+    public Wrangle() {
+        super("wrangle", 1, 50);
     }
 
     public void cast(Player player) {

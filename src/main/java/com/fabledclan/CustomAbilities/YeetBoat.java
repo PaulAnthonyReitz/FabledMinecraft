@@ -12,8 +12,8 @@ import org.bukkit.util.Vector;
 import com.fabledclan.Main;
 
 public class YeetBoat extends StaminaAbility {
-    public YeetBoat(String name, int requiredStaminaLevel, int staminaCost) {
-        super(name, requiredStaminaLevel, staminaCost);
+    public YeetBoat() {
+        super("yeet_boat", 1, 30);
     }
 
     public void cast(Player player) {

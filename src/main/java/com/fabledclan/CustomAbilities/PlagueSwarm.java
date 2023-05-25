@@ -14,8 +14,8 @@ import org.bukkit.util.Vector;
 import com.fabledclan.Main;
 
 public class PlagueSwarm extends SpellAbility {
-    public PlagueSwarm(String name, int requiredMagicLevel, int manaCost) {
-        super(name, requiredMagicLevel, manaCost);
+    public PlagueSwarm() {
+        super("plague_swarm", 1, 60);
     }
 
     public void cast(Player player) {
