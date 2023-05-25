@@ -11,7 +11,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.fabledclan.DatabaseManager;
 import com.fabledclan.Main;
 import com.fabledclan.Player.PlayerStats;
 
