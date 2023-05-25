@@ -1,15 +1,16 @@
-package com.fabledclan;
+package com.fabledclan.Enemy;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.fabledclan.Main;
 import com.fabledclan.Listeners.PlayerJoinListener;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class EnemyCache {
+public class EnemyBookCache {
     private List<BaseComponent[]> enemyPages = new CopyOnWriteArrayList<>();
     private BukkitTask updateTask;
 

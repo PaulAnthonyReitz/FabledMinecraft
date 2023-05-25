@@ -12,7 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.fabledclan.DatabaseManager;
-import com.fabledclan.DatabaseManager.PlayerStats;
+import com.fabledclan.Main;
+import com.fabledclan.Player.PlayerStats;
+
 import java.util.Arrays;
 
 public class MenuGUI implements Listener {
@@ -40,7 +42,7 @@ public class MenuGUI implements Listener {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(color + name);
 
-        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
+        PlayerStats playerStats = Main.getPlayerStatsCache().get(player.getUniqueId());
         int playerExp = playerStats.getExp();
         int currentLevel = getCurrentLevel(stat, playerStats);
         int upgradeCost = getUpgradeCost(stat, currentLevel);
@@ -123,7 +125,7 @@ public class MenuGUI implements Listener {
     private void upgradeSkill(Player player, String stat) {
 
         // Get the player's current EXP and stats from the database
-        PlayerStats playerStats = DatabaseManager.getPlayerStats(player.getUniqueId());
+        PlayerStats playerStats = Main.getPlayerStatsCache().get(player.getUniqueId());
         int playerExp = playerStats.getExp(); // Use the player's EXP from the database
     
         int currentLevel;
@@ -157,20 +159,20 @@ public class MenuGUI implements Listener {
             // Update the player's stat level and EXP (using your database manager)
             switch (stat.toLowerCase()) {
                 case "attack":
-                    DatabaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), currentLevel + 1, playerStats.getDefense(), playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    Main.getPlayerStatsCache().get(player.getUniqueId()).setAttack(currentLevel+1);
                     break;
                 case "defense":
-                    DatabaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), playerStats.getAttack(), currentLevel + 1, playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    Main.getPlayerStatsCache().get(player.getUniqueId()).setDefense(currentLevel+1);
                     break;
                 case "movement_speed":
-                    DatabaseManager.setPlayerStats(player.getUniqueId(), currentLevel + .025, playerStats.getAttack(), playerStats.getDefense(), playerStats.getMaxHealth(), updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    Main.getPlayerStatsCache().get(player.getUniqueId()).setMovementSpeed(currentLevel+.025);
                     break;
                 case "max_health":
-                    DatabaseManager.setPlayerStats(player.getUniqueId(), playerStats.getMovementSpeed(), playerStats.getAttack(), playerStats.getDefense(), currentLevel + 2, updatedPlayerExp, playerStats.getLevel()+1, player.getName(),playerStats.getMagic(), playerStats.getStamina());
+                    Main.getPlayerStatsCache().get(player.getUniqueId()).setMaxHealth(currentLevel+2);
                     break;
             }
             
-    
+            Main.getPlayerStatsCache().get(player.getUniqueId()).setExp(updatedPlayerExp);
             player.sendMessage(ChatColor.GREEN + stat + " upgraded! New value: " + (currentLevel + 1));
             player.closeInventory();
         } else {

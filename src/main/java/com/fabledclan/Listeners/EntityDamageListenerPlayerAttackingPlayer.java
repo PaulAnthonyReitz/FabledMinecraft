@@ -14,7 +14,7 @@ import com.fabledclan.Main;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class EntityDamageListenerPlayers implements Listener {
+public class EntityDamageListenerPlayerAttackingPlayer implements Listener {
     private final HashMap<UUID, BossBar> bossBars = new HashMap<>();
 
     @EventHandler

@@ -13,6 +13,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.fabledclan.Enemy.EnemyData;
+import com.fabledclan.Player.PlayerStats;
+
 public class DatabaseManager {
     private static final String DB_FILE = "player_stats.db";
     private static Connection connection;
@@ -38,7 +41,8 @@ public class DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS xp_container" +
             "(player TEXT NOT NULL," +
-            "xp INTEGER NOT NULL)");
+            "xp INTEGER NOT NULL, " +
+            "name TEXT NOT NULL)");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -328,9 +332,34 @@ public class DatabaseManager {
         }
     }
 
-    public static int getPlayerExperience(UUID playerID) {
+    public static void updatePlayerExperiencePlayerStats(UUID playerID, int exp) {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE player_stats SET exp = ? WHERE uuid = ?")) {
+            ps.setInt(1, exp);
+            ps.setString(2, playerID.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getPlayerExperienceXPContainer(UUID playerID) {
         Connection connection = getConnection();
         try (PreparedStatement ps = connection.prepareStatement("SELECT xp FROM xp_container WHERE player = ?")) {
+            ps.setString(1, playerID.toString());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static int getPlayerExperiencePlayerStats(UUID playerID) {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT exp FROM player_stats WHERE uuid = ?")) {
             ps.setString(1, playerID.toString());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -785,66 +814,6 @@ public class DatabaseManager {
         return newBounty;
     }
 
-    public static class PlayerStats {
-        private final double movementSpeed;
-        private final int attack;
-        private final int defense;
-        private final int maxHealth;
-        private final int exp;
-        private final int level;
-        private final String name;
-        private final int magic;
-        private final int stamina;
-
-        public PlayerStats(double movementSpeed, int attack, int defense, int maxHealth, int exp, int level,
-                String name, int magic, int stamina) {
-            this.movementSpeed = movementSpeed;
-            this.attack = attack;
-            this.defense = defense;
-            this.maxHealth = maxHealth;
-            this.exp = exp;
-            this.level = level;
-            this.name = name;
-            this.magic = magic;
-            this.stamina = stamina;
-        }
-
-        // Add getter methods for each attribute
-        public double getMovementSpeed() {
-            return movementSpeed;
-        }
-
-        public int getAttack() {
-            return attack;
-        }
-
-        public int getDefense() {
-            return defense;
-        }
-
-        public int getMaxHealth() {
-            return maxHealth;
-        }
-
-        public int getExp() {
-            return exp;
-        }
-
-        public int getLevel() {
-            return level;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getMagic() {
-            return magic;
-        }
-
-        public int getStamina() {
-            return stamina;
-        }
-    }
+    
     // Other database-related methods go here
 }

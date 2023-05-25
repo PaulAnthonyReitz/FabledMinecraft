@@ -16,10 +16,10 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.fabledclan.DatabaseManager;
-import com.fabledclan.EnemyData;
 import com.fabledclan.Main;
+import com.fabledclan.Enemy.EnemyData;
 
-public class EntityDamageListenerMobs implements Listener {
+public class EntityDamageListenerPlayerAttackingEntity implements Listener {
 
     private final Map<String, Integer> mobDefenseCache = new HashMap<>();
 
@@ -37,7 +37,10 @@ public class EntityDamageListenerMobs implements Listener {
         Creature creature = (Creature) event.getEntity();
 
         // Get the player's attack damage from the database
-        int playerAttack = DatabaseManager.getPlayerStats(player.getUniqueId()).getAttack();
+        //int playerAttack = DatabaseManager.getPlayerStats(player.getUniqueId()).getAttack();
+        //use cache now
+        int playerAttack = Main.getPlayerStatsCache().get(player.getUniqueId()).getAttack();
+
 
         // Get the mob level
         PersistentDataContainer dataContainer = creature.getPersistentDataContainer();

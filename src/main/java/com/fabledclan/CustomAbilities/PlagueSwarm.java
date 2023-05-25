@@ -11,6 +11,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import com.fabledclan.Main;
+
 public class PlagueSwarm extends SpellAbility {
     public PlagueSwarm(String name, int requiredMagicLevel, int manaCost) {
         super(name, requiredMagicLevel, manaCost);
@@ -22,9 +24,10 @@ public class PlagueSwarm extends SpellAbility {
             Bat bat = (Bat) player.getWorld().spawnEntity(player.getLocation().add(0, 1,
                     0), EntityType.BAT);
             bat.setMetadata("PlagueSwarm", new FixedMetadataValue(getPlugin(), true));
+            bat.setMetadata("Owner", new FixedMetadataValue(getPlugin(), player.getUniqueId()));
 
             new BukkitRunnable() {
-                int duration = 20 * 5; // 5 seconds
+                int duration = 20 * 60; // 60 seconds
 
                 @Override
                 public void run() {
@@ -64,7 +67,7 @@ public class PlagueSwarm extends SpellAbility {
 
                     duration--;
                 }
-            }.runTaskTimer(getPlugin(), 0, 1);
+            }.runTaskTimer(Main.getPlugin(), 0, 1);
         }
     }
 }

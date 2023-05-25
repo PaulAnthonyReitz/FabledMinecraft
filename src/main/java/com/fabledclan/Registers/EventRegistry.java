@@ -10,16 +10,20 @@ import com.fabledclan.Listeners.Abilities;
 import com.fabledclan.Listeners.AbilityUseListener;
 import com.fabledclan.Listeners.BlockBreakListener;
 import com.fabledclan.Listeners.BlockPlaceListener;
-import com.fabledclan.Listeners.EntityDamageListenerMobs;
-import com.fabledclan.Listeners.EntityDamageListenerPlayers;
+import com.fabledclan.Listeners.ChatListener;
+import com.fabledclan.Listeners.EntityDamageListenerEntityAttackingPlayer;
+import com.fabledclan.Listeners.EntityDamageListenerPlayerAttackingEntity;
+import com.fabledclan.Listeners.EntityDamageListenerPlayerAttackingPlayer;
 import com.fabledclan.Listeners.EntityDeathListener;
 import com.fabledclan.Listeners.EntitySpawnListener;
 import com.fabledclan.Listeners.ExperienceStorageInventory;
 import com.fabledclan.Listeners.LockInteractionListener;
 import com.fabledclan.Listeners.MenuGUI;
+import com.fabledclan.Listeners.PartyInviteListener;
 import com.fabledclan.Listeners.PlayerDeathListener;
 import com.fabledclan.Listeners.PlayerInteractListener;
 import com.fabledclan.Listeners.PlayerJoinListener;
+import com.fabledclan.Listeners.PlayerQuitListener;
 import com.fabledclan.Listeners.PrepareCraftItemListener;
 
 public class EventRegistry {
@@ -31,8 +35,9 @@ public class EventRegistry {
             new AbilityUseListener(),
             new BlockBreakListener(),
             new BlockPlaceListener(),
-            new EntityDamageListenerMobs(),
-            new EntityDamageListenerPlayers(),
+            new EntityDamageListenerPlayerAttackingEntity(),
+            new EntityDamageListenerPlayerAttackingPlayer(),
+            new EntityDamageListenerEntityAttackingPlayer(),
             new EntityDeathListener(),
             new EntitySpawnListener(),
             new LockInteractionListener(),
@@ -43,7 +48,10 @@ public class EventRegistry {
             new MenuGUI(),
             new SummonCommand(),
             new Abilities(),
-            new ExperienceStorageInventory()
+            new ExperienceStorageInventory(),
+            new ChatListener(),
+            new PlayerQuitListener(),
+            new PartyInviteListener()
         ));
         listeners = ret;
     }

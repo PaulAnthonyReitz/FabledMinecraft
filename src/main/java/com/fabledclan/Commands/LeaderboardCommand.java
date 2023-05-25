@@ -7,11 +7,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import com.fabledclan.DatabaseManager;
+import com.fabledclan.Main;
+import com.fabledclan.Player.PlayerStats;
+import com.fabledclan.Player.PlayerStatsCache;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,16 +47,16 @@ public class LeaderboardCommand extends CommandClass {
         return false;
     }
 
-    private List<List<String>> getTopPlayersByLevel(int limit) {
+    public static List<List<String>> getTopPlayersByLevel(int limit) {
         List<List<String>> topPlayers = new ArrayList<>();
-
+    
         try {
             PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
                     "SELECT uuid, level, exp FROM player_stats ORDER BY level DESC, exp DESC LIMIT ?"
             );
             statement.setInt(1, limit);
             ResultSet resultSet = statement.executeQuery();
-
+    
             while (resultSet.next()) {
                 String uuidString = resultSet.getString("uuid");
                 UUID uuid = UUID.fromString(uuidString);
@@ -64,13 +68,54 @@ public class LeaderboardCommand extends CommandClass {
                 playerData.add(String.valueOf(resultSet.getInt("exp")));
                 topPlayers.add(playerData);
             }
-
+    
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    
         return topPlayers;
     }
+    
+    
+    
+
+    public static List<Player> getTopPlayersByLevelWebsite(int limit) {
+        List<LeaderboardCommand.Player> topPlayers = new ArrayList<>();
+    
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
+                    "SELECT uuid, level, exp FROM player_stats ORDER BY level DESC, exp DESC LIMIT ?"
+            );
+            statement.setInt(1, limit);
+            ResultSet resultSet = statement.executeQuery();
+    
+            while (resultSet.next()) {
+                String uuidString = resultSet.getString("uuid");
+                UUID uuid = UUID.fromString(uuidString);
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+                String playerName = offlinePlayer.getName();
+                Player player = new Player();
+                player.name = playerName;
+                player.level = resultSet.getInt("level");
+                player.exp = resultSet.getInt("exp");
+                topPlayers.add(player);
+            }
+    
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return topPlayers;
+    }
+    
+    public static class Player {
+        String name;
+        int level;
+        int exp;
+    }
+    
 }

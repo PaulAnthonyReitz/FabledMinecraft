@@ -24,18 +24,16 @@ public class ExperienceStorageInventory implements Listener {
         
         Player player = (Player) event.getWhoClicked();
 
-        int storedTotalXP = DatabaseManager.getPlayerExperience(player.getUniqueId());
+        int storedTotalXP = DatabaseManager.getPlayerExperienceXPContainer(player.getUniqueId());
         if (storedTotalXP == -1) storedTotalXP = 0;
         int storedLevels = ExperienceStorage.getLevelFromTotalExperience(storedTotalXP);
         int storedRemainder = storedTotalXP - ExperienceStorage.totalExperience(storedLevels, 0);
 
         int playerLevel = player.getLevel();
-        int playerRemainder = (int)(ExperienceStorage.amountExpForLevel(playerLevel) * player.getExp());
+        float f_playerRemainder = (ExperienceStorage.amountExpForLevel(playerLevel) * player.getExp());
+        int playerRemainder = (int)f_playerRemainder;
+        if (f_playerRemainder > 0.5 && playerRemainder == 0) playerRemainder = 1;
         int playerTotalXP = ExperienceStorage.totalExperience(playerLevel, playerRemainder);
-
-        System.out.println(playerLevel);
-        System.out.println(playerRemainder);
-        System.out.println(playerTotalXP);
 
         int playerXPChange = 0;
         int storedXPChange = 0;
@@ -111,9 +109,6 @@ public class ExperienceStorageInventory implements Listener {
                 return;
         }
 
-        System.out.println("player xp change: " + playerXPChange);
-        System.out.println("stored xp change: " + storedXPChange);
-
         int newStoredXP = storedTotalXP + storedXPChange;
 
         storedLevels = ExperienceStorage.getLevelFromTotalExperience(newStoredXP);
@@ -133,7 +128,7 @@ public class ExperienceStorageInventory implements Listener {
 
         player.giveExp(playerXPChange);
 
-        if (DatabaseManager.getPlayerExperience(player.getUniqueId()) == -1) {
+        if (DatabaseManager.getPlayerExperienceXPContainer(player.getUniqueId()) == -1) {
             DatabaseManager.insertPlayerExperience(player, newStoredXP);
         } else {
             DatabaseManager.updatePlayerExperience(player.getUniqueId(), newStoredXP);
