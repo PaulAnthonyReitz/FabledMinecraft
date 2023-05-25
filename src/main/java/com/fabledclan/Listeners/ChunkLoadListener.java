@@ -11,6 +11,5 @@ public class ChunkLoadListener implements Listener {
     public void onChunkLoad(ChunkLoadEvent e) {
         if (e.isNewChunk()) return; // ignores newly loaded chunks
         CustomBlockRegistry.updateContainerBlocks(); // checks custom container blocks to update them
-        System.out.println("chunk loaded");
     }
 }
