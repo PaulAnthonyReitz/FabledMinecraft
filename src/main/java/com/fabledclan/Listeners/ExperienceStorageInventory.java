@@ -24,7 +24,7 @@ public class ExperienceStorageInventory implements Listener {
         
         Player player = (Player) event.getWhoClicked();
 
-        int storedTotalXP = DatabaseManager.getPlayerExperience(player.getUniqueId());
+        int storedTotalXP = DatabaseManager.getPlayerExperienceXPContainer(player.getUniqueId());
         if (storedTotalXP == -1) storedTotalXP = 0;
         int storedLevels = ExperienceStorage.getLevelFromTotalExperience(storedTotalXP);
         int storedRemainder = storedTotalXP - ExperienceStorage.totalExperience(storedLevels, 0);
@@ -128,7 +128,7 @@ public class ExperienceStorageInventory implements Listener {
 
         player.giveExp(playerXPChange);
 
-        if (DatabaseManager.getPlayerExperience(player.getUniqueId()) == -1) {
+        if (DatabaseManager.getPlayerExperienceXPContainer(player.getUniqueId()) == -1) {
             DatabaseManager.insertPlayerExperience(player, newStoredXP);
         } else {
             DatabaseManager.updatePlayerExperience(player.getUniqueId(), newStoredXP);

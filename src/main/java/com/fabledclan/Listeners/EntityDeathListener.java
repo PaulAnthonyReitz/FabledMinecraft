@@ -27,8 +27,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import com.fabledclan.DatabaseManager;
-import com.fabledclan.EnemyData;
 import com.fabledclan.Main;
+import com.fabledclan.Enemy.EnemyData;
+import com.fabledclan.Player.PlayerStats;
 
 import java.util.Random;
 
@@ -54,12 +55,20 @@ public class EntityDeathListener implements Listener {
     
             if (cachedEnemyData != null) {
                 int baseExp = cachedEnemyData.baseExp;
-                float expScale = cachedEnemyData.expScale;
+                int expScale = cachedEnemyData.expScale;
                 int enemyLevel = Math.max(1, getEnemyLevel(entity));
-                int expToGrant = (int) (baseExp * Math.pow(expScale, enemyLevel - 1));
-                DatabaseManager.addExp(player.getUniqueId(), expToGrant);
+                int expToGrant = (int) baseExp + (expScale * (enemyLevel - 1));
+            
+                // Get the player's stats from the cache
+                PlayerStats stats = Main.getPlayerStatsCache().get(player.getUniqueId());
+                if (stats != null) {
+                    // Update the player's experience in the cache
+                    stats.setExp(stats.getExp() + expToGrant);
+                }
+            
                 player.sendMessage(ChatColor.GREEN + "You gained " + expToGrant + " exp.");
             }
+            
         }
     
         // Check if the entity is a LivingEntity and a monster
@@ -198,8 +207,6 @@ public class EntityDeathListener implements Listener {
     }
     
     
-    
-
     private int getEnemyLevel(Entity entity) {
         PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
         NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
@@ -207,17 +214,6 @@ public class EntityDeathListener implements Listener {
         return enemyLevel;
     }
     
-
-        public static int generateEnemyLevel(Entity entity) {
-            Location worldSpawn = entity.getWorld().getSpawnLocation();
-            Location enemySpawn = entity.getLocation();
-            double distance = worldSpawn.distance(enemySpawn);
-        
-            // Calculate enemy level based on distance from world spawn
-            int enemyLevel = (int) Math.floor(distance / 1000);
-        
-            return enemyLevel;
-        }
 
         private void setCustomDrops(EntityDeathEvent event) {
             LivingEntity entity = event.getEntity();

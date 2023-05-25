@@ -19,8 +19,9 @@ public class EventRegistry {
             new AbilityUseListener(),
             new BlockBreakListener(),
             new BlockPlaceListener(),
-            new EntityDamageListenerMobs(),
-            new EntityDamageListenerPlayers(),
+            new EntityDamageListenerPlayerAttackingEntity(),
+            new EntityDamageListenerPlayerAttackingPlayer(),
+            new EntityDamageListenerEntityAttackingPlayer(),
             new EntityDeathListener(),
             new EntitySpawnListener(),
             new LockInteractionListener(),
@@ -35,7 +36,10 @@ public class EventRegistry {
             new AnimalCage(),
             new WandCrafter(),
             new Wand(),
-            new ChunkLoadListener()
+            new ChunkLoadListener(),
+            new ChatListener(),
+            new PlayerQuitListener(),
+            new PartyInviteListener()
         ));
         listeners = ret;
     }

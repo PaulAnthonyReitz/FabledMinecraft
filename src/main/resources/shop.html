@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        /* Add your styles here */
+        #shopItems {
+            display: none;
+        }
+    </style>
+    <script>
+        let attempts = 0;
+        let lastAttemptTime = 0;
+
+        function sendUsername() {
+            let username = document.getElementById('username').value;
+            // Send the username to your server
+            fetch('/api/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username })
+            });
+        }
+
+        function sendCode() {
+            let now = Date.now();
+            if (now - lastAttemptTime < 1000) {
+                alert('Please wait a moment before trying again.');
+                return;
+            }
+            lastAttemptTime = now;
+
+            let username = document.getElementById('username').value;
+            let code = document.getElementById('code').value;
+            // Send the code to your server
+            fetch('/api/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username, code: code })
+            }).then(response => {
+                if (response.ok) {
+                    // The code was correct
+                    attempts = 0;
+                    alert('Verified!');
+                    document.getElementById('shopItems').style.display = 'block';
+                } else {
+                    // The code was incorrect
+                    attempts++;
+                    if (attempts >= 5) {
+                        alert('Too many failed attempts. Please try again later.');
+                    } else {
+                        alert('Incorrect code. Please try again.');
+                    }
+                }
+            });
+        }
+
+        function buyItem(itemId) {
+            let username = document.getElementById('username').value;
+            fetch('/api/buy', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    itemId: itemId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Purchase successful!');
+                } else {
+                    alert('Purchase failed: ' + data.message);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Shop</h1>
+    <p>Enter your Minecraft username to continue:</p>
+    <input type="text" id="username" placeholder="Minecraft username">
+    <button onclick="sendUsername()">Continue</button>
+    <p>Enter the verification code you received in-game:</p>
+    <input type="text" id="code" placeholder="Verification code">
+    <button onclick="sendCode()">Verify</button>
+    <div id="shopItems">
+        <h2>Shop Items</h2>
+        <div>
+            <h3>Leather Armor</h3>
+            <p>Price: 5 exp</p>
+            <button onclick="buyItem('leather_armor')">Buy</button>
+        </div>
+        <!-- Add more items here -->
+    </div>
+    <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/watch?v=VLAekpsclQY" frameborder="0" allow="autoplay; encrypted-media"></iframe>    
+</body>
+</html>

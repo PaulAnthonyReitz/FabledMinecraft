@@ -9,17 +9,20 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import com.fabledclan.Main;
+import com.fabledclan.Enemy.CalculateEnemyLevel;
 
 import java.util.Random;
 
 public class EntitySpawnListener implements Listener {
 
     private final Random random = new Random();
+    private CalculateEnemyLevel cel = new CalculateEnemyLevel();
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
         if (event.getEntity() instanceof Creature) {
             Creature creature = (Creature) event.getEntity();
+            cel.setEnemyLevel(creature);
 
             // Set custom name, health, and NM status for the spawned mob
             setCustomMobNameAndHealthAndNM(creature);
@@ -29,7 +32,8 @@ public class EntitySpawnListener implements Listener {
     private void setCustomMobNameAndHealthAndNM(LivingEntity entity) {
         PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
         NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
-        int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
+        int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER,1);
+        cel.setEnemyMaxHP(entity);
     
         // Check for NM status and adjust level
         boolean isNM = false;
@@ -77,7 +81,6 @@ public class EntitySpawnListener implements Listener {
                         dataContainer.set(nmNameKey, PersistentDataType.STRING, nmName);
             
             entity.setCustomName(nmName);
-            System.out.println("NM Spawned: " +nmName);
             
         }
     }
@@ -87,19 +90,23 @@ public static class NameGenerator {
         "Fred", "Bob", "Paul", "Jim", "Ritz", "Cold", "Bean", "Dailey", "Grim", "Sly", 
         "Bold", "Clever", "Dark", "Fierce", "Mighty", "Stout", "Wise", "Fearless", 
         "Brave", "Fiery", "Mattie", "Scruff", "Elder", "Young", "Swift", "Ruthless", 
-        "Humble", "Proud", "Silent", "Loud"
+        "Humble", "Proud", "Silent", "Loud", "4k", "Atomik", "Blvckrvft", "ColdMF", "Dizze", "Exxxtacy",
+        "Pumpkin", "Qwinn", "Plugz", "Dave", "Splitgator", "Corn", "Dana", "Haughtsauce","Anoetic",
+        "Melon", "BigBuddyNick", "Cyde", "DNW", "Endy", "Groudon", "Preston", "Tikka", "Sephy"
     };
     
     private static final String[] MIDDLES = {
         "the", "of", "the Mighty", "the Fierce", "the Dark", "the Bold", "the Fearless", 
         "the Brave", "the Fiery", "the Silent", "the Wise", "the Ruthless", "the Swift", 
-        "the Humble", "the Proud", "the Silent", "the Loud"
+        "the Humble", "the Proud", "the Silent", "the Loud", "the Sleepy", "the Stinky", 
+        "the Content Creator", "the Old", "the Silly"
     };
     
     private static final String[] SUFFIXES = {
         "Destroyer", "Builder", "Wanderer", "Seeker", "Keeper", "Guardian", "Bringer", 
         "Crusher", "Wielder", "Weaver", "Walker", "Bearer", "Conqueror", "Protector", 
-        "Challenger", "Defender", "Rider", "Warrior", "Hunter", "Sorcerer"
+        "Challenger", "Defender", "Rider", "Warrior", "Hunter", "Sorcerer", "Lover", 
+        "Chef", "Dancer", "Office-Worker", "Technomancer", "Hustler", "Goose", "NPC"
     };
     
 

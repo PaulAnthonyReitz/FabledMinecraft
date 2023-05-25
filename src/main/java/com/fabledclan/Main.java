@@ -7,11 +7,15 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.fabledclan.Commands.CommandClass;
+import com.fabledclan.Enemy.EnemyData;
+import com.fabledclan.Player.PlayerStatsCache;
 import com.fabledclan.Registers.AbilityRegistry;
 import com.fabledclan.Registers.CommandRegistry;
 import com.fabledclan.Registers.CustomBlockRegistry;
 import com.fabledclan.Registers.CustomItemRegistry;
 import com.fabledclan.Registers.EventRegistry;
+import com.fabledclan.TabScoreboard.ScheduleTab;
+import com.fabledclan.Website.Website;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +27,8 @@ import org.bukkit.boss.BarStyle;
 public class Main extends JavaPlugin {
     private FileConfiguration config;
     private static Main instance;
-    private Map<EntityType, EnemyData> enemyDataCache = new HashMap<>();
+    private static Map<EntityType, EnemyData> enemyDataCache = new HashMap<>();
+    private static PlayerStatsCache playerStatsCache;
 
     @Override
     public void onEnable() {
@@ -45,6 +50,12 @@ public class Main extends JavaPlugin {
 
         // Populate the cache when the server starts
         populateEnemyDataCache();
+
+        //update scoreboard
+        playerStatsCache = new PlayerStatsCache();
+        ScheduleTab.updatePlayerListNames();
+
+        Website.initWebsite();
     }
 
     public static Plugin getPlugin() {
@@ -58,6 +69,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getLogger().info("Plugin disabled!");
+        Website.stopWebsite();
     }
 
     private void initializeListeners() {
@@ -112,8 +124,11 @@ public class Main extends JavaPlugin {
         }
     }
 
-    public EnemyData getCachedEnemyData(EntityType entityType) {
+    public static EnemyData getCachedEnemyData(EntityType entityType) {
         return enemyDataCache.get(entityType);
+    }
+    public static PlayerStatsCache getPlayerStatsCache() {
+        return playerStatsCache;
     }
 
 }

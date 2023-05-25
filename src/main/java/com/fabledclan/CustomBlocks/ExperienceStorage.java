@@ -102,7 +102,7 @@ public class ExperienceStorage extends CustomContainer {
     public void interactEvent(PlayerInteractEvent event) {
         event.setCancelled(true);
         Inventory inventory = makeInventory();
-        int containerXP = DatabaseManager.getPlayerExperience(event.getPlayer().getUniqueId());
+        int containerXP = DatabaseManager.getPlayerExperienceXPContainer(event.getPlayer().getUniqueId());
         if (containerXP != -1) {
             int level = getLevelFromTotalExperience(containerXP);
             int remainder = containerXP - totalExperience(level, 0);

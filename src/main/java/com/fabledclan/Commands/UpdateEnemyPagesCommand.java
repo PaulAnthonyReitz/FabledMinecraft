@@ -4,12 +4,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.fabledclan.EnemyCache;
+import com.fabledclan.Enemy.EnemyBookCache;
 import com.fabledclan.Listeners.PlayerJoinListener;
 
 public class UpdateEnemyPagesCommand extends CommandClass {
 
-    private final EnemyCache enemyCache = PlayerJoinListener.getEnemyCache();
+    private final EnemyBookCache enemyCache = PlayerJoinListener.getEnemyCache();
 
     public UpdateEnemyPagesCommand() {
         super("updateenemypages");
