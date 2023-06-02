@@ -39,7 +39,8 @@ public class EventRegistry {
             new ChunkLoadListener(),
             new ChatListener(),
             new PlayerQuitListener(),
-            new PartyInviteListener()
+            new PartyInviteListener(),
+            new TestWand()
         ));
         listeners = ret;
     }

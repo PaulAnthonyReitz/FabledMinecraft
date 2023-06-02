@@ -14,7 +14,8 @@ public class CustomItemRegistry {
             // ADD ITEMS HERE:
             new DashSpell(),
             new AnimalCage(),
-            new Wand()
+            new Wand(),
+            new TestWand()
         ));
         ITEMS = items;
     }

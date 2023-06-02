@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.fabledclan.Main;
+import com.fabledclan.CustomBlocks.WandCrafterRecipes.WandRecipe;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -201,7 +202,7 @@ public class WandCrafter extends CustomContainer implements Listener {
                 // get a list of the inputs
                 Material[] inputs = { inv.getItem(0).getType(), inv.getItem(1).getType(), inv.getItem(2).getType() };
                 // loops through each recipe
-                for (WandCrafterRecipes.Recipe recipe : WandCrafterRecipes.getRecipes()) {
+                for (WandRecipe recipe : WandCrafterRecipes.getRecipes()) {
                     Boolean valid = true;
                     // checks if the inputs directly copy the recipe
                     for (int i = 0; i < 3; i++) {

@@ -13,7 +13,7 @@ import com.fabledclan.Main;
 import com.fabledclan.CustomAbilities.Ability;
 
 public class WandCrafterRecipes {
-    private static Recipe[] RECIPES = null;
+    private static WandRecipe[] RECIPES = null;
 
     public WandCrafterRecipes() {
         init();
@@ -21,37 +21,37 @@ public class WandCrafterRecipes {
 
     public void init() {
         if (RECIPES != null) return;
-        Recipe[] ret = {
-            new Recipe("dash", false, Material.SUGAR),
-            new Recipe("dragon_breath", true, Material.DRAGON_BREATH),
-            new Recipe("dark_vortex", true, Material.ENDER_PEARL),
-            new Recipe("feather", true, Material.FEATHER),
-            new Recipe("feed", false, Material.COOKED_BEEF),
-            new Recipe("fireball", true, Material.FIRE_CHARGE),
-            new Recipe("heal", true, Material.GOLDEN_APPLE),
-            new Recipe("ice_shard", true, Material.SNOWBALL),
-            new Recipe("magic_missile", true, Material.FIREWORK_ROCKET),
-            new Recipe("party", true, Material.GLASS),
-            new Recipe("plague_swarm", true, Material.ROTTEN_FLESH),
-            new Recipe("power_strike", false, Material.IRON_SWORD),
-            new Recipe("summon_giant", true, Material.IRON_BLOCK),
-            new Recipe("undead_army", true, Material.BONE),
-            new Recipe("vader_choke", true, Material.REDSTONE),
-            new Recipe("wrangle", false, Material.LEAD),
-            new Recipe("yeet_boat", false, Material.OAK_BOAT)
+        WandRecipe[] ret = {
+            new WandRecipe("dash", false, Material.SUGAR),
+            new WandRecipe("dragon_breath", true, Material.DRAGON_BREATH),
+            new WandRecipe("dark_vortex", true, Material.ENDER_PEARL),
+            new WandRecipe("feather", true, Material.FEATHER),
+            new WandRecipe("feed", false, Material.COOKED_BEEF),
+            new WandRecipe("fireball", true, Material.FIRE_CHARGE),
+            new WandRecipe("heal", true, Material.GOLDEN_APPLE),
+            new WandRecipe("ice_shard", true, Material.SNOWBALL),
+            new WandRecipe("magic_missile", true, Material.FIREWORK_ROCKET),
+            new WandRecipe("party", true, Material.GLASS),
+            new WandRecipe("plague_swarm", true, Material.ROTTEN_FLESH),
+            new WandRecipe("power_strike", false, Material.IRON_SWORD),
+            new WandRecipe("summon_giant", true, Material.IRON_BLOCK),
+            new WandRecipe("undead_army", true, Material.BONE),
+            new WandRecipe("vader_choke", true, Material.REDSTONE),
+            new WandRecipe("wrangle", false, Material.LEAD),
+            new WandRecipe("yeet_boat", false, Material.OAK_BOAT)
         };
         RECIPES = ret;
     }
 
-    public static Recipe[] getRecipes() {
+    public static WandRecipe[] getRecipes() {
         return RECIPES;
     }
 
-    public class Recipe {
+    public class WandRecipe {
         private final Material[] RECIPE;
         private final ItemStack RESULT;
 
-        public Recipe(String abilityName, Boolean isManaSpell, Material material) {
+        public WandRecipe(String abilityName, Boolean isManaSpell, Material material) {
             RECIPE = recipe(isManaSpell, material);
             RESULT = result(abilityName);
         }
