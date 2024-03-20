@@ -1,34 +1,30 @@
 package com.fabledclan;
 
+import com.fabledclan.Commands.CommandClass;
+import com.fabledclan.Enemy.EnemyData;
+import com.fabledclan.Player.PlayerStatsCache;
+import com.fabledclan.Registers.*;
+import com.fabledclan.TabScoreboard.ScheduleTab;
+import com.fabledclan.Website.Website;
+import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.fabledclan.Commands.CommandClass;
-import com.fabledclan.Enemy.EnemyData;
-import com.fabledclan.Player.PlayerStatsCache;
-import com.fabledclan.Registers.AbilityRegistry;
-import com.fabledclan.Registers.CommandRegistry;
-import com.fabledclan.Registers.CustomBlockRegistry;
-import com.fabledclan.Registers.CustomItemRegistry;
-import com.fabledclan.Registers.EventRegistry;
-import com.fabledclan.TabScoreboard.ScheduleTab;
-import com.fabledclan.Website.Website;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-
 public class Main extends JavaPlugin {
-    private FileConfiguration config;
+
     private static Main instance;
     private static Map<EntityType, EnemyData> enemyDataCache = new HashMap<>();
     private static PlayerStatsCache playerStatsCache;
+
+    private FileConfiguration config;
 
     @Override
     public void onEnable() {
@@ -36,40 +32,29 @@ public class Main extends JavaPlugin {
         Bukkit.getLogger().info("Plugin enabled!");
 
         saveDefaultConfig();
-
         DatabaseManager.initDatabase();
 
-        CustomBlockRegistry.initializeBlocks();
-        CustomItemRegistry.initializeItems();
-        AbilityRegistry.initializeAbilities();
+        initializeRegisters();
         CustomRecipes.addRecipes();
-
         initializeListeners();
-
         initializeCommands();
 
-        // Populate the cache when the server starts
         populateEnemyDataCache();
-
-        //update scoreboard
         playerStatsCache = new PlayerStatsCache();
         ScheduleTab.updatePlayerListNames();
-
         Website.initWebsite();
-    }
-
-    public static Plugin getPlugin() {
-        return Bukkit.getPluginManager().getPlugins()[0];
-    }
-
-    public static Main getInstance() {
-        return instance;
     }
 
     @Override
     public void onDisable() {
         Bukkit.getLogger().info("Plugin disabled!");
         Website.stopWebsite();
+    }
+
+    private void initializeRegisters() {
+        CustomBlockRegistry.initializeBlocks();
+        CustomItemRegistry.initializeItems();
+        AbilityRegistry.initializeAbilities();
     }
 
     private void initializeListeners() {
@@ -88,7 +73,6 @@ public class Main extends JavaPlugin {
 
     public BarColor getBossBarColor(double currentHealth, double maxHealth) {
         double healthPercentage = (currentHealth / maxHealth) * 100;
-
         if (healthPercentage > 50) {
             return BarColor.GREEN;
         } else if (healthPercentage > 15) {
@@ -124,11 +108,19 @@ public class Main extends JavaPlugin {
         }
     }
 
+    public static Plugin getPlugin() {
+        return Bukkit.getPluginManager().getPlugins()[0];
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
     public static EnemyData getCachedEnemyData(EntityType entityType) {
         return enemyDataCache.get(entityType);
     }
+
     public static PlayerStatsCache getPlayerStatsCache() {
         return playerStatsCache;
     }
-
 }

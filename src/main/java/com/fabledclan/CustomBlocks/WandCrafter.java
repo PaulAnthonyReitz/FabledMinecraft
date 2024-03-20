@@ -30,7 +30,8 @@ public class WandCrafter extends CustomContainer implements Listener {
     private NamespacedKey key;
     private ItemStack arrowItem;
     private ItemStack nullItem;
-    private final String INV_NAME = ChatColor.BOLD + "Wand Crafting";
+    private final String INV_NAME_FORMATTED = ChatColor.BOLD + "Wand Crafting";
+    private final String INV_NAME = "Wand Crafting";
     private final int[] SLOTS = { 0, 1, 2 };
     private ItemStack result = null;
 
@@ -50,7 +51,7 @@ public class WandCrafter extends CustomContainer implements Listener {
     }
 
     public Inventory makeInventory() {
-        Inventory inventory = Bukkit.createInventory(null, InventoryType.HOPPER, INV_NAME);
+        Inventory inventory = Bukkit.createInventory(null, InventoryType.DISPENSER, INV_NAME); //changed to dispenser
         arrowItem = new ItemStack(Material.LIME_STAINED_GLASS_PANE, 1);
         nullItem = new ItemStack(Material.BARRIER, 1);
         ItemMeta arrowMeta = arrowItem.getItemMeta();
