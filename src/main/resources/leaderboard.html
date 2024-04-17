@@ -2,22 +2,43 @@
 <html>
 <head>
     <title>Leaderboard</title>
-    <meta charset="UTF-8"> <!-- Add this line -->
-
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
-            padding: 30px;
+            background-color: #f8f9fa;
         }
-        .container {
+        .leaderboard-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
         }
-        h1 {
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .leaderboard-title {
+            font-size: 36px;
+            font-weight: bold;
             color: #333;
+        }
+        .leaderboard-table {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .leaderboard-table thead th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+        .leaderboard-table tbody td {
+            vertical-align: middle;
+        }
+        .leaderboard-table .trophy {
+            font-size: 24px;
+            margin-right: 10px;
         }
     </style>
     <script>
@@ -29,10 +50,10 @@
                 data.forEach((player, index) => {
                     let row = document.createElement('tr');
                     let trophy = '';
-                    if (index === 0) trophy = '🥇';
-                    else if (index === 1) trophy = '🥈';
-                    else if (index === 2) trophy = '🥉';
-                    row.innerHTML = `<td>${trophy} ${player.name}</td><td>${player.level}</td><td>${player.exp}</td>`;
+                    if (index === 0) trophy = '<i class="fas fa-trophy trophy" style="color: #ffc107;"></i>';
+                    else if (index === 1) trophy = '<i class="fas fa-trophy trophy" style="color: #aaa;"></i>';
+                    else if (index === 2) trophy = '<i class="fas fa-trophy trophy" style="color: #cd7f32;"></i>';
+                    row.innerHTML = `<td>${trophy}${player.name}</td><td>${player.level}</td><td>${player.exp}</td>`;
                     leaderboard.appendChild(row);
                 });
             });
@@ -46,7 +67,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
@@ -62,9 +83,12 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
-        <h1>Leaderboard</h1>
-        <table id="leaderboard" class="table">
+
+    <div class="leaderboard-container">
+        <div class="leaderboard-header">
+            <h1 class="leaderboard-title">Leaderboard</h1>
+        </div>
+        <table id="leaderboard" class="table leaderboard-table">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -77,6 +101,7 @@
             </tbody>
         </table>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

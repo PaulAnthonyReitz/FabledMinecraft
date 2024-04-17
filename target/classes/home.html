@@ -2,38 +2,79 @@
 <html>
 <head>
     <title>Fabled Clan Minecraft Server</title>
-    <meta charset="UTF-8"> <!-- Add this line -->
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
-            padding: 30px;
+            background-color: #f8f9fa;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        .navbar {
+            background-color: #212529;
         }
-        h1 {
-            color: #333;
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff;
+        }
+        .nav-link {
+            color: #fff;
         }
         .jumbotron {
-            background-image: url('https://via.placeholder.com/800x300');
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1200x400') no-repeat center center;
             background-size: cover;
-            color: white;
-            text-shadow: 2px 2px 4px #000000;
+            color: #fff;
+            padding: 100px 0;
+            text-align: center;
+        }
+        .jumbotron h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .jumbotron p {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        .features {
+            padding: 80px 0;
+        }
+        .feature-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .feature-card i {
+            font-size: 48px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .feature-card p {
+            font-size: 18px;
+            color: #6c757d;
+        }
+        .footer {
+            background-color: #212529;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="/">Fabled Clan</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home</a>
                 </li>
@@ -49,18 +90,52 @@
             </ul>
         </div>
     </nav>
+
     <div class="jumbotron">
-        <h1 class="display-4">Welcome to Fabled Clan Minecraft Server</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-        <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        <div class="container">
+            <h1>Welcome to Fabled Clan Minecraft Server</h1>
+            <p>Experience the ultimate Minecraft adventure on our server!</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Join Now</a>
+        </div>
     </div>
-    <div class="container">
-        <!-- Your content goes here -->
+
+    <div class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Friendly Community</h3>
+                        <p>Join a welcoming and inclusive community of Minecraft players.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-map"></i>
+                        <h3>Exciting Worlds</h3>
+                        <p>Explore vast and diverse worlds filled with adventure and surprises.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Unique Features</h3>
+                        <p>Discover custom features and gameplay mechanics exclusive to our server.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 Fabled Clan Minecraft Server. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
 </body>
 </html>

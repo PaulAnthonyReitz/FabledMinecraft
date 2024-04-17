@@ -3,25 +3,96 @@
 <head>
     <title>Shop</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* Add your styles here */
-        #shopItems {
+        body {
+            background-color: #f8f9fa;
+        }
+        .shop-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .shop-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .shop-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+        }
+        .shop-subtitle {
+            font-size: 18px;
+            color: #666;
+        }
+        .shop-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .shop-card-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .shop-card-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .shop-card-button {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .loading {
             display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .success {
+            color: green;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
     <script>
         let attempts = 0;
         let lastAttemptTime = 0;
+        let lastPurchaseTime = 0;
 
         function sendUsername() {
             let username = document.getElementById('username').value;
-            // Send the username to your server
+            document.querySelector('.loading').style.display = 'block';
+            document.querySelector('.error').textContent = '';
+            document.querySelector('.success').textContent = '';
+
             fetch('/api/verify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ username: username })
+            })
+            .then(response => {
+                document.querySelector('.loading').style.display = 'none';
+                if (response.ok) {
+                    document.querySelector('.success').textContent = 'Verification code sent to the player.';
+                } else {
+                    throw new Error('Failed to send username');
+                }
+            })
+            .catch(error => {
+                document.querySelector('.loading').style.display = 'none';
+                document.querySelector('.error').textContent = 'An error occurred while sending the username. Please try again.';
             });
         }
 
@@ -35,33 +106,55 @@
 
             let username = document.getElementById('username').value;
             let code = document.getElementById('code').value;
-            // Send the code to your server
+            document.querySelector('.loading').style.display = 'block';
+            document.querySelector('.error').textContent = '';
+            document.querySelector('.success').textContent = '';
+
             fetch('/api/verify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ username: username, code: code })
-            }).then(response => {
+            })
+            .then(response => {
+                document.querySelector('.loading').style.display = 'none';
                 if (response.ok) {
-                    // The code was correct
                     attempts = 0;
-                    alert('Verified!');
+                    document.querySelector('.success').textContent = 'Verification successful.';
                     document.getElementById('shopItems').style.display = 'block';
+                    document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = false;
+                } else if (response.status === 429) {
+                    document.querySelector('.error').textContent = 'Too many failed attempts. Please try again later.';
                 } else {
-                    // The code was incorrect
                     attempts++;
                     if (attempts >= 5) {
-                        alert('Too many failed attempts. Please try again later.');
+                        document.querySelector('.error').textContent = 'Too many failed attempts. Please try again later.';
                     } else {
-                        alert('Incorrect code. Please try again.');
+                        document.querySelector('.error').textContent = 'Incorrect verification code. Please try again.';
                     }
                 }
+            })
+            .catch(error => {
+                document.querySelector('.loading').style.display = 'none';
+                document.querySelector('.error').textContent = 'An error occurred while verifying the code. Please try again.';
             });
         }
 
         function buyItem(itemId) {
+            let now = Date.now();
+            if (now - lastPurchaseTime < 3000) {
+                alert('Please wait a moment before making another purchase.');
+                return;
+            }
+            lastPurchaseTime = now;
+
             let username = document.getElementById('username').value;
+            document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = true;
+            document.querySelector('.loading').style.display = 'block';
+            document.querySelector('.error').textContent = '';
+            document.querySelector('.success').textContent = '';
+
             fetch('/api/buy', {
                 method: 'POST',
                 headers: {
@@ -72,34 +165,79 @@
                     itemId: itemId
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Purchase successful!');
+            .then(response => {
+                document.querySelector('.loading').style.display = 'none';
+                if (response.ok) {
+                    document.querySelector('.success').textContent = 'Purchase successful.';
                 } else {
-                    alert('Purchase failed: ' + data.message);
+                    document.querySelector('.error').textContent = 'Purchase failed. Please try again.';
                 }
+                document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = false;
+            })
+            .catch(error => {
+                document.querySelector('.loading').style.display = 'none';
+                document.querySelector('.error').textContent = 'An error occurred while processing the purchase. Please try again.';
+                document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = false;
             });
         }
     </script>
 </head>
 <body>
-    <h1>Shop</h1>
-    <p>Enter your Minecraft username to continue:</p>
-    <input type="text" id="username" placeholder="Minecraft username">
-    <button onclick="sendUsername()">Continue</button>
-    <p>Enter the verification code you received in-game:</p>
-    <input type="text" id="code" placeholder="Verification code">
-    <button onclick="sendCode()">Verify</button>
-    <div id="shopItems">
-        <h2>Shop Items</h2>
-        <div>
-            <h3>Leather Armor</h3>
-            <p>Price: 5 exp</p>
-            <button onclick="buyItem('leather_armor')">Buy</button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Fabled Clan</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/leaderboard">Leaderboard</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/shop">Shop</a>
+                </li>
+            </ul>
         </div>
-        <!-- Add more items here -->
+    </nav>
+
+    <div class="shop-container">
+        <div class="shop-header">
+            <h1 class="shop-title">Fabled Clan Shop</h1>
+            <p class="shop-subtitle">Enter your Minecraft username to access the shop</p>
+        </div>
+        <div class="shop-card">
+            <h2 class="shop-card-title">Username Verification</h2>
+            <div class="form-group">
+                <input type="text" id="username" placeholder="Minecraft Username" class="form-control">
+            </div>
+            <button onclick="sendUsername()" class="btn btn-primary btn-block shop-card-button">Continue</button>
+        </div>
+        <div class="shop-card">
+            <h2 class="shop-card-title">Verification Code</h2>
+            <div class="form-group">
+                <input type="text" id="code" placeholder="Enter Verification Code" class="form-control">
+            </div>
+            <button onclick="sendCode()" class="btn btn-primary btn-block shop-card-button">Verify</button>
+        </div>
+        <div id="shopItems" class="shop-card" style="display: none;">
+            <h2 class="shop-card-title">Shop Items</h2>
+            <div class="shop-item">
+                <h3 class="shop-item-title">Leather Armor</h3>
+                <p class="shop-item-text">Price: 5 exp</p>
+                <button onclick="buyItem('leather_armor')" class="btn btn-success shop-item-button" disabled>
+                    <i class="fas fa-shopping-cart"></i> Buy
+                </button>
+            </div>
+            <!-- Add more shop items here -->
+        </div>
+        <div class="loading">
+            <p>Loading...</p>
+        </div>
+        <div class="success"></div>
+        <div class="error"></div>
     </div>
-    <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/watch?v=VLAekpsclQY" frameborder="0" allow="autoplay; encrypted-media"></iframe>    
-</body>
-</html>
+
+    <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/watch

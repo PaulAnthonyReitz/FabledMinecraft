@@ -37,7 +37,7 @@ public class Website {
             server.createContext("/leaderboard", httpExchange -> servePage(httpExchange, "leaderboard.html"));
             server.createContext("/shop", httpExchange -> servePage(httpExchange, "shop.html"));
             server.createContext("/changelog", httpExchange -> servePage(httpExchange, "changelog.html"));
-            //API
+            // API
             server.createContext("/api/leaderboard", Website::serveLeaderboardData);
             server.createContext("/api/verify", new VerifyHandler());
             server.createContext("/api/buy", Website::buy);
@@ -70,9 +70,7 @@ public class Website {
         }
     }
 
-    public static void stopWebsite()
-    {
-
+    public static void stopWebsite() {
         server.stop(0);
     }
 
@@ -97,18 +95,17 @@ public class Website {
             Map<String, String> request = new Gson().fromJson(requestBody, Map.class);
             String username = request.get("username");
             String code = request.get("code");
-    
+
             if (code == null) {
                 // Check if enough time has passed since the last code was sent
                 long currentTime = System.currentTimeMillis();
                 long lastCodeTime = lastCodeTimes.getOrDefault(username, 0L);
                 if (currentTime - lastCodeTime < 30 * 1000) {
                     // Not enough time has passed
-                    httpExchange.sendResponseHeaders(429, 0); // Too Many Requests
-                    httpExchange.close();
+                    sendResponse(httpExchange, 429, "");
                     return;
                 }
-    
+
                 // Generate a new verification code
                 String newCode = generateRandomCode();
                 verificationCodes.put(username, newCode);
@@ -117,6 +114,9 @@ public class Website {
                 Player player = Bukkit.getPlayer(username);
                 if (player != null) {
                     player.sendMessage("Your verification code is: " + newCode);
+                    sendResponse(httpExchange, 200, "");
+                } else {
+                    sendResponse(httpExchange, 400, "");
                 }
             } else {
                 // Check the verification code
@@ -124,23 +124,21 @@ public class Website {
                 if (code.equals(correctCode)) {
                     // The code is correct
                     failedAttempts.remove(username);
-                    httpExchange.sendResponseHeaders(200, 0);
+                    sendResponse(httpExchange, 200, "");
                 } else {
                     // The code is incorrect
                     int attempts = failedAttempts.getOrDefault(username, 0);
                     attempts++;
                     failedAttempts.put(username, attempts);
                     if (attempts >= 5) {
-                        httpExchange.sendResponseHeaders(429, 0); // Too Many Requests
+                        sendResponse(httpExchange, 429, "");
                     } else {
-                        httpExchange.sendResponseHeaders(401, 0); // Unauthorized
+                        sendResponse(httpExchange, 401, "");
                     }
                 }
             }
-    
-            httpExchange.close();
         }
-    
+
         private String generateRandomCode() {
             return String.valueOf(new Random().nextInt(900000) + 100000); // Generate a random 6-digit code
         }
@@ -151,38 +149,36 @@ public class Website {
         Map<String, String> request = new Gson().fromJson(requestBody, Map.class);
         String username = request.get("username");
         String itemId = request.get("itemId");
-    
+
         Player player = Bukkit.getPlayer(username);
         UUID uuid = player.getUniqueId();
         if (uuid == null) {
             // The player is not online
-            sendResponse(httpExchange, 400, "Player is not online");
+            sendResponse(httpExchange, 400, "");
             return;
         }
-    
+
         int playerExp = DatabaseManager.getPlayerExperiencePlayerStats(uuid);
-        //System.out.println("here is playerEXP" + playerExp);
         if (itemId.equals("leather_armor")) {
             int price = 5;
             if (playerExp < price) {
                 // The player doesn't have enough exp
-                player.sendMessage("Not enough exp for web purchase!", null);
-                sendResponse(httpExchange, 400, "Not enough exp");
+                player.sendMessage("Not enough exp for web purchase!");
+                sendResponse(httpExchange, 400, "");
                 return;
             }
-    
+
             // Deduct the price from the player's exp and give them the item
             DatabaseManager.updatePlayerExperiencePlayerStats(uuid, playerExp - price);
             Bukkit.getPlayer(uuid).getInventory().addItem(new ItemStack(Material.LEATHER_CHESTPLATE, 1));
-            player.sendMessage("Purchased leather armor!", null);
-            sendResponse(httpExchange, 200, "Purchase successful");
+            player.sendMessage("Purchased leather armor!");
+            sendResponse(httpExchange, 200, "");
+            return;
         } else {
             // The item ID is not recognized
-            sendResponse(httpExchange, 400, "Invalid item ID");
+            sendResponse(httpExchange, 400, "");
         }
     }
-    
-    
 
     private static void sendResponse(HttpExchange httpExchange, int statusCode, String responseText) throws IOException {
         httpExchange.sendResponseHeaders(statusCode, responseText.length());
@@ -190,11 +186,4 @@ public class Website {
         os.write(responseText.getBytes());
         os.close();
     }
-    
-    
-    
-    
-    
-
 }
-    
