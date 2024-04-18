@@ -2,9 +2,8 @@ package com.fabledclan.Listeners;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -30,63 +29,58 @@ import com.fabledclan.Main;
 import com.fabledclan.Enemy.EnemyData;
 import com.fabledclan.Player.PlayerStats;
 
-import java.util.Random;
-
 public class EntityDeathListener implements Listener {
+    private static final NamespacedKey LEVEL_KEY = new NamespacedKey(Main.getPlugin(), "enemy_level");
     private final Map<String, EnemyData> enemyDataCache = new HashMap<>();
+
+    private enum EquipmentType {
+        WEAPON,
+        ARMOR
+    }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
         Player player = event.getEntity().getKiller();
-    
+
         if (player != null) {
             String entityType = entity.getType().name();
-    
-            // Check if the enemy data is in the cache
+
             if (!enemyDataCache.containsKey(entityType)) {
-                // Fetch enemy data from the database and store it in the cache
                 EnemyData enemyData = DatabaseManager.getEnemyData(entityType);
                 enemyDataCache.put(entityType, enemyData);
             }
-    
+
             EnemyData cachedEnemyData = enemyDataCache.get(entityType);
-    
+
             if (cachedEnemyData != null) {
                 int baseExp = cachedEnemyData.baseExp;
                 int expScale = cachedEnemyData.expScale;
-                int enemyLevel = Math.max(1, getEnemyLevel(entity));
-                int expToGrant = (int) baseExp + (expScale * (enemyLevel - 1));
-            
-                // Get the player's stats from the cache
+                int enemyLevel = getEnemyLevel(entity);
+                int expToGrant = baseExp + (expScale * (enemyLevel - 1));
+
                 PlayerStats stats = Main.getPlayerStatsCache().get(player.getUniqueId());
                 if (stats != null) {
-                    // Update the player's experience in the cache
                     stats.setExp(stats.getExp() + expToGrant);
                 }
-            
+
                 player.sendMessage(ChatColor.GREEN + "You gained " + expToGrant + " exp.");
             }
-            
         }
-    
-        // Check if the entity is a LivingEntity and a monster
+
         if (entity instanceof LivingEntity && !(entity instanceof Player)) {
-            //shouldnt happen on player deaths
             setCustomDrops(event);
-            int monsterLevel = Math.max(1, getEnemyLevel(entity));
-    
-            // Loop through the dropped items
+            int monsterLevel = getEnemyLevel(entity);
+
             for (ItemStack item : event.getDrops()) {
-                // Check if the item is a weapon
-                if (isWeapon(item.getType())) {
-                 // Modify the weapon's attack damage based on the monster's level and the base attack value
-                 ItemMeta itemMeta = item.getItemMeta();
-                 double baseAttackValue = getBaseAttackValue(item.getType());
-                 itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", baseAttackValue + monsterLevel - 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
-                 item.setItemMeta(itemMeta);
-                } else if (isArmor(item.getType())) {
-                    // Modify the armor's defense value based on the monster's level
+                EquipmentType equipmentType = getEquipmentType(item.getType());
+
+                if (equipmentType == EquipmentType.WEAPON) {
+                    ItemMeta itemMeta = item.getItemMeta();
+                    double baseAttackValue = getBaseAttackValue(item.getType());
+                    itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", baseAttackValue + monsterLevel - 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+                    item.setItemMeta(itemMeta);
+                } else if (equipmentType == EquipmentType.ARMOR) {
                     ItemMeta itemMeta = item.getItemMeta();
                     double baseDefenseValue = getBaseDefenseValue(item.getType());
                     double armorStatBonus = monsterLevel;
@@ -96,6 +90,20 @@ public class EntityDeathListener implements Listener {
                 }
             }
         }
+    }
+
+    private int getEnemyLevel(Entity entity) {
+        PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+        return dataContainer.getOrDefault(LEVEL_KEY, PersistentDataType.INTEGER, 1);
+    }
+
+    private EquipmentType getEquipmentType(Material material) {
+        if (material.toString().endsWith("_SWORD") || material.toString().endsWith("_AXE") || material.toString().endsWith("_PICKAXE") || material == Material.BOW || material == Material.CROSSBOW || material == Material.TRIDENT) {
+            return EquipmentType.WEAPON;
+        } else if (material.toString().endsWith("_HELMET") || material.toString().endsWith("_CHESTPLATE") || material.toString().endsWith("_LEGGINGS") || material.toString().endsWith("_BOOTS")) {
+            return EquipmentType.ARMOR;
+        }
+        return null;
     }
 
     private double getBaseAttackValue(Material material) {
@@ -117,38 +125,10 @@ public class EntityDeathListener implements Listener {
         baseDefenseValues.put(Material.LEATHER_CHESTPLATE, 3.0);
         baseDefenseValues.put(Material.LEATHER_LEGGINGS, 2.0);
         baseDefenseValues.put(Material.LEATHER_BOOTS, 1.0);
-    
-        baseDefenseValues.put(Material.CHAINMAIL_HELMET, 2.0);
-        baseDefenseValues.put(Material.CHAINMAIL_CHESTPLATE, 5.0);
-        baseDefenseValues.put(Material.CHAINMAIL_LEGGINGS, 4.0);
-        baseDefenseValues.put(Material.CHAINMAIL_BOOTS, 1.0);
-    
-        baseDefenseValues.put(Material.IRON_HELMET, 2.0);
-        baseDefenseValues.put(Material.IRON_CHESTPLATE, 6.0);
-        baseDefenseValues.put(Material.IRON_LEGGINGS, 5.0);
-        baseDefenseValues.put(Material.IRON_BOOTS, 2.0);
-    
-        baseDefenseValues.put(Material.GOLDEN_HELMET, 2.0);
-        baseDefenseValues.put(Material.GOLDEN_CHESTPLATE, 5.0);
-        baseDefenseValues.put(Material.GOLDEN_LEGGINGS, 3.0);
-        baseDefenseValues.put(Material.GOLDEN_BOOTS, 1.0);
-    
-        baseDefenseValues.put(Material.DIAMOND_HELMET, 3.0);
-        baseDefenseValues.put(Material.DIAMOND_CHESTPLATE, 8.0);
-        baseDefenseValues.put(Material.DIAMOND_LEGGINGS, 6.0);
-        baseDefenseValues.put(Material.DIAMOND_BOOTS, 3.0);
-    
-        baseDefenseValues.put(Material.NETHERITE_HELMET, 3.0);
-        baseDefenseValues.put(Material.NETHERITE_CHESTPLATE, 8.0);
-        baseDefenseValues.put(Material.NETHERITE_LEGGINGS, 6.0);
-        baseDefenseValues.put(Material.NETHERITE_BOOTS, 3.0);
-    
         // Add other armors and their base defense values as needed
-    
+
         return baseDefenseValues.getOrDefault(material, 0.0);
     }
-    
-    
 
     private EquipmentSlot getEquipmentSlot(Material material) {
         switch (material) {
@@ -180,103 +160,69 @@ public class EntityDeathListener implements Listener {
                 return null;
         }
     }
-    
-    
-    private boolean isWeapon(Material material) {
-        Set<Material> weapons = new HashSet<>(Arrays.asList(
-                Material.WOODEN_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLDEN_SWORD, Material.DIAMOND_SWORD, Material.NETHERITE_SWORD,
-                Material.WOODEN_PICKAXE, Material.STONE_PICKAXE, Material.IRON_PICKAXE, Material.GOLDEN_PICKAXE, Material.DIAMOND_PICKAXE, Material.NETHERITE_PICKAXE,
-                Material.WOODEN_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.DIAMOND_AXE, Material.NETHERITE_AXE,
-                Material.BOW, Material.CROSSBOW, Material.TRIDENT
-        ));
-        return weapons.contains(material);
-    }
-    
 
-    private boolean isArmor(Material material) {
-        Set<Material> armors = new HashSet<>(Arrays.asList(
-                Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS,
-                Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS,
-                Material.IRON_HELMET, Material.IRON_CHESTPLATE, Material.IRON_LEGGINGS, Material.IRON_BOOTS,
-                Material.GOLDEN_HELMET, Material.GOLDEN_CHESTPLATE, Material.GOLDEN_LEGGINGS, Material.GOLDEN_BOOTS,
-                Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
-                Material.NETHERITE_HELMET, Material.NETHERITE_CHESTPLATE, Material.NETHERITE_LEGGINGS, Material.NETHERITE_BOOTS
-        ));
-        return armors.contains(material);
-    }
-    
-    
-    private int getEnemyLevel(Entity entity) {
-        PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
-        NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
-        int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
-        return enemyLevel;
-    }
-    
+    private void setCustomDrops(EntityDeathEvent event) {
+        LivingEntity entity = event.getEntity();
 
-        private void setCustomDrops(EntityDeathEvent event) {
-            LivingEntity entity = event.getEntity();
-    
-            if (!(entity instanceof Monster)) {
-                return;
-            }
-            Random random = new Random();
-            int roll = random.nextInt(100) + 1;
-            ItemStack drop = null;
-    
-            if (roll < 3) { // 3% chance for diamond
-                drop = getRandomDiamondEquipment();
-            } else if (roll < 6) { // 5% chance for iron
-                drop = getRandomIronEquipment();
-            } else if (roll < 8) { // 8% chance for wood
-                drop = getRandomWoodEquipment();
-            }
-    
-            if (drop != null) {
-                event.getDrops().add(drop);
-            }
+        if (!(entity instanceof Monster)) {
+            return;
         }
-    
-        private ItemStack getRandomWoodEquipment() {
-            Material[] woodEquipment = {
-                    Material.WOODEN_SWORD,
-                    Material.WOODEN_PICKAXE,
-                    Material.WOODEN_AXE,
-                    Material.LEATHER_HELMET,
-                    Material.LEATHER_CHESTPLATE,
-                    Material.LEATHER_LEGGINGS,
-                    Material.LEATHER_BOOTS
-            };
-            Random random = new Random();
-            return new ItemStack(woodEquipment[random.nextInt(woodEquipment.length)]);
+
+        Random random = new Random();
+        int roll = random.nextInt(100) + 1;
+        ItemStack drop = null;
+
+        if (roll < 3) {
+            drop = getRandomEquipment(getDiamondEquipmentTypes());
+        } else if (roll < 6) {
+            drop = getRandomEquipment(getIronEquipmentTypes());
+        } else if (roll < 8) {
+            drop = getRandomEquipment(getWoodEquipmentTypes());
         }
-    
-        private ItemStack getRandomIronEquipment() {
-            Material[] ironEquipment = {
-                    Material.IRON_SWORD,
-                    Material.IRON_PICKAXE,
-                    Material.IRON_AXE,
-                    Material.IRON_HELMET,
-                    Material.IRON_CHESTPLATE,
-                    Material.IRON_LEGGINGS,
-                    Material.IRON_BOOTS
-            };
-            Random random = new Random();
-            return new ItemStack(ironEquipment[random.nextInt(ironEquipment.length)]);
-        }
-    
-        private ItemStack getRandomDiamondEquipment() {
-            Material[] diamondEquipment = {
-                    Material.DIAMOND_SWORD,
-                    Material.DIAMOND_PICKAXE,
-                    Material.DIAMOND_AXE,
-                    Material.DIAMOND_HELMET,
-                    Material.DIAMOND_CHESTPLATE,
-                    Material.DIAMOND_LEGGINGS,
-                    Material.DIAMOND_BOOTS
-            };
-            Random random = new Random();
-            return new ItemStack(diamondEquipment[random.nextInt(diamondEquipment.length)]);
+
+        if (drop != null) {
+            event.getDrops().add(drop);
         }
     }
 
+    private ItemStack getRandomEquipment(Material[] equipmentTypes) {
+        Random random = new Random();
+        return new ItemStack(equipmentTypes[random.nextInt(equipmentTypes.length)]);
+    }
+
+    private Material[] getWoodEquipmentTypes() {
+        return new Material[]{
+                Material.WOODEN_SWORD,
+                Material.WOODEN_PICKAXE,
+                Material.WOODEN_AXE,
+                Material.LEATHER_HELMET,
+                Material.LEATHER_CHESTPLATE,
+                Material.LEATHER_LEGGINGS,
+                Material.LEATHER_BOOTS
+        };
+    }
+
+    private Material[] getIronEquipmentTypes() {
+        return new Material[]{
+                Material.IRON_SWORD,
+                Material.IRON_PICKAXE,
+                Material.IRON_AXE,
+                Material.IRON_HELMET,
+                Material.IRON_CHESTPLATE,
+                Material.IRON_LEGGINGS,
+                Material.IRON_BOOTS
+        };
+    }
+
+    private Material[] getDiamondEquipmentTypes() {
+        return new Material[]{
+                Material.DIAMOND_SWORD,
+                Material.DIAMOND_PICKAXE,
+                Material.DIAMOND_AXE,
+                Material.DIAMOND_HELMET,
+                Material.DIAMOND_CHESTPLATE,
+                Material.DIAMOND_LEGGINGS,
+                Material.DIAMOND_BOOTS
+        };
+    }
+}

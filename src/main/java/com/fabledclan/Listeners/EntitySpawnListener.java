@@ -80,7 +80,7 @@ public class EntitySpawnListener implements Listener {
                         NamespacedKey nmNameKey = new NamespacedKey(Main.getPlugin(), "NMName");
                         dataContainer.set(nmNameKey, PersistentDataType.STRING, nmName);
             
-            entity.setCustomName(nmName);
+            entity.setCustomName("[\u00A76" + enemyLevel + "\u00A7f] " + nmName + " HP: " + heartColor + roundedHealth + " " + heartColor + "\u2764");
             
         }
     }
@@ -92,21 +92,58 @@ public static class NameGenerator {
         "Brave", "Fiery", "Mattie", "Scruff", "Elder", "Young", "Swift", "Ruthless", 
         "Humble", "Proud", "Silent", "Loud", "4k", "Atomik", "Blvckrvft", "ColdMF", "Dizze", "Exxxtacy",
         "Pumpkin", "Qwinn", "Plugz", "Dave", "Splitgator", "Corn", "Dana", "Haughtsauce","Anoetic",
-        "Melon", "BigBuddyNick", "Cyde", "DNW", "Endy", "Groudon", "Preston", "Tikka", "Sephy"
+        "Melon", "BigBuddyNick", "Cyde", "DNW", "Endy", "Groudon", "Preston", "Tikka", "Sephy", "Satoshi",
+        "Avo", "Cheezey", "Randy", "Katana", "Silent", "LilMexx", "PlainOlbry", "SoggyBhalls", "MissTatts",
+        "Mayo", "Dejay", "Rukus","Pork","RitzDaCat","Skrub","Vallec","ZachMaxed","Groudon",
+        // custom names
+        "Blaze", "Storm", "Steel", "Blade", "Shadow", "Neon", "Laser", "Cyber", "Vortex", "Flux",
+        "Quantum", "Omega", "Alpha", "Prime", "Ultra", "Hyper", "Nitro", "Turbo", "Electro", "Chrono",
+        // Silly names
+        "Bumble", "Pickle", "Squiggle", "Jiggles", "Wiggles", "Doodle", "Noodle", "Sprinkle", "Giggles", "Bubbles",
+        "Pudding", "Snuggles", "Cuddles", "Waffles", "Pancake", "Muffin", "Socks", "Mittens", "Banana", "Donut",
+        // Knight-related names
+        "Lancelot", "Gawain", "Percival", "Galahad", "Tristan", "Bedivere", "Kay", "Gareth", "Geraint", "Bors",
+        "Lamorak", "Gaheris", "Pelleas", "Agravain", "Lionel", "Ector", "Dagonet", "Lucan", "Palomedes", "Safir",
+        // Spooky names
+        "Wraith", "Reaper", "Vampire", "Zombie", "Phantom", "Specter", "Ghoul", "Witch", "Necro", "Bones",
+        "Skull", "Grim", "Doom", "Raven", "Crow", "Rune", "Hex", "Curse", "Voodoo", "Jinx"
     };
-    
+
+
     private static final String[] MIDDLES = {
         "the", "of", "the Mighty", "the Fierce", "the Dark", "the Bold", "the Fearless", 
         "the Brave", "the Fiery", "the Silent", "the Wise", "the Ruthless", "the Swift", 
         "the Humble", "the Proud", "the Silent", "the Loud", "the Sleepy", "the Stinky", 
-        "the Content Creator", "the Old", "the Silly"
+        "the Content Creator", "the Old", "the Silly",
+        "the Unstoppable", "the Invincible", "the Unbreakable", "the Untouchable", "the Unfathomable",
+        "the Unrelenting", "the Unyielding", "the Indomitable", "the Dauntless", "the Valiant",
+        // Silly middles
+        "the Giggly", "the Wiggly", "the Jiggly", "the Bubbly", "the Cuddly", "the Snuggly",
+        "the Fluffy", "the Goofy", "the Wacky", "the Zany", "the Quirky", "the Derpy",
+        // Knight-related middles
+        "the Chivalrous", "the Gallant", "the Noble", "the Valorous", "the Courageous", "the Honorable",
+        "the Loyal", "the Just", "the Righteous", "the Virtuous", "the Brave", "the Heroic",
+        // Spooky middles
+        "the Haunted", "the Cursed", "the Wicked", "the Eerie", "the Macabre", "the Sinister",
+        "the Ominous", "the Dreadful", "the Diabolical", "the Demonic", "the Ghastly", "the Uncanny"
     };
     
     private static final String[] SUFFIXES = {
         "Destroyer", "Builder", "Wanderer", "Seeker", "Keeper", "Guardian", "Bringer", 
         "Crusher", "Wielder", "Weaver", "Walker", "Bearer", "Conqueror", "Protector", 
         "Challenger", "Defender", "Rider", "Warrior", "Hunter", "Sorcerer", "Lover", 
-        "Chef", "Dancer", "Office-Worker", "Technomancer", "Hustler", "Goose", "NPC"
+        "Chef", "Dancer", "Office-Worker", "Technomancer", "Hustler", "Goose", "NPC",
+        "Maverick", "Prodigy", "Legacy", "Paragon", "Legend", "Icon", "Titan", "Supremacy", "Dominion", "Sovereign",
+        "Ethereal", "Celestial", "Cosmic", "Astral", "Mystic", "Arcane", "Elemental", "Primal", "Omega", "Alpha",
+        // Silly suffixes
+        "Goofball", "Oddball", "Weirdo", "Silly-Pants", "Fuzzball", "Cheese-Head", "Noodle-Arms", "Spaghetti-Legs",
+        "Wigglebottom", "Doodlebug", "Pickle-Nose", "Gigglepuss", "Snickerdoodle", "Jelly-Belly", "Candy-Cane",
+        // Knight-related suffixes
+        "the Lionhearted", "the Dragonslayer", "the Oathkeeper", "the Shieldbearer", "the Swordmaster", "the Lancemaster",
+        "the Axemaster", "the Macemaster", "the Crusader", "the Templar", "the Paladin", "the Cavalier",
+        // Spooky suffixes
+        "the Undying", "the Soulless", "the Damned", "the Accursed", "the Tormented", "the Forsaken",
+        "the Shadowmancer", "the Deathlord", "the Doomsayer", "the Plaguebearer", "the Necrolyte", "the Boneshaper"
     };
     
 

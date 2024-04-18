@@ -11,58 +11,42 @@ import org.bukkit.persistence.PersistentDataType;
 import com.fabledclan.Main;
 
 public class CalculateEnemyLevel {
+    private static final NamespacedKey LEVEL_KEY = new NamespacedKey(Main.getPlugin(), "enemy_level");
+    private final int distancePerLevel = 250;
 
-    int distancePerLevel = 250;
+    private int calculateEnemyLevel(Location enemyLocation) {
+        Location spawnLocation = enemyLocation.getWorld().getSpawnLocation();
+        double distance = spawnLocation.distance(enemyLocation);
+        return (int) (distance / distancePerLevel) + 1;
+    }
 
     public void setEnemyLevel(Entity entity) {
-        // Calculate the enemy level
-        Location spawnLocation = entity.getWorld().getSpawnLocation();
-        Location enemyLocation = entity.getLocation();
-    
-        double distance = spawnLocation.distance(enemyLocation);
-        int enemyLevel = (int) (distance / distancePerLevel) + 1;
-    
-        // Get the enemy's data container
-        PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
-    
-        // Create the namespaced key for the level
-        NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
-    
-        // Set the level in the data container
-        dataContainer.set(levelKey, PersistentDataType.INTEGER, enemyLevel);
+        if (entity != null) {
+            int enemyLevel = calculateEnemyLevel(entity.getLocation());
+            PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+            dataContainer.set(LEVEL_KEY, PersistentDataType.INTEGER, enemyLevel);
+        }
     }
-    
 
     public void setEnemyMaxHP(Entity entity) {
-        // Set the enemy level
-        setEnemyLevel(entity);
-    
-        // Get the enemy's data container
-        PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
-    
-        // Create the namespaced key for the level
-        NamespacedKey levelKey = new NamespacedKey(Main.getPlugin(), "enemy_level");
-    
-        // Get the enemy level from the data container
-        int enemyLevel = dataContainer.getOrDefault(levelKey, PersistentDataType.INTEGER, 1);
-    
-        // Get the enemy data from the cache
-        EnemyData enemyData = Main.getCachedEnemyData(entity.getType());
-    
-        if (enemyData != null) {
-            // Calculate the max HP based on the level and HP scale
-            int maxHP = enemyData.hp + (enemyLevel - 1) * enemyData.hpScale;
-    
-            // Set the max HP of the entity
-            if (entity instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity) entity;
-                livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHP);
-                livingEntity.setHealth(maxHP);
+        if (entity != null) {
+            setEnemyLevel(entity);
+            PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+            int enemyLevel = dataContainer.getOrDefault(LEVEL_KEY, PersistentDataType.INTEGER, 1);
+            EnemyData enemyData = Main.getCachedEnemyData(entity.getType());
+
+            if (enemyData != null) {
+                int maxHP = enemyData.hp + (enemyLevel - 1) * enemyData.hpScale;
+                if (entity instanceof LivingEntity) {
+                    LivingEntity livingEntity = (LivingEntity) entity;
+                    if (livingEntity != null) {
+                        livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHP);
+                        livingEntity.setHealth(maxHP);
+                    }
+                }
+            } else {
+                Main.getPlugin().getLogger().warning("Enemy data not found for entity type: " + entity.getType());
             }
         }
     }
-    
-    
-    
-    
 }

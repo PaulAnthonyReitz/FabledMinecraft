@@ -41,6 +41,7 @@ public class Website {
             server.createContext("/api/leaderboard", Website::serveLeaderboardData);
             server.createContext("/api/verify", new VerifyHandler());
             server.createContext("/api/buy", Website::buy);
+            server.createContext("/api/exp", Website::getPlayerExp);
 
             server.setExecutor(null); // creates a default executor
             server.start();
@@ -48,6 +49,19 @@ public class Website {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void getPlayerExp(HttpExchange httpExchange) throws IOException {
+        String username = httpExchange.getRequestURI().getQuery().split("=")[1];
+        Player player = Bukkit.getPlayer(username);
+        UUID uuid = player.getUniqueId();
+        int playerExp = DatabaseManager.getPlayerExperiencePlayerStats(uuid);
+        String response = String.format("{\"exp\": %d}", playerExp);
+        httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+        httpExchange.sendResponseHeaders(200, response.length());
+        OutputStream os = httpExchange.getResponseBody();
+        os.write(response.getBytes());
+        os.close();
     }
 
     private static void servePage(HttpExchange httpExchange, String page) {
@@ -149,7 +163,7 @@ public class Website {
         Map<String, String> request = new Gson().fromJson(requestBody, Map.class);
         String username = request.get("username");
         String itemId = request.get("itemId");
-
+        int price;
         Player player = Bukkit.getPlayer(username);
         UUID uuid = player.getUniqueId();
         if (uuid == null) {
@@ -160,22 +174,42 @@ public class Website {
 
         int playerExp = DatabaseManager.getPlayerExperiencePlayerStats(uuid);
         if (itemId.equals("leather_armor")) {
-            int price = 5;
+            price = 5;
             if (playerExp < price) {
                 // The player doesn't have enough exp
                 player.sendMessage("Not enough exp for web purchase!");
                 sendResponse(httpExchange, 400, "");
                 return;
             }
-
             // Deduct the price from the player's exp and give them the item
             DatabaseManager.updatePlayerExperiencePlayerStats(uuid, playerExp - price);
             Bukkit.getPlayer(uuid).getInventory().addItem(new ItemStack(Material.LEATHER_CHESTPLATE, 1));
             player.sendMessage("Purchased leather armor!");
             sendResponse(httpExchange, 200, "");
             return;
+        } else if (itemId.equals("iron_sword")) {
+            price = 10;
+            if (playerExp < price) {
+                player.sendMessage("Not enough exp for web purchase!");
+                sendResponse(httpExchange, 400, "");
+                return;
+            }
+            DatabaseManager.updatePlayerExperiencePlayerStats(uuid, playerExp - price);
+            Bukkit.getPlayer(uuid).getInventory().addItem(new ItemStack(Material.IRON_SWORD, 1));
+            player.sendMessage("Purchased iron sword!");
+            sendResponse(httpExchange, 200, "");
+        } else if (itemId.equals("diamond_pickaxe")) {
+            price = 20;
+            if (playerExp < price) {
+                player.sendMessage("Not enough exp for web purchase!");
+                sendResponse(httpExchange, 400, "");
+                return;
+            }
+            DatabaseManager.updatePlayerExperiencePlayerStats(uuid, playerExp - price);
+            Bukkit.getPlayer(uuid).getInventory().addItem(new ItemStack(Material.DIAMOND_PICKAXE, 1));
+            player.sendMessage("Purchased diamond pickaxe!");
+            sendResponse(httpExchange, 200, "");
         } else {
-            // The item ID is not recognized
             sendResponse(httpExchange, 400, "");
         }
     }

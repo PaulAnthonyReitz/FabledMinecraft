@@ -63,6 +63,25 @@
             text-align: center;
             margin-top: 20px;
         }
+        .shop-items-container {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+        
+        .shop-item {
+            flex: 0 0 auto;
+            width: 200px;
+            margin-right: 20px;
+            text-align: center;
+        }
+        
+        .shop-item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
     </style>
     <script>
         let attempts = 0;
@@ -122,8 +141,11 @@
                 if (response.ok) {
                     attempts = 0;
                     document.querySelector('.success').textContent = 'Verification successful.';
+                    updateExpBar();
                     document.getElementById('shopItems').style.display = 'block';
                     document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = false;
+                    document.querySelector('button[onclick="buyItem(\'iron_sword\')"]').disabled = false;
+                    document.querySelector('button[onclick="buyItem(\'diamond_pickaxe\')"]').disabled = false;
                 } else if (response.status === 429) {
                     document.querySelector('.error').textContent = 'Too many failed attempts. Please try again later.';
                 } else {
@@ -151,6 +173,8 @@
 
             let username = document.getElementById('username').value;
             document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = true;
+            document.querySelector('button[onclick="buyItem(\'iron_sword\')"]').disabled = true;
+            document.querySelector('button[onclick="buyItem(\'diamond_pickaxe\')"]').disabled = true;
             document.querySelector('.loading').style.display = 'block';
             document.querySelector('.error').textContent = '';
             document.querySelector('.success').textContent = '';
@@ -169,15 +193,31 @@
                 document.querySelector('.loading').style.display = 'none';
                 if (response.ok) {
                     document.querySelector('.success').textContent = 'Purchase successful.';
+                    updateExpBar();
                 } else {
                     document.querySelector('.error').textContent = 'Purchase failed. Please try again.';
                 }
                 document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = false;
+                document.querySelector('button[onclick="buyItem(\'iron_sword\')"]').disabled = false;
+                document.querySelector('button[onclick="buyItem(\'diamond_pickaxe\')"]').disabled = false;
             })
             .catch(error => {
                 document.querySelector('.loading').style.display = 'none';
                 document.querySelector('.error').textContent = 'An error occurred while processing the purchase. Please try again.';
                 document.querySelector('button[onclick="buyItem(\'leather_armor\')"]').disabled = false;
+                document.querySelector('button[onclick="buyItem(\'iron_sword\')"]').disabled = false;
+                document.querySelector('button[onclick="buyItem(\'diamond_pickaxe\')"]').disabled = false;
+            });
+        }
+
+        function updateExpBar() {
+            let username = document.getElementById('username').value;
+            fetch(`/api/exp?username=${username}`)
+            .then(response => response.json())
+            .then(data => {
+                let expBar = document.getElementById('expBar');
+                expBar.style.width = `${data.exp}%`;
+                expBar.textContent = `${data.exp} exp`;
             });
         }
     </script>
@@ -222,16 +262,40 @@
             </div>
             <button onclick="sendCode()" class="btn btn-primary btn-block shop-card-button">Verify</button>
         </div>
+        <div class="shop-card">
+            <h2 class="shop-card-title">Current Exp</h2>
+            <div class="progress">
+                <div id="expBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 exp</div>
+            </div>
+        </div>
         <div id="shopItems" class="shop-card" style="display: none;">
             <h2 class="shop-card-title">Shop Items</h2>
-            <div class="shop-item">
-                <h3 class="shop-item-title">Leather Armor</h3>
-                <p class="shop-item-text">Price: 5 exp</p>
-                <button onclick="buyItem('leather_armor')" class="btn btn-success shop-item-button" disabled>
-                    <i class="fas fa-shopping-cart"></i> Buy
-                </button>
+            <div class="shop-items-container">
+                <div class="shop-item">
+                    <img src="src\main\resources\ShopImages\Wooden_Sword.jpg" alt="Leather Armor" class="shop-item-image">
+                    <h3 class="shop-item-title">Leather Armor</h3>
+                    <p class="shop-item-text">Price: 5 exp</p>
+                    <button onclick="buyItem('leather_armor')" class="btn btn-success shop-item-button" disabled>
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+                <div class="shop-item">
+                    <img src="src\main\resources\ShopImages\Wooden_Sword.jpg" alt="Iron Sword" class="shop-item-image">
+                    <h3 class="shop-item-title">Iron Sword</h3>
+                    <p class="shop-item-text">Price: 10 exp</p>
+                    <button onclick="buyItem('iron_sword')" class="btn btn-success shop-item-button" disabled>
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+                <div class="shop-item">
+                    <img src="src\main\resources\ShopImages\Wooden_Sword.jpg" alt="Diamond Pickaxe" class="shop-item-image">
+                    <h3 class="shop-item-title">Diamond Pickaxe</h3>
+                    <p class="shop-item-text">Price: 20 exp</p>
+                    <button onclick="buyItem('diamond_pickaxe')" class="btn btn-success shop-item-button" disabled>
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
             </div>
-            <!-- Add more shop items here -->
         </div>
         <div class="loading">
             <p>Loading...</p>
@@ -240,4 +304,10 @@
         <div class="error"></div>
     </div>
 
-    <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/watch
+    <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/watch"></iframe>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
